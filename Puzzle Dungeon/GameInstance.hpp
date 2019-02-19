@@ -51,7 +51,7 @@ inline void GameInstance::checkEventsOnce()
 		case sf::Event::Closed:
 			gameWindow.close();
 		case sf::Event::KeyPressed:
-			exit(0);
+			// do nothing for now
 		}
 }
 
