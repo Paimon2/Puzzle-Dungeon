@@ -29,7 +29,7 @@ GameInstance::GameInstance() :
 	gameWindow(sf::VideoMode(1024, 768), "Puzzle Dungeon")
 	{
 	/*Don't hog up all the GPU...*/
-	gameWindow.setVerticalSyncEnabled(true);
+	gameWindow.setFramerateLimit(60);
 	/*Ensure the window is created in the centre of the screen*/
 	sf::VideoMode videoMode = sf::VideoMode::getDesktopMode();
 	gameWindow.setPosition(sf::Vector2i(
@@ -45,15 +45,13 @@ Use in a loop to check repeatedly.
 */
 inline void GameInstance::checkEventsOnce()
 {
-		sf::Event event; // Check for events 
-		while (gameWindow.pollEvent(event)) { //PollEvent returns true is there were any pending events
-			switch (event.type) {
-			case sf::Event::Closed:
-				gameWindow.close();
-			case sf::Event::KeyPressed:
-				// do nothing for now
-				break;
-			}
+		sf::Event event;
+		gameWindow.pollEvent(event);
+		switch (event.type) {
+		case sf::Event::Closed:
+			gameWindow.close();
+		case sf::Event::KeyPressed:
+			exit(0);
 		}
 }
 
