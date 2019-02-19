@@ -7,6 +7,8 @@ License pending
 #ifndef _LEVEL_HPP_
 #define _LEVEL_HPP_
 
+#include <vector>
+
 class Level {
 protected:
 	/*
