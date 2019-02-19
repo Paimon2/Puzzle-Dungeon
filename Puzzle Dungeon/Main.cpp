@@ -6,13 +6,8 @@ License pending
 // C++ dependencies
 #include <iostream>
 #include <string.h>
-// SFML dependencies
-#include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
 // Local dependencies
 #include "GameInstance.hpp"
-#include <Windows.h>
-
 
 int main() {
 	GameInstance mainInstance;
