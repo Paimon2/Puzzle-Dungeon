@@ -22,9 +22,9 @@ void Character::setTexture(std::string MyTexture) {
 }
 
 
-void Character::move(char key) {
+void Character::move(sf::Keyboard::Key key) {
 	sf::Vector2f movement(0.f, 0.f);
-	switch(key) {
+	switch(key.code) {
 		case 'A':
 			mySprite.move(-5.f, 0.f);
 			break;
