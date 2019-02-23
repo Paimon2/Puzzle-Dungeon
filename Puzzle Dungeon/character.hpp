@@ -5,7 +5,7 @@
 class Character { 
 public:
 	void setPosition(float x, float y);
-	void setTexture(std::string MyTexture);
+	void setTexture(std::string myTexture);
 	void move(sf::Keyboard::Key key);
 	sf::Sprite mySprite;
 private:
