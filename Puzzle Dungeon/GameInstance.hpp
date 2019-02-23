@@ -38,10 +38,15 @@ GameInstance::GameInstance() :
 	gameWindow.setFramerateLimit(60);
 	/*Ensure the window is created in the centre of the screen*/
 	sf::VideoMode videoMode = sf::VideoMode::getDesktopMode();
-	gameWindow.setPosition(sf::Vector2i(
-		videoMode.width / 2 - 512,
-		videoMode.height / 2 - 384
-	));
+
+	gameWindow.setPosition(
+						sf::Vector2i(
+						sf::VideoMode::getDesktopMode().width / 2 -
+						gameWindow.getSize().x / 2,
+						sf::VideoMode::getDesktopMode().height / 2 
+						- gameWindow.getSize().y / 2
+						));
+;
 
 	}
 
