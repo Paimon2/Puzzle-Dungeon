@@ -6,9 +6,15 @@ Creative Commons Attribution-NonCommercial-NoDerivatives
 4.0 International License. To view a copy of this license,
 visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
 */
+
+#ifndef _CHARACTER_H_
+#define _CHARACTER_H_
+
 #include <iostream>
 #include <string.h>
 #include <SFML/Graphics.hpp>
+
+
 
 class Character { 
 public:
@@ -59,3 +65,5 @@ void Character::move(sf::Keyboard::Key key) {
 	Character moves according to key
 
 	*/
+
+#endif
