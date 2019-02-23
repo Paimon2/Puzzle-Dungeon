@@ -163,6 +163,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Character.hpp" />
     <ClInclude Include="GameInstance.hpp" />
     <ClInclude Include="Level.hpp" />
     <ClInclude Include="pch.h" />

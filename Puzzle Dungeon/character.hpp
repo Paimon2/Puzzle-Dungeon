@@ -6,7 +6,7 @@ class Character {
 public:
 	void setPosition(int x, int y);
 	void setTexture(std::string MyTexture);
-	void move(char key);
+	void move(sf::Keyboard::Key key);
 	sf::Sprite mySprite;
 private:
 	sf::Texture texture;
@@ -24,17 +24,17 @@ void Character::setTexture(std::string MyTexture) {
 
 void Character::move(sf::Keyboard::Key key) {
 	sf::Vector2f movement(0.f, 0.f);
-	switch(key.code) {
-		case 'A':
+	switch(key) {
+		case sf::Keyboard::A:
 			mySprite.move(-5.f, 0.f);
 			break;
-		case 'W':
+		case sf::Keyboard::W:
 			mySprite.move(0.f, -5.f);
 			break;
-		case 'S':
+		case sf::Keyboard::S:
 			mySprite.move(0.f, 5.f);
 			break;
-		case 'D':
+		case sf::Keyboard::D:
 			mySprite.move(5.f, 0.f);
 			break;
 	}
@@ -45,7 +45,7 @@ void Character::move(sf::Keyboard::Key key) {
 /*
 
 	GameInstance class checks for input, switch case (A, W, D, S)
-	Tells Character class which one was pressed in a char value, 
-	Character moves according to letter
+	Tells Character class which one was pressed in a sf::Keyboard::Key value, 
+	Character moves according to key
 
 	*/
