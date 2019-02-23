@@ -19,7 +19,7 @@ visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
 class Character { 
 public:
 	void setPosition(float x, float y);
-	void setTexture(std::string myTexture);
+	void setTexture(const std::string &texturePath);
 	void move(sf::Keyboard::Key key);
 	sf::Sprite mySprite;
 private:
@@ -30,8 +30,8 @@ void Character::setPosition(float x, float y) {
 	mySprite.setPosition(x, y);
 }
 
-void Character::setTexture(std::string MyTexture) {
-	texture.loadFromFile(MyTexture);
+void Character::setTexture(const std::string &texturePath) {
+	texture.loadFromFile(texturePath);
 	mySprite.setTexture(texture);
 }
 
