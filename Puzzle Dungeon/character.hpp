@@ -7,8 +7,8 @@ Creative Commons Attribution-NonCommercial-NoDerivatives
 visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
 */
 
-#ifndef _CHARACTER_H_
-#define _CHARACTER_H_
+#ifndef _CHARACTER_HPP_
+#define _CHARACTER_HPP_
 
 #include <iostream>
 #include <string.h>
