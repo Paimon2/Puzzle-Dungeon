@@ -11,10 +11,13 @@ License pending
 #include <SFML/Audio.hpp>
 
 #include "Level.hpp"
+#include "Character.hpp"
 
 class GameInstance {
 public:
+	Character mainCharacter;
 	Level currentLevel;
+
 	void run();
 	GameInstance();
 private:
@@ -51,7 +54,7 @@ inline void GameInstance::checkEventsOnce()
 		case sf::Event::Closed:
 			gameWindow.close();
 		case sf::Event::KeyPressed:
-			// do nothing for now
+			mainCharacter.move(event.key.code);
 			break;
 		}
 }
