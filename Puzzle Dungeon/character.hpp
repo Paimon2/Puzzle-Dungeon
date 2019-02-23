@@ -20,39 +20,42 @@ class Character {
 public:
 	void setPosition(float x, float y);
 	void setTexture(const std::string &texturePath);
-	void move(sf::Keyboard::Key key);
-	sf::Sprite mySprite;
+	void checkMovement();
+	sf::Sprite sprite;
 private:
 	sf::Texture texture;
 };
 
 void Character::setPosition(float x, float y) {
-	mySprite.setPosition(x, y);
+	sprite.setPosition(x, y);
 }
 
 void Character::setTexture(const std::string &texturePath) {
 	texture.loadFromFile(texturePath);
-	mySprite.setTexture(texture);
+	sprite.setTexture(texture);
 }
 
 
-void Character::move(sf::Keyboard::Key key) {
-	sf::Vector2f movement(0.f, 0.f);
-	switch(key) {
-		case sf::Keyboard::A:
-			mySprite.move(-5.f, 0.f);
-			break;
-		case sf::Keyboard::W:
-			mySprite.move(0.f, -5.f);
-			break;
-		case sf::Keyboard::S:
-			mySprite.move(0.f, 5.f);
-			break;
-		case sf::Keyboard::D:
-			mySprite.move(5.f, 0.f);
-			break;
-		default:
-			break;
+void Character::checkMovement() {
+	/*
+	I opted for this instead of a switch-case statement as it allows
+	multiple keys to be registered at the same time as well as reducing
+	movement lag.
+	*/
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+		sprite.move(0.f, -5.f);
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+		sprite.move(-5.f, 0.f);
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+		sprite.move(0.f, 5.f);
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+		sprite.move(5.f, 0.f);
 	}
 
 }

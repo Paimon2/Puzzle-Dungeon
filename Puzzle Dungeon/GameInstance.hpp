@@ -16,20 +16,28 @@ visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
 #include "Level.hpp"
 #include "Character.hpp"
 
+#include "PauseMenu.hpp"
+#include "MainMenu.hpp"
+
+
 class GameInstance {
 public:
 	Character mainCharacter;
 	Level currentLevel;
 
 	void run();
+	void initialize();
 	GameInstance();
 private:
 	void checkEventsOnce();
 	void drawLayers();
 	sf::RenderWindow gameWindow;
+
+	PauseMenu pauseMenu;
+	MainMenu mainMenu;
 };
 
-#endif
+
 
 GameInstance::GameInstance() :
 	gameWindow(sf::VideoMode(1024, 768), "Puzzle Dungeon")
@@ -56,13 +64,23 @@ Use in a loop to check repeatedly.
 */
 inline void GameInstance::checkEventsOnce()
 {
+		// First check for game logic events
+		if (!pauseMenu.isPaused())
+			mainCharacter.checkMovement();
+
+		// Then check for SFML events
 		sf::Event event;
 		gameWindow.pollEvent(event);
+
+
 		switch (event.type) {
+
 		case sf::Event::Closed:
 			gameWindow.close();
 		case sf::Event::KeyPressed:
-			mainCharacter.move(event.key.code);
+			pauseMenu.togglePaused(event.key.code);
+			break;
+		default:
 			break;
 		}
 }
@@ -78,12 +96,28 @@ inline void GameInstance::drawLayers()
 {
 	gameWindow.clear();
 
-	// Layers go here
+	// 1st layer
+
+	// 2nd layer
+
+	// 3rd layer
+
+	gameWindow.draw(mainCharacter.sprite);
+
+	// 4th layer
+	
+	pauseMenu.draw(gameWindow);
 
 	gameWindow.display();
 }
 
+inline void GameInstance::initialize() {
+	// Add any init code here
+}
+
 inline void GameInstance::run() {
+
+	initialize();
 
 	while (gameWindow.isOpen()) {
 		checkEventsOnce();
@@ -93,3 +127,4 @@ inline void GameInstance::run() {
 }
 
 
+#endif

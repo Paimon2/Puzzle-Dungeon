@@ -551,7 +551,7 @@ public:
     /// \deprecated Use setUniform(const std::string&, float) instead.
     ///
     ////////////////////////////////////////////////////////////
-    SFML_DEPRECATED void setParameter(const std::string& name, float x);
+	void setParameter(const std::string& name, float x);
 
     ////////////////////////////////////////////////////////////
     /// \brief Change a 2-components vector parameter of the shader
@@ -583,7 +583,7 @@ public:
     /// \deprecated Use setUniform(const std::string&, const Glsl::Vec2&) instead.
     ///
     ////////////////////////////////////////////////////////////
-    SFML_DEPRECATED void setParameter(const std::string& name, const Vector2f& vector);
+    void setParameter(const std::string& name, const Vector2f& vector);
 
     ////////////////////////////////////////////////////////////
     /// \brief Change a 3-components vector parameter of the shader
@@ -623,7 +623,7 @@ public:
     /// \deprecated Use setUniform(const std::string&, CurrentTextureType) instead.
     ///
     ////////////////////////////////////////////////////////////
-    SFML_DEPRECATED void setParameter(const std::string& name, CurrentTextureType);
+    void setParameter(const std::string& name, CurrentTextureType);
 
     ////////////////////////////////////////////////////////////
     /// \brief Get the underlying OpenGL handle of the shader.

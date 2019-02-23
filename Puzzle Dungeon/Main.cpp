@@ -11,9 +11,11 @@ visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
 // Local dependencies
 #include "GameInstance.hpp"
 
+
 int main() {
 	/*If we want multiple instances, or want async running, use threads.*/
 	GameInstance mainInstance;
+	mainInstance.mainCharacter.setTexture("test.jpg");
 	mainInstance.run();
 	return 0; 
 }	

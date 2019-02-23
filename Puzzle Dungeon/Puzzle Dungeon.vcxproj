@@ -75,6 +75,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <IntDir>$(SolutionDir)$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -166,6 +167,8 @@
     <ClInclude Include="Character.hpp" />
     <ClInclude Include="GameInstance.hpp" />
     <ClInclude Include="Level.hpp" />
+    <ClInclude Include="MainMenu.hpp" />
+    <ClInclude Include="PauseMenu.hpp" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
