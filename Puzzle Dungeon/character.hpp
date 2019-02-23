@@ -4,7 +4,7 @@
 
 class Character { 
 public:
-	void setPosition(int x, int y);
+	void setPosition(float x, float y);
 	void setTexture(std::string MyTexture);
 	void move(sf::Keyboard::Key key);
 	sf::Sprite mySprite;
@@ -12,7 +12,7 @@ private:
 	sf::Texture texture;
 };
 
-void Character::setPosition(int x, int y) {
+void Character::setPosition(float x, float y) {
 	mySprite.setPosition(x, y);
 }
 
@@ -36,6 +36,8 @@ void Character::move(sf::Keyboard::Key key) {
 			break;
 		case sf::Keyboard::D:
 			mySprite.move(5.f, 0.f);
+			break;
+		default:
 			break;
 	}
 
