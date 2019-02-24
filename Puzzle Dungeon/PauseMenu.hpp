@@ -99,8 +99,8 @@ inline void PauseMenu::draw(sf::RenderWindow &window) {
 	if (!isGamePaused)
 		return;
 
-	
-	windowContentsSprite.setPosition(window.mapPixelToCoords(sf::Vector2i(window.getSize() / 568u )));
+	// An extremely ugly hack. We need to address this later.
+	windowContentsSprite.setPosition(window.mapPixelToCoords(sf::Vector2i(window.getSize() / 1068u )));
 	rect.setPosition(window.mapPixelToCoords(sf::Vector2i(window.getSize() / 568u)));
 	rect.setSize(sf::Vector2f(window.getSize()));
 	window.draw(windowContentsSprite, &blurShader);
