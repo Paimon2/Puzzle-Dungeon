@@ -18,6 +18,7 @@ visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
 int main() {
 	/*If we want multiple instances, or want async running, use threads.*/
 	GameInstance mainInstance;
+	mainInstance.run();
 	return 0; 
 }	
 
