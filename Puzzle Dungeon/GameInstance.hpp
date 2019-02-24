@@ -32,7 +32,7 @@ private:
 	void checkEventsOnce();
 	void drawLayers();
 	sf::RenderWindow gameWindow;
-
+	sf::View view;
 	PauseMenu pauseMenu;
 	MainMenu mainMenu;
 };
@@ -46,7 +46,7 @@ GameInstance::GameInstance() :
 	gameWindow.setFramerateLimit(60);
 	/*Ensure the window is created in the centre of the screen*/
 	sf::VideoMode videoMode = sf::VideoMode::getDesktopMode();
-
+	
 	gameWindow.setPosition(
 						sf::Vector2i(
 						sf::VideoMode::getDesktopMode().width / 2 -
@@ -54,6 +54,7 @@ GameInstance::GameInstance() :
 						sf::VideoMode::getDesktopMode().height / 2 
 						- gameWindow.getSize().y / 2
 						));
+
 ;
 
 	}
@@ -80,7 +81,15 @@ inline void GameInstance::checkEventsOnce()
 		case sf::Event::KeyPressed:
 			break;
 		case sf::Event::KeyReleased:
-			pauseMenu.checkShouldPause(event.key.code);
+			pauseMenu.checkShouldPause(event.key.code, gameWindow);
+		case sf::Event::Resized:
+			pauseMenu.checkShouldDoResizeWork(gameWindow);
+			view = gameWindow.getDefaultView();
+			view.setSize(
+						static_cast<float>(gameWindow.getSize().x),
+						static_cast<float>(gameWindow.getSize().y)
+						);
+			gameWindow.setView(view);
 		default:
 			break;
 		}
@@ -102,13 +111,12 @@ inline void GameInstance::drawLayers()
 	// 2nd layer
 
 	// 3rd layer
-
+	
 	gameWindow.draw(mainCharacter.sprite);
 
 	// 4th layer
 	
 	pauseMenu.draw(gameWindow);
-
 	gameWindow.display();
 }
 

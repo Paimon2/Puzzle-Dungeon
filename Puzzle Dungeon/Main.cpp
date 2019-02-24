@@ -11,11 +11,20 @@ visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
 // Local dependencies
 #include "GameInstance.hpp"
 
+#ifdef MACOS
+#include "MacTools/ResourcePath.hpp"
+#endif
 
 int main() {
 	/*If we want multiple instances, or want async running, use threads.*/
 	GameInstance mainInstance;
+#ifdef MACOS
+	mainInstance.mainCharacter.setTexture(resourcePath() + "test.jpg");
+#else
+	mainInstance.mainCharacter.setTexture("test.jpg");
+#endif
 	mainInstance.run();
+
 	return 0; 
 }	
 
