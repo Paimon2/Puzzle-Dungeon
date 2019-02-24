@@ -78,8 +78,9 @@ inline void GameInstance::checkEventsOnce()
 		case sf::Event::Closed:
 			gameWindow.close();
 		case sf::Event::KeyPressed:
-			pauseMenu.togglePaused(event.key.code);
 			break;
+		case sf::Event::KeyReleased:
+			pauseMenu.checkShouldPause(event.key.code);
 		default:
 			break;
 		}
