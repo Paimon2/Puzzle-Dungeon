@@ -39,6 +39,9 @@
     <ClInclude Include="MainMenu.hpp">
       <Filter>GUI Source</Filter>
     </ClInclude>
+    <ClInclude Include="tile.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
