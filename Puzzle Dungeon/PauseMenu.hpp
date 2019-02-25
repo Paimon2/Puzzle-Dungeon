@@ -100,7 +100,7 @@ inline void PauseMenu::draw(sf::RenderWindow &window) {
 		return;
 
 	// An extremely ugly hack. We need to address this later.
-	windowContentsSprite.setPosition(window.mapPixelToCoords(sf::Vector2i(window.getSize() / 1068u )));
+	windowContentsSprite.setPosition(window.mapPixelToCoords(sf::Vector2i(window.getSize() / 10000u )));
 	rect.setPosition(window.mapPixelToCoords(sf::Vector2i(window.getSize() / 568u)));
 	rect.setSize(sf::Vector2f(window.getSize()));
 	window.draw(windowContentsSprite, &blurShader);
@@ -123,7 +123,6 @@ inline void PauseMenu::checkShouldDoResizeWork(sf::RenderWindow &window) {
 	
 	windowContentsTexture.create(window.getSize().x,
 		window.getSize().y);
-	windowContentsTexture.update(0);
 	windowContentsTexture.update(window);
 	windowContentsSprite.setTexture(windowContentsTexture);
 	
