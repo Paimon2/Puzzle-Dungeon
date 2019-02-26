@@ -9,6 +9,7 @@ visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
 
 #include <iostream>
 #include <string>
+#include <functional>
 
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
@@ -31,8 +32,8 @@ public:
     sf::Vector2f position;
     void onClick();
     void draw(sf::RenderWindow &window);
-	void(*function)();
-	void setCallback(void(*_ptr)());
+	std::function<void()> function;
+	void setCallback(std::function<void()> func);
 	Button() {
 		text.setCharacterSize(24);
 		text.setFillColor(sf::Color::White);
@@ -51,7 +52,12 @@ private:
 
 
 inline void Button::onClick() {
-	(*function)();
+	try {
+		function();
+	}
+	catch (...) {
+
+	}
 }
 
 inline void Button::draw(sf::RenderWindow &window){
@@ -60,6 +66,12 @@ std::string textStr = text.getString().toAnsiString();
 
 text.setPosition(buttonSprite.getPosition().x + 156,
 				buttonSprite.getPosition().y + 35);
+
+if (!sf::Mouse::isButtonPressed(sf::Mouse::Left) && state == ClickableState::HoldingDown)
+{
+	onClick();
+
+}
 
 sf::Vector2i mousePos = sf::Mouse::getPosition(window);
 sf::Vector2f pixelPos = window.mapPixelToCoords(mousePos);
@@ -76,7 +88,7 @@ if(pixelPos.x <= buttonSprite.getPosition().x+buttonSprite.getTextureRect().widt
          if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
             {
              state = ClickableState::HoldingDown;
-             onClick();
+             
             }
 
     }
@@ -103,9 +115,9 @@ if(pixelPos.x <= buttonSprite.getPosition().x+buttonSprite.getTextureRect().widt
 	window.draw(text);
 }
 
-inline void Button::setCallback(void(*_ptr)())
+inline void Button::setCallback(std::function<void()> func)
 {
-	function = *_ptr;
+	function = func;
 }
 
 #endif
