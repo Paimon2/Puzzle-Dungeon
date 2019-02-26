@@ -77,7 +77,7 @@ PauseMenu::PauseMenu() {
 	backToMenuButton.buttonSprite.setPosition(256, 100);
 	backToMenuButton.buttonSprite.setTexture(buttonTexture);
 	backToMenuButton.text.setFont(textFont);
-	backToMenuButton.text.setString("Back to menu");
+	backToMenuButton.text.setString("Back to game");
 
 	creditsButton.buttonSprite.setPosition(256, 225);
 	creditsButton.buttonSprite.setTexture(buttonTexture);
