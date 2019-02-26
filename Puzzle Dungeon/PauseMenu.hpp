@@ -74,15 +74,15 @@ PauseMenu::PauseMenu() {
 #ifdef MACOS
 	buttonTexture.loadFromFile(resourcePath() + "GUI//PauseMenuButton.png");
 	textFont.loadFromFile(resourcePath() + "Fonts//Robotronica.ttf");
-#endif
+#else
 	buttonTexture.loadFromFile("GUI//PauseMenuButton.png");
 	textFont.loadFromFile("Fonts//Robotronica.ttf");
-
+#endif
 	backToMenuButton.buttonSprite.setPosition(256, 100);
 	backToMenuButton.buttonSprite.setTexture(buttonTexture);
 	backToMenuButton.text.setFont(textFont);
 	backToMenuButton.text.setString("Back to game");
-	// todo fix when internet connection comes back
+	// todo fix soon (why did i commit that other message...?)
 	backToMenuButton.setCallback([](){isGamePaused = !isGamePaused; });
 
 	creditsButton.buttonSprite.setPosition(256, 225);
