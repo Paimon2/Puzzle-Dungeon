@@ -31,6 +31,8 @@ public:
     sf::Vector2f position;
     void onClick();
     void draw(sf::RenderWindow &window);
+	void(*function)();
+	void setCallback(void(*_ptr)());
 	Button() {
 		text.setCharacterSize(24);
 		text.setFillColor(sf::Color::White);
@@ -49,7 +51,7 @@ private:
 
 
 inline void Button::onClick() {
-
+	(*function)();
 }
 
 inline void Button::draw(sf::RenderWindow &window){
@@ -59,7 +61,6 @@ std::string textStr = text.getString().toAnsiString();
 text.setPosition(buttonSprite.getPosition().x + 156,
 				buttonSprite.getPosition().y + 35);
 
-//tInstance = tInstance;
 sf::Vector2i mousePos = sf::Mouse::getPosition(window);
 sf::Vector2f pixelPos = window.mapPixelToCoords(mousePos);
 
@@ -100,6 +101,11 @@ if(pixelPos.x <= buttonSprite.getPosition().x+buttonSprite.getTextureRect().widt
     }
 
 	window.draw(text);
+}
+
+inline void Button::setCallback(void(*_ptr)())
+{
+	function = *_ptr;
 }
 
 #endif
