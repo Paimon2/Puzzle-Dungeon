@@ -170,7 +170,7 @@ inline void PauseMenu::checkShouldDoResizeWork(sf::RenderWindow &window) {
 		return;
 
 	
-	windowContentsTexture.create(window.getSize().x,
+	windowContentsTexture.create(window.getSize().x + 1000,
 		window.getSize().y);
 	windowContentsTexture.update(window);
 	windowContentsSprite.setTexture(windowContentsTexture);
