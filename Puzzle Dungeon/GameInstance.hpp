@@ -19,12 +19,12 @@ visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
 #include "PauseMenu.hpp"
 #include "MainMenu.hpp"
 
+#include "GUIToolkit.hpp"
 
 class GameInstance {
 public:
 	Character mainCharacter;
 	Level currentLevel;
-
 	void run();
 	void initialize();
 	GameInstance();
@@ -117,6 +117,10 @@ inline void GameInstance::drawLayers()
 	// 4th layer
 	
 	pauseMenu.draw(gameWindow);
+	
+		// TODO Pause menu GUI
+	
+
 	gameWindow.display();
 }
 

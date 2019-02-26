@@ -18,10 +18,14 @@ visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 
+#include "GUIToolkit.hpp"
 
 
 class PauseMenu {
 public:
+	sf::Texture buttonTexture;
+
+
 	/*
 	@brief Get whether or not the game is paused.
 	*/
@@ -48,6 +52,14 @@ public:
 
 	PauseMenu();
 private:
+	Button backToMenuButton;
+	Button creditsButton;
+	Button saveGameButton;
+	Button controlsButton;
+	Button quitButton;
+
+
+	sf::Font textFont;
 	sf::RectangleShape rect;
 	bool isGamePaused;
 	float blurRadius;
@@ -58,8 +70,37 @@ private:
 };
 
 
-PauseMenu::PauseMenu()
-{
+PauseMenu::PauseMenu() {
+	buttonTexture.loadFromFile("GUI//PauseMenuButton.png");
+	textFont.loadFromFile("Fonts//Robotronica.ttf");
+
+	backToMenuButton.buttonSprite.setPosition(256, 100);
+	backToMenuButton.buttonSprite.setTexture(buttonTexture);
+	backToMenuButton.text.setFont(textFont);
+	backToMenuButton.text.setString("Back to menu");
+
+	creditsButton.buttonSprite.setPosition(256, 225);
+	creditsButton.buttonSprite.setTexture(buttonTexture);
+	creditsButton.text.setFont(textFont);
+	creditsButton.text.setString("      Credits");
+
+	saveGameButton.buttonSprite.setPosition(256, 350);
+	saveGameButton.buttonSprite.setTexture(buttonTexture);
+	saveGameButton.text.setFont(textFont);
+	saveGameButton.text.setString("    Save game");
+
+	controlsButton.buttonSprite.setPosition(256, 475);
+	controlsButton.buttonSprite.setTexture(buttonTexture);
+	controlsButton.text.setFont(textFont);
+	controlsButton.text.setString("     Controls");
+
+	quitButton.buttonSprite.setPosition(256, 600);
+	quitButton.buttonSprite.setTexture(buttonTexture);
+	quitButton.text.setFont(textFont);
+	quitButton.text.setString("Quit to Desktop");
+
+
+
 	blurRadius = 0.0;
 	alphaLevel = 0;
 	#ifdef MACOS
@@ -106,7 +147,15 @@ inline void PauseMenu::draw(sf::RenderWindow &window) {
 	window.draw(windowContentsSprite, &blurShader);
 	window.draw(rect);
 
-	// TODO Pause menu GUI
+	backToMenuButton.draw(window);
+	creditsButton.draw(window);
+	saveGameButton.draw(window);
+	controlsButton.draw(window);
+	quitButton.draw(window);
+	
+	
+	
+
 }
 
 

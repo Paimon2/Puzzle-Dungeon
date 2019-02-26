@@ -45,6 +45,9 @@
     <ClInclude Include="Helpers.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="GUIToolkit.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
