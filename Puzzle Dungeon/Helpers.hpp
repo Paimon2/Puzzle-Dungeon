@@ -12,12 +12,25 @@ visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
 
 #include <vector>
 #include "SFML/Graphics.hpp"
+#include "Level.hpp"
+#include "tile.hpp"
 
 namespace Helpers {
 
 	bool areSpritesColliding(sf::Sprite &sprite1, sf::Sprite &sprite2) {
 		return (sprite1.getGlobalBounds().intersects(sprite2.getGlobalBounds()));
 	}
+
+	bool checkCharacterCollision(Level &currentLevel, sf::Vector2f coords){
+		for(Tile &tile : currentLevel.tiles) {
+			if (tile.tilesprite.getGlobalBounds().contains(coords)) {
+				return true;
+			}	
+		}
+
+		return false;
+	}
+
 
 }
 

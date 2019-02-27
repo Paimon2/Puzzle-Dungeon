@@ -67,7 +67,7 @@ inline void GameInstance::checkEventsOnce()
 {
 		// First check for game logic events
 		if (!pauseMenu.isPaused())
-			mainCharacter.checkMovement();
+			mainCharacter.checkMovement(currentLevel);
 
 		// Then check for SFML events
 		sf::Event event;

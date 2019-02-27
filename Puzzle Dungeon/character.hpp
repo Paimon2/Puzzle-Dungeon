@@ -13,14 +13,15 @@ visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
 #include <iostream>
 #include <string.h>
 #include <SFML/Graphics.hpp>
-
+#include "Helpers.hpp"
+#include "Level.hpp"
 
 
 class Character { 
 public:
 	void setPosition(float x, float y);
 	void setTexture(const std::string &texturePath);
-	void checkMovement();
+	void checkMovement(Level &currentLevel);
 	sf::Sprite sprite;
 private:
 	sf::Texture texture;
@@ -36,26 +37,55 @@ void Character::setTexture(const std::string &texturePath) {
 }
 
 
-void Character::checkMovement() {
+void Character::checkMovement(Level &currentLevel) {
 	/*
 	I opted for this instead of a switch-case statement as it allows
 	multiple keys to be registered at the same time as well as reducing
 	movement lag.
 	*/
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-		sprite.move(0.f, -5.f);
+		if(!Helpers::checkCharacterCollision(
+			currentLevel,
+			sf::Vector2f(sprite.getPosition().x,
+			sprite.getPosition().y - 5.f)
+			))
+		{
+			sprite.move(0.f, -5.f);
+		}
+		
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-		sprite.move(-5.f, 0.f);
+		if(!Helpers::checkCharacterCollision(
+			currentLevel,
+			sf::Vector2f(sprite.getPosition().x - 5.f,
+			sprite.getPosition().y
+			)))
+		{
+			sprite.move(-5.f, 0.f);
+		}
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-		sprite.move(0.f, 5.f);
+		if(!Helpers::checkCharacterCollision(
+			currentLevel,
+			sf::Vector2f(sprite.getPosition().x,
+			sprite.getPosition().y + 5.f
+			)))
+		{
+			sprite.move(0.f, 5.f);
+		}
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-		sprite.move(5.f, 0.f);
+		if(!Helpers::checkCharacterCollision(
+			currentLevel,
+			sf::Vector2f(sprite.getPosition().x + 5.f,
+			sprite.getPosition().y
+			)))
+		{
+			sprite.move(5.f, 0.f);
+		}
 	}
 
 }

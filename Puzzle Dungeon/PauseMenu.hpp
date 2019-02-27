@@ -105,7 +105,7 @@ PauseMenu::PauseMenu() {
 	quitButton.buttonSprite.setTexture(buttonTexture);
 	quitButton.text.setFont(textFont);
 	quitButton.text.setString("Quit to Desktop");
-
+	quitButton.setCallback([]() {exit(0); });
 
 
 	blurRadius = 0.0;

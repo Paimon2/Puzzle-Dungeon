@@ -11,17 +11,33 @@ visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
 #define _LEVEL_HPP_
 
 #include <vector>
-#include "Character.hpp"
+#include <SFML/Graphics.hpp>
+#include "tile.hpp"
+
+
+enum LevelNumber {
+	One = 1,
+};
 
 class Level {
-protected:
-	/*
-	For Sam:
-	You can implement these classes if you like in other files
-	(Character.hpp, Tile.hpp)
-	They should have a sprite, walking speed etc. It's up to you ;)
-	std::vector<Tile> tiles;*/
-	std::vector<Character> characters;
-	
+private:
+	sf::Texture brickTexture;
+public:
+	std::vector<Tile> tiles;
+	sf::Sprite levelBackground;
+
+	inline void setLevel(LevelNumber no) {
+		switch (no) {
+
+		case LevelNumber::One: {
+			
+			brickTexture.loadFromFile("Textures//brick.png");
+
+			Tile brickTile;
+			brickTile.tilesprite.setTexture(brickTexture);
+		}
+
+		}
+	}
 };
 #endif
