@@ -27,6 +27,7 @@ public:
 	sf::Sprite levelBackground;
 
 	inline void setLevel(LevelNumber no) {
+		
 		switch (no) {
 
 		case LevelNumber::One: {
@@ -35,6 +36,7 @@ public:
 
 			Tile brickTile;
 			brickTile.tilesprite.setTexture(brickTexture);
+			tiles.push_back(brickTile);
 		}
 
 		}

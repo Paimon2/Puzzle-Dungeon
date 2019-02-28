@@ -51,6 +51,7 @@ public:
 	void checkShouldDoResizeWork(sf::RenderWindow &window);
 
 	PauseMenu();
+	
 private:
 	Button backToMenuButton;
 	Button creditsButton;
@@ -83,9 +84,8 @@ PauseMenu::PauseMenu() {
 	backToMenuButton.buttonSprite.setTexture(buttonTexture);
 	backToMenuButton.text.setFont(textFont);
 	backToMenuButton.text.setString("Back to game");
-	// todo fix soon (why did i commit that other message...?)
 	backToMenuButton.setCallback([this](){isGamePaused = !isGamePaused; });
-
+   
 	creditsButton.buttonSprite.setPosition(256, 225);
 	creditsButton.buttonSprite.setTexture(buttonTexture);
 	creditsButton.text.setFont(textFont);

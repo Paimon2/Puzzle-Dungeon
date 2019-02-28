@@ -117,7 +117,7 @@ inline void GameInstance::drawLayers()
 	// 4th layer
 	
 	pauseMenu.draw(gameWindow);
-	
+	mainMenu.draw(gameWindow);
 		// TODO Pause menu GUI
 	
 
