@@ -24,6 +24,8 @@ public:
 
 inline void GameData::loadGameData() {
 	std::ifstream i("GameData.json");
+	if (!i.is_open())
+		return;
 	i >> data;
 }
 
