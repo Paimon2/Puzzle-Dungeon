@@ -15,9 +15,6 @@ visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
 #include "tile.hpp"
 
 
-enum LevelNumber {
-	One = 1,
-};
 
 class Level {
 private:
@@ -26,11 +23,11 @@ public:
 	std::vector<Tile> tiles;
 	sf::Sprite levelBackground;
 
-	inline void setLevel(LevelNumber no) {
+	inline void setLevel(int levelNumber) {
 		
-		switch (no) {
+		switch (levelNumber) {
 
-		case LevelNumber::One: {
+		case 1: {
 			
 			brickTexture.loadFromFile("Textures//brick.png");
 
