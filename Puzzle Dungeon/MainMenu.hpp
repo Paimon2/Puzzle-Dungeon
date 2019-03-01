@@ -14,6 +14,8 @@ visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
 #include "MacTools/ResourcePath.hpp"
 #endif
 
+#include "GameInstance.hpp"
+#include "GameData.hpp"
 
 #include <iostream>
 #include <SFML/Graphics.hpp>
@@ -25,6 +27,7 @@ visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
 class MainMenu {
 public:
     bool isInMainMenu;
+	bool hasPreviousSave;
 
 	sf::Texture buttonTexture;
     sf::Texture gameLogoTexture;
@@ -41,6 +44,7 @@ public:
 	*/
 	void draw(sf::RenderWindow &window);
 
+	void setPreviousSave(bool hasPrevSave);
 	MainMenu();
 
 private:
@@ -71,9 +75,7 @@ MainMenu::MainMenu() {
     continueGameButton.buttonSprite.setTexture(buttonTexture);
 	continueGameButton.text.setFont(textFont);
 	continueGameButton.text.setString("Continue game");
-	if (/*hasPreviousSave: !! REMOVE false*/ false) {
-		continueGameButton.isEnabled = false;
-	}
+
 	//newGameButton.setCallback([this](){isGamePaused = !isGamePaused; });
 
 
@@ -94,6 +96,11 @@ MainMenu::MainMenu() {
 
 
 	rect.setFillColor(sf::Color(32, 32, 32, 200));
+}
+
+inline void MainMenu::setPreviousSave(bool hasPrevSave) {
+	hasPreviousSave = hasPrevSave;
+	continueGameButton.isEnabled = hasPreviousSave;
 }
 
 

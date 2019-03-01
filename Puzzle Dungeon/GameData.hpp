@@ -15,6 +15,7 @@ visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
 #include <iomanip>
 
 class GameData {
+public:
 	nlohmann::json data;
 	void loadGameData();
 	void generateInitialGameData();

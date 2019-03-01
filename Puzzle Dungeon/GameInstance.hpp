@@ -21,8 +21,11 @@ visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
 
 #include "GUIToolkit.hpp"
 
+#include "GameData.hpp"
+
 class GameInstance {
 public:
+	GameData gameData;
 	Character mainCharacter;
 	Level currentLevel;
 	void run();
@@ -128,6 +131,26 @@ inline void GameInstance::initialize() {
 	// Add any init code here
 
 	mainMenu.isInMainMenu = true;
+	mainMenu.hasPreviousSave = true;
+
+	gameData.loadGameData();
+
+	try {
+		int level = gameData.data["progress"]["level"];
+		if (!level) /*level == 0*/
+			mainMenu.setPreviousSave(false);
+	}
+	
+	catch (nlohmann::detail::type_error) {
+		/*
+		We assume the game data does not exist, so
+		we generate the file.*/
+		gameData.generateInitialGameData();
+		mainMenu.setPreviousSave(false);
+	}
+	
+	
+
 }
 
 inline void GameInstance::run() {
