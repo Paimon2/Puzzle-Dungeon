@@ -165,6 +165,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Character.hpp" />
+    <ClInclude Include="GameData.hpp" />
     <ClInclude Include="GameInstance.hpp" />
     <ClInclude Include="GUIToolkit.hpp" />
     <ClInclude Include="Helpers.hpp" />

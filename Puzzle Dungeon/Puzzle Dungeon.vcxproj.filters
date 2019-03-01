@@ -57,6 +57,9 @@
     <ClInclude Include="json.hpp">
       <Filter>Header Files\JSON</Filter>
     </ClInclude>
+    <ClInclude Include="GameData.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">

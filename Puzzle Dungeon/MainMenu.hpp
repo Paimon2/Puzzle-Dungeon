@@ -71,7 +71,7 @@ MainMenu::MainMenu() {
     continueGameButton.buttonSprite.setTexture(buttonTexture);
 	continueGameButton.text.setFont(textFont);
 	continueGameButton.text.setString("Continue game");
-	if (/*hasPreviousSave: !! REMOVE false*/ true) {
+	if (/*hasPreviousSave: !! REMOVE false*/ false) {
 		continueGameButton.isEnabled = false;
 	}
 	//newGameButton.setCallback([this](){isGamePaused = !isGamePaused; });
