@@ -16,6 +16,9 @@
     <Filter Include="GUI Source">
       <UniqueIdentifier>{1575b6a4-531f-4e55-a654-1fdf22812b04}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\JSON">
+      <UniqueIdentifier>{d16c34c0-06b5-4989-a90f-36849fa77fae}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -50,6 +53,9 @@
     </ClInclude>
     <ClInclude Include="pplate.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="json.hpp">
+      <Filter>Header Files\JSON</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

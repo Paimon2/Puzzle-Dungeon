@@ -28,6 +28,7 @@ enum ClickableState {
 
 class Button {
 public:
+	bool isEnabled;
     sf::Sprite buttonSprite;
     sf::Vector2f position;
     void onClick();
@@ -35,6 +36,7 @@ public:
 	std::function<void()> function;
 	void setCallback(std::function<void()> func);
 	Button() {
+		isEnabled = true;
 		text.setCharacterSize(24);
 		text.setFillColor(sf::Color::White);
 	}
@@ -62,24 +64,34 @@ inline void Button::onClick() {
 
 inline void Button::draw(sf::RenderWindow &window){
 
-std::string textStr = text.getString().toAnsiString();
+	std::string textStr = text.getString().toAnsiString();
 
-text.setPosition(buttonSprite.getPosition().x + 156,
-				buttonSprite.getPosition().y + 35);
+	text.setPosition(buttonSprite.getPosition().x + 156,
+		buttonSprite.getPosition().y + 35);
 
-if (!sf::Mouse::isButtonPressed(sf::Mouse::Left) && state == ClickableState::HoldingDown)
-{
-	onClick();
+	if (!isEnabled) {
+		buttonSprite.setColor(sf::Color(120, 120, 80));
+		window.draw(buttonSprite);
+		text.setFillColor(sf::Color(255, 255, 255, 80));
+		window.draw(text);
+		return;
+	}
 
-}
+	
 
-sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-sf::Vector2f pixelPos = window.mapPixelToCoords(mousePos);
+	if (!sf::Mouse::isButtonPressed(sf::Mouse::Left) && state == ClickableState::HoldingDown)
+	{
+		onClick();
 
-state = ClickableState::None;
+	}
+
+	sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+	sf::Vector2f pixelPos = window.mapPixelToCoords(mousePos);
+
+	state = ClickableState::None;
 
 
-if(pixelPos.x <= buttonSprite.getPosition().x+buttonSprite.getTextureRect().width 
+	if(pixelPos.x <= buttonSprite.getPosition().x+buttonSprite.getTextureRect().width 
     && pixelPos.x+1 >= buttonSprite.getPosition().x && pixelPos.y <= buttonSprite.getPosition().y +
     buttonSprite.getTextureRect().height && 
     pixelPos.y+1 >= buttonSprite.getPosition().y)

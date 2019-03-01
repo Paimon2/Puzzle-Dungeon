@@ -126,6 +126,8 @@ inline void GameInstance::drawLayers()
 
 inline void GameInstance::initialize() {
 	// Add any init code here
+
+	mainMenu.isInMainMenu = true;
 }
 
 inline void GameInstance::run() {

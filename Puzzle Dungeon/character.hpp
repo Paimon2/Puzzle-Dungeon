@@ -93,7 +93,7 @@ void Character::checkMovement(Level &currentLevel) {
 
 /*
 
-	GameInstance class checks for input, switch case (A, W, D, S)
+	GameInstance class checks for input, switch case (W, A, S, D)
 	Tells Character class which one was pressed in a sf::Keyboard::Key value, 
 	Character moves according to key
 

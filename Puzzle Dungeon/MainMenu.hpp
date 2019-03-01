@@ -40,14 +40,13 @@ public:
 	on which to draw on
 	*/
 	void draw(sf::RenderWindow &window);
-    void checkShouldDoResizeWork(sf::RenderWindow &window);
 
 	MainMenu();
 
 private:
+sf::RectangleShape rect;
 sf::Sprite windowContentsSprite;
 sf::Texture windowContentsTexture;
-sf::Shader blurShader;
 Button continueGameButton;
 Button newGameButton;
 Button settingsButton;
@@ -56,12 +55,10 @@ Button helpAboutButton;
 
 MainMenu::MainMenu() {
 #ifdef MACOS
-    //blurShader.loadFromFile(resourcePath() + "Shaders/gaussianblur.frag", sf::Shader::Fragment);
 	buttonTexture.loadFromFile(resourcePath() + "GUI//MainMenuButton.png");
     gameLogoTexture.loadFromFile("GUI//GameLogo.png");
 	textFont.loadFromFile(resourcePath() + "Fonts//Robotronica.ttf");
 #else
-   // blurShader.loadFromFile("Shaders/gaussianblur.frag", sf::Shader::Fragment);
 	buttonTexture.loadFromFile("GUI//PauseMenuButton.png");
     gameLogoTexture.loadFromFile("GUI//GameLogo.png");
 	textFont.loadFromFile("Fonts//Robotronica.ttf");
@@ -70,49 +67,51 @@ MainMenu::MainMenu() {
     //blurShader.setUniform("texture", sf::Shader::CurrentTexture);
     gameLogo.setTexture(buttonTexture);
 
-    continueGameButton.buttonSprite.setPosition(128, 200);
+    continueGameButton.buttonSprite.setPosition(80, 200);
     continueGameButton.buttonSprite.setTexture(buttonTexture);
 	continueGameButton.text.setFont(textFont);
 	continueGameButton.text.setString("Continue game");
+	if (/*hasPreviousSave: !! REMOVE false*/ true) {
+		continueGameButton.isEnabled = false;
+	}
 	//newGameButton.setCallback([this](){isGamePaused = !isGamePaused; });
 
 
-    newGameButton.buttonSprite.setPosition(128, 300);
+    newGameButton.buttonSprite.setPosition(80, 300);
     newGameButton.buttonSprite.setTexture(buttonTexture);
 	newGameButton.text.setFont(textFont);
 	newGameButton.text.setString(" New game");
 
-    settingsButton.buttonSprite.setPosition(128, 400);
+    settingsButton.buttonSprite.setPosition(80, 400);
     settingsButton.buttonSprite.setTexture(buttonTexture);
     settingsButton.text.setFont(textFont);
 	settingsButton.text.setString("  Settings");
 
-    helpAboutButton.buttonSprite.setPosition(128, 500);
+    helpAboutButton.buttonSprite.setPosition(80, 500);
     helpAboutButton.buttonSprite.setTexture(buttonTexture);
 	helpAboutButton.text.setFont(textFont);
 	helpAboutButton.text.setString("  Help/About");
-}
-
-inline void MainMenu::checkShouldDoResizeWork(sf::RenderWindow &window){
 
 
-
-    windowContentsTexture.create(window.getSize().x + 1000,
-		window.getSize().y);
-	windowContentsTexture.update(window);
-	windowContentsSprite.setTexture(windowContentsTexture);
+	rect.setFillColor(sf::Color(32, 32, 32, 200));
 }
 
 
 inline void MainMenu::draw(sf::RenderWindow &window){
 
-    
-    checkShouldDoResizeWork(window);
-    window.draw(windowContentsSprite, &blurShader);
+	if (!isInMainMenu)
+		return;
+
+	rect.setPosition(window.mapPixelToCoords(sf::Vector2i(window.getSize() / 568u)));
+	rect.setSize(sf::Vector2f(window.getSize()));
+	window.draw(rect);
+
+
     continueGameButton.draw(window);
     newGameButton.draw(window);
     settingsButton.draw(window);
     helpAboutButton.draw(window);
+	
 
     
 }

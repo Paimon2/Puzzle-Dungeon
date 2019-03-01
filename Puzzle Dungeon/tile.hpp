@@ -19,7 +19,7 @@ visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
 
 class Tile {
 public:
-	void setFeatures(std::string texture, int x, int y);
+	void setFeatures(std::string texture, float x, float y);
 	sf::Sprite tilesprite;
 private:
 	sf::Texture t; 
@@ -27,7 +27,7 @@ private:
 };
 
 //Set the texture, x and y position all at once. 
-void Tile::setFeatures(std::string texture, int x, int y) {
+void Tile::setFeatures(std::string texture, float x, float y) {
 	t.loadFromFile(texture);
 	tilesprite.setTexture(t);
 	tilesprite.setPosition(x, y);
