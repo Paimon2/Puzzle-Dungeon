@@ -13,6 +13,7 @@ visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 
+
 #include "Level.hpp"
 #include "Character.hpp"
 
@@ -82,8 +83,9 @@ Use in a loop to check repeatedly.
 inline void GameInstance::checkEventsOnce()
 {
 		// First check for game logic events
-		if (!pauseMenu.isPaused())
-			mainCharacter.checkMovement(currentLevel);
+	if (!pauseMenu.isPaused() && !mainMenu.isInMainMenu)
+		mainCharacter.checkMovement(currentLevel);
+			
 
 		// Then check for SFML events
 		sf::Event event;
@@ -142,6 +144,7 @@ inline void GameInstance::drawLayers()
 
 	currentLevel.drawTiles(gameWindow);
 	mainCharacter.draw(gameWindow, view);
+
 
 	// 4th layer
 	
