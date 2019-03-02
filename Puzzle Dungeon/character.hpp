@@ -22,10 +22,18 @@ public:
 	void setPosition(float x, float y);
 	void setTexture(const std::string &texturePath);
 	void checkMovement(Level &currentLevel);
+	void draw(sf::RenderWindow &window, sf::View &view);
 	sf::Sprite sprite;
 private:
 	sf::Texture texture;
 };
+
+inline void Character::draw(sf::RenderWindow &window, sf::View &view) {
+	//sf::Vector2f pos = window.mapPixelToCoords(sf::Vector2i((int)sprite.getPosition().x, (int)sprite.getPosition().y));
+	//sprite.setPosition(pos);
+
+	window.draw(sprite);
+}
 
 void Character::setPosition(float x, float y) {
 	sprite.setPosition(x, y);
@@ -70,7 +78,7 @@ void Character::checkMovement(Level &currentLevel) {
 		if(!Helpers::checkCharacterCollision(
 			currentLevel,
 			sf::Vector2f(sprite.getPosition().x,
-			sprite.getPosition().y + 5.f
+			sprite.getPosition().y + texture.getSize().y + 2
 			)))
 		{
 			sprite.move(0.f, 5.f);
@@ -80,7 +88,7 @@ void Character::checkMovement(Level &currentLevel) {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
 		if(!Helpers::checkCharacterCollision(
 			currentLevel,
-			sf::Vector2f(sprite.getPosition().x + 5.f,
+			sf::Vector2f(sprite.getPosition().x + 25.f,
 			sprite.getPosition().y
 			)))
 		{

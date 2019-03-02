@@ -17,12 +17,12 @@ visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
 class GameData {
 public:
 	nlohmann::json data;
-	void loadGameData();
+	void load();
 	void generateInitialGameData();
-	void saveGameData();
+	void save();
 };
 
-inline void GameData::loadGameData() {
+inline void GameData::load() {
 	std::ifstream i("GameData.json");
 	if (!i.is_open())
 		return;
@@ -43,10 +43,10 @@ inline void GameData::generateInitialGameData()
 	data["settings"]["sound_volume"] = 100;
 
 
-	saveGameData();
+	save();
 }
 
-inline void GameData::saveGameData()
+inline void GameData::save()
 {
 	std::ofstream o("GameData.json");
 	o << std::setw(4) << data << std::endl;

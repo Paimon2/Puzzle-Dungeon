@@ -14,7 +14,7 @@ visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
 #include "MacTools/ResourcePath.hpp"
 #endif
 
-#include "GameInstance.hpp"
+
 #include "GameData.hpp"
 
 #include <iostream>
@@ -22,6 +22,7 @@ visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
 #include <SFML/System.hpp>
 
 #include "GUIToolkit.hpp"
+
 
 
 class MainMenu {
@@ -47,14 +48,16 @@ public:
 	void setPreviousSave(bool hasPrevSave);
 	MainMenu();
 
+	Button continueGameButton;
+	Button newGameButton;
+	Button settingsButton;
+	Button helpAboutButton;
 private:
+
 sf::RectangleShape rect;
 sf::Sprite windowContentsSprite;
 sf::Texture windowContentsTexture;
-Button continueGameButton;
-Button newGameButton;
-Button settingsButton;
-Button helpAboutButton;
+
 };
 
 MainMenu::MainMenu() {
@@ -75,6 +78,7 @@ MainMenu::MainMenu() {
     continueGameButton.buttonSprite.setTexture(buttonTexture);
 	continueGameButton.text.setFont(textFont);
 	continueGameButton.text.setString("Continue game");
+	
 
 	//newGameButton.setCallback([this](){isGamePaused = !isGamePaused; });
 

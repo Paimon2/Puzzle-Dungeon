@@ -32,6 +32,7 @@ public:
 	void initialize();
 	GameInstance();
 private:
+	sf::Vector2u previousSize;
 	void checkEventsOnce();
 	void drawLayers();
 	sf::RenderWindow gameWindow;
@@ -43,7 +44,7 @@ private:
 
 
 GameInstance::GameInstance() :
-	gameWindow(sf::VideoMode(1024, 768), "Puzzle Dungeon")
+	gameWindow(sf::VideoMode(1366, 818), "Puzzle Dungeon")
 	{
 	/*Don't hog up all the GPU...*/
 	gameWindow.setFramerateLimit(60);
@@ -58,8 +59,20 @@ GameInstance::GameInstance() :
 						- gameWindow.getSize().y / 2
 						));
 
-;
 
+	mainMenu.continueGameButton.setCallback([this]() {
+		currentLevel.loadLevel(gameData.data["progress"]["level"]);
+		mainMenu.isInMainMenu = false;
+		currentLevel.scaleEverything(gameWindow.getSize());
+		});
+
+	mainMenu.newGameButton.setCallback([this]() {
+		gameData.data["progress"]["level"] = 1;
+		gameData.save();
+		currentLevel.loadLevel(gameData.data["progress"]["level"]);
+		mainMenu.isInMainMenu = false;
+		currentLevel.scaleEverything(gameWindow.getSize());
+	});
 	}
 
 /*
@@ -79,22 +92,33 @@ inline void GameInstance::checkEventsOnce()
 
 		switch (event.type) {
 
-		case sf::Event::Closed:
+		case sf::Event::Closed: {
 			gameWindow.close();
-		case sf::Event::KeyPressed:
+		}
+		case sf::Event::KeyPressed: {
 			break;
-		case sf::Event::KeyReleased:
+		}
+			
+		case sf::Event::KeyReleased: {
 			pauseMenu.checkShouldPause(event.key.code, gameWindow);
-		case sf::Event::Resized:
-			pauseMenu.checkShouldDoResizeWork(gameWindow);
-			view = gameWindow.getDefaultView();
-			view.setSize(
-						static_cast<float>(gameWindow.getSize().x),
-						static_cast<float>(gameWindow.getSize().y)
-						);
-			gameWindow.setView(view);
-		default:
+		}
+		case sf::Event::Resized: {
+			if (gameWindow.getSize() != previousSize) {
+				pauseMenu.checkShouldDoResizeWork(gameWindow);
+
+				sf::FloatRect visibleArea(0, 0, gameWindow.getSize().x, gameWindow.getSize().y);
+				view = sf::View(visibleArea);
+				currentLevel.scaleEverything(gameWindow.getSize());
+				gameWindow.setView(view);
+				previousSize = gameWindow.getSize();
+			}
+			
+		}
+			
+		default: {
 			break;
+		}
+			
 		}
 }
 
@@ -114,8 +138,10 @@ inline void GameInstance::drawLayers()
 	// 2nd layer
 
 	// 3rd layer
-	
-	gameWindow.draw(mainCharacter.sprite);
+
+
+	currentLevel.drawTiles(gameWindow);
+	mainCharacter.draw(gameWindow, view);
 
 	// 4th layer
 	
@@ -130,10 +156,11 @@ inline void GameInstance::drawLayers()
 inline void GameInstance::initialize() {
 	// Add any init code here
 
+
 	mainMenu.isInMainMenu = true;
 	mainMenu.hasPreviousSave = true;
-
-	gameData.loadGameData();
+	mainCharacter.setPosition(gameWindow.getSize().x - 50, gameWindow.getSize().y / 2);
+	gameData.load();
 
 	try {
 		int level = gameData.data["progress"]["level"];

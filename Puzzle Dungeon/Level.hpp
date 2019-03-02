@@ -19,23 +19,95 @@ visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
 class Level {
 private:
 	sf::Texture brickTexture;
+	sf::Texture levelBackgroundTexture;
+	sf::Sprite levelBackground;
 public:
 	std::vector<Tile> tiles;
-	sf::Sprite levelBackground;
+	
+	inline void scaleEverything(sf::Vector2u windowSize) {
+		tiles.clear();
+		generateBorders(windowSize);
 
-	inline void setLevel(int levelNumber) {
+		float ScaleX = (float)windowSize.x / levelBackgroundTexture.getSize().x;
+		float ScaleY = (float)windowSize.y / levelBackgroundTexture.getSize().y;
+
+		levelBackground.setScale(ScaleX, ScaleY);
+	}
+
+	inline void generateBorders(sf::Vector2u windowSize = sf::Vector2u(1024, 818)) {
+
+		// Top-right
+		for (int i = 0; i < windowSize.x / 45; i++) {
+			Tile brickTile;
+			brickTile.tilesprite.setTexture(brickTexture);
+			brickTile.tilesprite.setPosition(i * brickTexture.getSize().x - i*2, -20);
+			tiles.push_back(brickTile);
+		}
+
+		// Bottom-right
+		for (int i = 0; i < windowSize.x / 45; i++) {
+			Tile brickTile;
+			brickTile.tilesprite.setTexture(brickTexture);
+			brickTile.tilesprite.setPosition(i * brickTexture.getSize().x - i * 2, windowSize.y - 20);
+			tiles.push_back(brickTile);
+		}
+
+		// Left-down
+
+		for (int i = 0; i < windowSize.y / 45; i++) {
+			Tile brickTile;
+			brickTile.tilesprite.setTexture(brickTexture);
+			brickTile.tilesprite.setPosition(-40, i * brickTexture.getSize().y - 20);
+			tiles.push_back(brickTile);
+		}
+
+		// Right-down
+
+		for (int i = 0; i < windowSize.y / 45; i++) {
+			Tile brickTile;
+			brickTile.tilesprite.setTexture(brickTexture);
+			brickTile.tilesprite.setPosition(windowSize.x - 10, i * brickTexture.getSize().y - 20);
+			tiles.push_back(brickTile);
+		}
+
+	}
+
+	inline void loadLevel(int levelNumber) {
 		
 		switch (levelNumber) {
 
 		case 1: {
 			
 			brickTexture.loadFromFile("Textures//brick.png");
+			
+			levelBackgroundTexture.loadFromFile("Textures//Lvl1Bckrnd.png");
+			//levelBackgroundTexture.setRepeated(true);
+			levelBackgroundTexture.setRepeated(true);
+			levelBackground.setTexture(levelBackgroundTexture);
+			
+			float ScaleX = (float)1366 / levelBackgroundTexture.getSize().x;
+			float ScaleY = (float)818 / levelBackgroundTexture.getSize().y;    
 
-			Tile brickTile;
-			brickTile.tilesprite.setTexture(brickTexture);
-			tiles.push_back(brickTile);
+			levelBackground.setScale(ScaleX, ScaleY);      
+
+			tiles.clear();
+
+			generateBorders();
+			
+			
 		}
 
+		}
+
+
+		
+	}
+
+	inline void drawTiles(sf::RenderWindow &window) {
+		window.draw(levelBackground);
+
+		for (Tile tile : tiles) {
+			window.draw(tile.tilesprite);
 		}
 	}
 };
