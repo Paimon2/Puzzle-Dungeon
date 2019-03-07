@@ -33,6 +33,7 @@ public:
 	void initialize();
 	GameInstance();
 private:
+	sf::Shader lightingShader;
 	sf::Vector2u previousSize;
 	void checkEventsOnce();
 	void drawLayers();
@@ -142,7 +143,7 @@ inline void GameInstance::drawLayers()
 	// 3rd layer
 
 
-	currentLevel.drawTiles(gameWindow);
+	currentLevel.drawTiles(gameWindow, lightingShader);
 	mainCharacter.draw(gameWindow, view);
 
 
@@ -179,7 +180,23 @@ inline void GameInstance::initialize() {
 		mainMenu.setPreviousSave(false);
 	}
 	
+	try {
+		gameWindow.setSize(sf::Vector2u(gameData.data["settings"]["screen_resolution_width"],
+										gameData.data["settings"]["screen_resolution_height"]));
+		
+		
+	}
+	catch(std::exception &e){
+		std::cout << e.what();
+	}
 	
+		lightingShader.loadFromFile("Shaders//lighting.frag", sf::Shader::Type::Fragment);
+        lightingShader.setParameter("exposure", 0.000000001);
+        lightingShader.setParameter("decay", 0.1f);
+        lightingShader.setParameter("density", 0.17f);
+        lightingShader.setParameter("weight", 0.1f);
+        lightingShader.setParameter("lightPositionOnScreen", sf::Vector2f(0.5f, 0.5f));
+        lightingShader.setParameter("myTexture", sf::Shader::CurrentTexture);
 
 }
 

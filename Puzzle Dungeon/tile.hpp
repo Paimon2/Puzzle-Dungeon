@@ -23,7 +23,6 @@ public:
 	sf::Sprite tilesprite;
 private:
 	sf::Texture t; 
-	
 };
 
 //Set the texture, x and y position all at once. 

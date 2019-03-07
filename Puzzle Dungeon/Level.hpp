@@ -100,10 +100,9 @@ public:
 		}
 
 
-		
 	}
 
-	inline void drawTiles(sf::RenderWindow &window) {
+	inline void drawTiles(sf::RenderWindow &window, sf::Shader &lightingShader) {
 		window.draw(levelBackground);
 
 		for (Tile tile : tiles) {

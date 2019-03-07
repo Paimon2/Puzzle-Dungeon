@@ -13,6 +13,7 @@ visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
 #include "json.hpp"
 #include <fstream>
 #include <iomanip>
+#include <SFML/Graphics.hpp>
 
 class GameData {
 public:
@@ -37,7 +38,9 @@ inline void GameData::generateInitialGameData()
 	data["settings"]["max_fps"] = 60;
 	data["settings"]["fullscreen"] = false;
 	data["settings"]["show_fps"] = false;
-	
+	data["settings"]["screen_resolution_width"] = sf::VideoMode::getDesktopMode().width;
+	data["settings"]["screen_resolution_height"] = sf::VideoMode::getDesktopMode().height;
+
 	// Audio settings (levels from 0 to 100)
 	data["settings"]["music_volume"] = 100;
 	data["settings"]["sound_volume"] = 100;
