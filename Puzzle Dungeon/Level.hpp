@@ -90,7 +90,10 @@ public:
 			levelBackgroundTexture.setRepeated(true);
 			levelBackground.setTexture(levelBackgroundTexture);
 			
-		  
+			float ScaleX = (float)1366 / levelBackgroundTexture.getSize().x;
+			float ScaleY = (float)818 / levelBackgroundTexture.getSize().y;
+
+			levelBackground.setScale(ScaleX, ScaleY);
 
 			tiles.clear();
 
