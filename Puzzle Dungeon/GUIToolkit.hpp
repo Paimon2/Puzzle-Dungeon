@@ -105,10 +105,9 @@ inline void Button::draw(sf::RenderWindow &window){
 
     }
 
-//buttonSprite.setTexture(tInstance.buttonTexture);
-
 
     // Actual drawing code
+	// Change the colour if we're clicking or hovering on it
     switch(state){
         case ClickableState::Hovering:
 		  buttonSprite.setColor(sf::Color(200, 200, 200));

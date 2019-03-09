@@ -16,7 +16,10 @@ visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
 #endif
 
 int main() {
-	/*If we want multiple instances, or want async running, use threads.*/
+	/*The singleton pattern is in place in the GameInstance class.
+	This means we can have ONE, and only ONE instance of this class
+	throughout the whole program! Do not create more instances!
+	*/
 	GameInstance mainInstance;
 	mainInstance.mainCharacter.setTexture("Textures/Character.png");
 	mainInstance.run();

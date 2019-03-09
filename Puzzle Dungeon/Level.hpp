@@ -36,7 +36,7 @@ public:
 
 	inline void generateBorders(sf::Vector2u windowSize = sf::Vector2u(1024, 818)) {
 
-		// Top-right
+		// Top: left-right
 		for (int i = 0; i < windowSize.x / 45; i++) {
 			Tile brickTile;
 			brickTile.tilesprite.setTexture(brickTexture);
@@ -44,7 +44,7 @@ public:
 			tiles.push_back(brickTile);
 		}
 
-		// Bottom-right
+		// Bottom: left-right
 		for (int i = 0; i < windowSize.x / 45; i++) {
 			Tile brickTile;
 			brickTile.tilesprite.setTexture(brickTexture);
@@ -52,7 +52,7 @@ public:
 			tiles.push_back(brickTile);
 		}
 
-		// Left-down
+		// Left: top-down
 
 		for (int i = 0; i < windowSize.y / 45; i++) {
 			Tile brickTile;
@@ -61,7 +61,7 @@ public:
 			tiles.push_back(brickTile);
 		}
 
-		// Right-down
+		// Right: top-down
 
 		for (int i = 0; i < windowSize.y / 45; i++) {
 			Tile brickTile;
@@ -78,10 +78,15 @@ public:
 
 		case 1: {
 			
+			/* For each level, we will have different textures.
+			Some of these may be the same as the previous level,
+			but it is a design decision to reload all textures
+			when a level is loaded.
+			*/
+
+
 			brickTexture.loadFromFile("Textures//brick.png");
-			
 			levelBackgroundTexture.loadFromFile("Textures//Lvl1Bckrnd.png");
-			//levelBackgroundTexture.setRepeated(true);
 			levelBackgroundTexture.setRepeated(true);
 			levelBackground.setTexture(levelBackgroundTexture);
 			

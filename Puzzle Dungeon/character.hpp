@@ -29,9 +29,6 @@ private:
 };
 
 inline void Character::draw(sf::RenderWindow &window, sf::View &view) {
-	//sf::Vector2f pos = window.mapPixelToCoords(sf::Vector2i((int)sprite.getPosition().x, (int)sprite.getPosition().y));
-	//sprite.setPosition(pos);
-
 	window.draw(sprite);
 }
 
@@ -50,6 +47,7 @@ void Character::checkMovement(Level &currentLevel) {
 	I opted for this instead of a switch-case statement as it allows
 	multiple keys to be registered at the same time as well as reducing
 	movement lag.
+	- Omar
 	*/
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
 		if(!Helpers::checkCharacterCollision(

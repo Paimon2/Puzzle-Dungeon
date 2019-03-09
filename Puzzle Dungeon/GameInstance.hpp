@@ -32,6 +32,14 @@ public:
 	void run();
 	void initialize();
 	GameInstance();
+
+	// Following the singleton pattern
+	static GameInstance& instance()
+	{
+		static GameInstance INSTANCE;
+		return INSTANCE;
+	}
+
 private:
 	sf::Shader lightingShader;
 	sf::Vector2u previousSize;
@@ -106,9 +114,11 @@ inline void GameInstance::checkEventsOnce()
 			pauseMenu.checkShouldPause(event.key.code, gameWindow);
 		}
 		case sf::Event::Resized: {
+			// Have we actually resized? These event polls are unreliable
 			if (gameWindow.getSize() != previousSize) {
 				pauseMenu.checkShouldDoResizeWork(gameWindow);
 
+				// Adjust everything to fit in the new video using sf::View
 				sf::FloatRect visibleArea(0, 0, gameWindow.getSize().x, gameWindow.getSize().y);
 				view = sf::View(visibleArea);
 				currentLevel.scaleEverything(gameWindow.getSize());
@@ -181,6 +191,7 @@ inline void GameInstance::initialize() {
 	}
 	
 	try {
+		// Set the resolution to whatever we have in GameData.json
 		gameWindow.setSize(sf::Vector2u(gameData.data["settings"]["screen_resolution_width"],
 										gameData.data["settings"]["screen_resolution_height"]));
 		
@@ -204,6 +215,7 @@ inline void GameInstance::run() {
 
 	initialize();
 
+	// Enter our main blocking loop
 	while (gameWindow.isOpen()) {
 		checkEventsOnce();
 		drawLayers();

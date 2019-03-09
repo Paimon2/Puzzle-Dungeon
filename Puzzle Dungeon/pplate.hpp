@@ -20,8 +20,6 @@ void PressurePlate::setFeatures(std::string MyTexture, int x, int y) {
 void PressurePlate::checkIntersect(sf::Sprite SpriteTwo, std::function<void()>func) {
 	if (pressureplate.tilesprite.getGlobalBounds().intersects(SpriteTwo.getGlobalBounds())) { 
 		func();
-	} else {
-		// Do nothing
-	}
+	} 
 }
 
