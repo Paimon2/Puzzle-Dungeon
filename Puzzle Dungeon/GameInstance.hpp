@@ -69,7 +69,7 @@ GameInstance::GameInstance() :
 	mainMenu.continueGameButton.setCallback([this]() {
 		currentLevel.loadLevel(gameData.data["progress"]["level"]);
 		mainMenu.isInMainMenu = false;
-		//currentLevel.scaleEverything(gameWindow.getSize());
+		currentLevel.scaleEverything(gameWindow.getSize());
 		});
 
 	mainMenu.newGameButton.setCallback([this]() {
