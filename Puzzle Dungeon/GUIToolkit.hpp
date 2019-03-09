@@ -58,7 +58,7 @@ inline void Button::onClick() {
 		function();
 	}
 	catch (...) {
-		throw std::runtime_error("Callback not set; it is nullptr");
+		std::cerr << "Callback not set; it is nullptr";
 	}
 }
 
