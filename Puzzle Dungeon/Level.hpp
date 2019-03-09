@@ -90,10 +90,7 @@ public:
 			levelBackgroundTexture.setRepeated(true);
 			levelBackground.setTexture(levelBackgroundTexture);
 			
-			float ScaleX = (float)1366 / levelBackgroundTexture.getSize().x;
-			float ScaleY = (float)818 / levelBackgroundTexture.getSize().y;    
-
-			levelBackground.setScale(ScaleX, ScaleY);      
+		  
 
 			tiles.clear();
 
@@ -110,7 +107,7 @@ public:
 	inline void drawTiles(sf::RenderWindow &window, sf::Shader &lightingShader) {
 		window.draw(levelBackground);
 
-		for (Tile tile : tiles) {
+		for (Tile &tile : tiles) {
 			window.draw(tile.tilesprite);
 		}
 	}
