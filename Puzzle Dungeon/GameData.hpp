@@ -20,7 +20,7 @@ public:
 	// Actual json data object
 	nlohmann::json data;
 	void load();
-	// Only call when GameData.json is empty or doesn't exist.
+	// Only call when GameData.json is empty or doesn't exist
 	void generateInitialGameData();
 	void save();
 };

@@ -1,0 +1,14 @@
+{
+    "progress": {
+        "level": 0
+    },
+    "settings": {
+        "fullscreen": false,
+        "max_fps": 60,
+        "music_volume": 100,
+        "screen_resolution_height": 1080,
+        "screen_resolution_width": 1920,
+        "show_fps": false,
+        "sound_volume": 100
+    }
+}

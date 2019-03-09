@@ -190,16 +190,6 @@ inline void GameInstance::initialize() {
 		mainMenu.setPreviousSave(false);
 	}
 	
-	try {
-		// Set the resolution to whatever we have in GameData.json
-		gameWindow.setSize(sf::Vector2u(gameData.data["settings"]["screen_resolution_width"],
-										gameData.data["settings"]["screen_resolution_height"]));
-		
-		
-	}
-	catch(std::exception &e){
-		std::cout << e.what();
-	}
 	
 		lightingShader.loadFromFile("Shaders//lighting.frag", sf::Shader::Type::Fragment);
         lightingShader.setParameter("exposure", 0.000000001);
