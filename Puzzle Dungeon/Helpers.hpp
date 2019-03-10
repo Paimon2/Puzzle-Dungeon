@@ -17,10 +17,17 @@ visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
 
 namespace Helpers {
 
+
 	bool areSpritesColliding(sf::Sprite &sprite1, sf::Sprite &sprite2) {
 		return (sprite1.getGlobalBounds().intersects(sprite2.getGlobalBounds()));
 	}
 
+/*
+* @brief Check if there is a collision in a given coordinate pair
+* @param currentLevel A reference pointer to the current level
+* @param coords Check if there's a collision in these coordinates
+* @return true if collision with any tiles, else false
+*/
 	bool checkCharacterCollision(Level &currentLevel, sf::Vector2f coords){
 		// Iterate over all tiles, and tell us if we have a collision with any
 		for(Tile &tile : currentLevel.tiles) {

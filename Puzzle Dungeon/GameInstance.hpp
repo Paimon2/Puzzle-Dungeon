@@ -33,8 +33,11 @@ public:
 	void initialize();
 	GameInstance();
 
-	// Following the singleton pattern
-	
+	// Implementation of the singleton design pattern
+	static GameInstance& instance() {
+		static GameInstance INSTANCE;
+		return INSTANCE;
+	}
 
 private:
 	sf::Shader lightingShader;
@@ -132,7 +135,7 @@ inline void GameInstance::checkEventsOnce()
 }
 
 /*
-@brief We should probably draw the game in layers.
+@brief We should draw the game in layers.
 1st layer: any background assets
 2nd layer: any objects/tiles
 3rd layer: any sprites/characters incl. power-ups

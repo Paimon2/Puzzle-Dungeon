@@ -36,12 +36,19 @@ void Character::setPosition(float x, float y) {
 	sprite.setPosition(x, y);
 }
 
+/*
+* @brief Set the texture of a character
+* @param texturePath The path to the texture
+*/
 void Character::setTexture(const std::string &texturePath) {
 	texture.loadFromFile(texturePath);
 	sprite.setTexture(texture);
 }
 
-
+/*
+* @brief Move the character according to which key(s) are held down
+* @param currentLevel A reference pointer to the current level
+*/
 void Character::checkMovement(Level &currentLevel) {
 	/*
 	I opted for this instead of a switch-case statement as it allows

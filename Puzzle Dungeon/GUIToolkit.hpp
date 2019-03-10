@@ -35,6 +35,10 @@ public:
     void draw(sf::RenderWindow &window);
 	std::function<void()> function;
 	void setCallback(std::function<void()> func);
+/*
+* @brief Constructor for Button
+* Init special text features	
+*/
 	Button() {
 		isEnabled = true;
 		text.setCharacterSize(24);
