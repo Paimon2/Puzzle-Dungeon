@@ -13,7 +13,6 @@ visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 
-
 #include "Level.hpp"
 #include "Character.hpp"
 
@@ -32,15 +31,7 @@ public:
 	void run();
 	void initialize();
 	GameInstance();
-
-	// Implementation of the singleton design pattern
-	static GameInstance& instance() {
-		static GameInstance INSTANCE;
-		return INSTANCE;
-	}
-
 private:
-	sf::Shader lightingShader;
 	sf::Vector2u previousSize;
 	void checkEventsOnce();
 	void drawLayers();
@@ -91,9 +82,8 @@ Use in a loop to check repeatedly.
 inline void GameInstance::checkEventsOnce()
 {
 		// First check for game logic events
-	if (!pauseMenu.isPaused() && !mainMenu.isInMainMenu)
-		mainCharacter.checkMovement(currentLevel);
-			
+		if (!pauseMenu.isPaused())
+			mainCharacter.checkMovement(currentLevel);
 
 		// Then check for SFML events
 		sf::Event event;
@@ -113,16 +103,14 @@ inline void GameInstance::checkEventsOnce()
 			pauseMenu.checkShouldPause(event.key.code, gameWindow);
 		}
 		case sf::Event::Resized: {
-			// Have we actually resized? These event polls are unreliable
 			if (gameWindow.getSize() != previousSize) {
 				pauseMenu.checkShouldDoResizeWork(gameWindow);
-
-				// Adjust everything to fit in the new video using sf::View
-				sf::FloatRect visibleArea(0, 0, gameWindow.getSize().x, gameWindow.getSize().y);
-				view = sf::View(visibleArea);
-				currentLevel.scaleEverything(gameWindow.getSize());
-				gameWindow.setView(view);
-				previousSize = gameWindow.getSize();
+			view = gameWindow.getDefaultView();
+			view.setSize(
+						static_cast<float>(gameWindow.getSize().x),
+						static_cast<float>(gameWindow.getSize().y)
+						);
+			gameWindow.setView(view);
 			}
 			
 		}
@@ -135,7 +123,7 @@ inline void GameInstance::checkEventsOnce()
 }
 
 /*
-@brief We should draw the game in layers.
+@brief We should probably draw the game in layers.
 1st layer: any background assets
 2nd layer: any objects/tiles
 3rd layer: any sprites/characters incl. power-ups
@@ -152,9 +140,8 @@ inline void GameInstance::drawLayers()
 	// 3rd layer
 
 
-	currentLevel.drawTiles(gameWindow, lightingShader);
+	currentLevel.drawTiles(gameWindow);
 	mainCharacter.draw(gameWindow, view);
-
 
 	// 4th layer
 	
@@ -190,13 +177,6 @@ inline void GameInstance::initialize() {
 	}
 	
 	
-		lightingShader.loadFromFile("Shaders//lighting.frag", sf::Shader::Type::Fragment);
-        lightingShader.setParameter("exposure", 0.000000001);
-        lightingShader.setParameter("decay", 0.1f);
-        lightingShader.setParameter("density", 0.17f);
-        lightingShader.setParameter("weight", 0.1f);
-        lightingShader.setParameter("lightPositionOnScreen", sf::Vector2f(0.5f, 0.5f));
-        lightingShader.setParameter("myTexture", sf::Shader::CurrentTexture);
 
 }
 
@@ -204,7 +184,6 @@ inline void GameInstance::run() {
 
 	initialize();
 
-	// Enter our main blocking loop
 	while (gameWindow.isOpen()) {
 		checkEventsOnce();
 		drawLayers();

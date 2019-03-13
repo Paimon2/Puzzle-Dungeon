@@ -80,28 +80,28 @@ PauseMenu::PauseMenu() {
 	textFont.loadFromFile("Fonts//Robotronica.ttf");
 #endif
 
-	backToMenuButton.buttonSprite.setPosition(256, 100);
+	backToMenuButton.buttonSprite.setPosition(400, 100);
 	backToMenuButton.buttonSprite.setTexture(buttonTexture);
 	backToMenuButton.text.setFont(textFont);
 	backToMenuButton.text.setString("Back to game");
 	backToMenuButton.setCallback([this](){isGamePaused = !isGamePaused; });
    
-	creditsButton.buttonSprite.setPosition(256, 225);
+	creditsButton.buttonSprite.setPosition(400, 225);
 	creditsButton.buttonSprite.setTexture(buttonTexture);
 	creditsButton.text.setFont(textFont);
 	creditsButton.text.setString("      Credits");
 
-	saveGameButton.buttonSprite.setPosition(256, 350);
+	saveGameButton.buttonSprite.setPosition(400, 350);
 	saveGameButton.buttonSprite.setTexture(buttonTexture);
 	saveGameButton.text.setFont(textFont);
 	saveGameButton.text.setString("    Save game");
 
-	controlsButton.buttonSprite.setPosition(256, 475);
+	controlsButton.buttonSprite.setPosition(400, 475);
 	controlsButton.buttonSprite.setTexture(buttonTexture);
 	controlsButton.text.setFont(textFont);
 	controlsButton.text.setString("     Controls");
 
-	quitButton.buttonSprite.setPosition(256, 600);
+	quitButton.buttonSprite.setPosition(400, 600);
 	quitButton.buttonSprite.setTexture(buttonTexture);
 	quitButton.text.setFont(textFont);
 	quitButton.text.setString("Quit to Desktop");

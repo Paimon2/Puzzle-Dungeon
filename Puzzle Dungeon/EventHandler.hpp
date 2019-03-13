@@ -19,60 +19,60 @@ visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
 
 class EventHandler {
 private:
-	bool eventsRunning = false;
+    bool eventsRunning = false;
 
 public:
-	inline void runEvents(int level) {
-		std::thread eventsThread(runEventsInternal, std::ref(*this));
-		eventsThread.detach();
-	}
+    inline void runEvents(int level){
+        std::thread eventsThread(runEventsInternal, std::ref(*this));
+        eventsThread.detach();
+    }
 
 
 
-	static void runEventsInternal(int level, EventHandler &handler) {
-		switch (level) {
+static void runEventsInternal(int level, EventHandler &handler){
+        switch(level){
 
-		case 1:
-		{
-			/*
-			* TODO (Omar): Allow the player to ask a number of questions, as per
-			* the SRS on Google Docs.
-			*/
-			std::this_thread::sleep_for(std::chrono::seconds(rand() % 10 + 7));
-			// Frog jumps out of crack and speaks
-			std::this_thread::sleep_for(std::chrono::seconds(12));
-			// Option to choose what question to ask
+            case 1:
+            {
+                /*
+                * TODO (Omar): Allow the player to ask a number of questions, as per
+                * the SRS on Google Docs.
+                */
+                std::this_thread::sleep_for(std::chrono::seconds(rand() % 10 + 7));
+                // Frog jumps out of crack and speaks
+                std::this_thread::sleep_for(std::chrono::seconds(12));
+                // Option to choose what question to ask
+                
+            }
 
-		}
-
-		case 2:
-		{
-
-
-		}
-
-		case 3:
-		{
+            case 2:
+            {
 
 
-		}
+            }
 
-		case 4:
-		{
-
-
-		}
-
-		case 5:
-		{
+            case 3: 
+            {
 
 
+            }
 
-		}
+            case 4:
+            {
 
-		}
 
-	}
+            }
+
+            case 5:
+            {
+
+
+
+            }
+
+        }
+
+}
 
 
 };
