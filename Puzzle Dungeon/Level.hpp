@@ -37,36 +37,36 @@ public:
 	inline void generateBorders(sf::Vector2u windowSize = sf::Vector2u(1024, 818)) {
 
 		// Top: left-right
-		for (int i = 0; i < windowSize.x / 45; i++) {
+		for (int i = 0; i < (int)windowSize.x / 45; i++) {
 			Tile brickTile;
 			brickTile.tilesprite.setTexture(brickTexture);
-			brickTile.tilesprite.setPosition(i * brickTexture.getSize().x - i*2, -20);
+			brickTile.tilesprite.setPosition(i * (int)brickTexture.getSize().x - i*2, -20);
 			tiles.push_back(brickTile);
 		}
 
 		// Bottom: left-right
-		for (int i = 0; i < windowSize.x / 45; i++) {
+		for (int i = 0; i < (int)windowSize.x / 45; i++) {
 			Tile brickTile;
 			brickTile.tilesprite.setTexture(brickTexture);
-			brickTile.tilesprite.setPosition(i * brickTexture.getSize().x - i * 2, windowSize.y - 20);
+			brickTile.tilesprite.setPosition(i * (int)brickTexture.getSize().x - i * 2, windowSize.y - 20);
 			tiles.push_back(brickTile);
 		}
 
 		// Left: top-down
 
-		for (int i = 0; i < windowSize.y / 45; i++) {
+		for (int i = 0; i < (int)windowSize.y / 45; i++) {
 			Tile brickTile;
 			brickTile.tilesprite.setTexture(brickTexture);
-			brickTile.tilesprite.setPosition(-40, i * brickTexture.getSize().y - 20);
+			brickTile.tilesprite.setPosition(-40, i * (int)brickTexture.getSize().y - 20);
 			tiles.push_back(brickTile);
 		}
 
 		// Right: top-down
 
-		for (int i = 0; i < windowSize.y / 45; i++) {
+		for (int i = 0; i < (int)windowSize.y / 45; i++) {
 			Tile brickTile;
 			brickTile.tilesprite.setTexture(brickTexture);
-			brickTile.tilesprite.setPosition(windowSize.x - 10, i * brickTexture.getSize().y - 20);
+			brickTile.tilesprite.setPosition(windowSize.x - 10, i * (int)brickTexture.getSize().y - 20);
 			tiles.push_back(brickTile);
 		}
 
