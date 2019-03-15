@@ -175,7 +175,6 @@
     <ClInclude Include="MainMenu.hpp" />
     <ClInclude Include="PauseMenu.hpp" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="pplate.hpp" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="tile.hpp" />
   </ItemGroup>

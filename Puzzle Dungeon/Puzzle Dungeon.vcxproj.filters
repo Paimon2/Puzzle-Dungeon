@@ -51,9 +51,6 @@
     <ClInclude Include="GUIToolkit.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="pplate.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="json.hpp">
       <Filter>Header Files\JSON</Filter>
     </ClInclude>

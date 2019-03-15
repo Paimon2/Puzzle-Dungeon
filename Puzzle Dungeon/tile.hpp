@@ -13,16 +13,23 @@ visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <functional>
 #include <string.h>
 
-
+enum TileType {
+	Normal = 0,
+	PressurePlate = 1
+};
 
 class Tile {
 public:
 	void setFeatures(std::string texture, float x, float y);
+	void setCollideCallback(std::function<void()> callback);
+	TileType type;
 	sf::Sprite tilesprite;
 private:
 	sf::Texture t; 
+	std::function<void()> collideCallback;
 };
 
 //Set the texture, x and y position all at once. 
@@ -31,5 +38,12 @@ void Tile::setFeatures(std::string texture, float x, float y) {
 	tilesprite.setTexture(t);
 	tilesprite.setPosition(x, y);
 }
+
+inline void Tile::setCollideCallback(std::function<void()> callback)
+{
+	collideCallback = callback;
+}
+
+
 
 #endif

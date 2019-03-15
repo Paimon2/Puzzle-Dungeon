@@ -13,8 +13,7 @@ visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
 #include <vector>
 #include <SFML/Graphics.hpp>
 #include "tile.hpp"
-
-
+#include "pplate.hpp"
 
 class Level {
 private:
@@ -36,6 +35,9 @@ public:
 
 	inline void generateBorders(sf::Vector2u windowSize = sf::Vector2u(1024, 818)) {
 
+		Tile p;
+		PressurePlate pp;
+		p = pp;
 		// Top: left-right
 		for (int i = 0; i < windowSize.x / 45; i++) {
 			Tile brickTile;
