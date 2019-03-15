@@ -164,8 +164,6 @@ inline void GameInstance::initialize() {
 
 	try {
 		unsigned int level = gameData.data["progress"]["level"];
-		if (level)
-			int p = 42;
 
 		if (!level) /*level == 0*/
 			mainMenu.setPreviousSave(false);
