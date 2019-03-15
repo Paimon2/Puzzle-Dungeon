@@ -112,7 +112,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)SFML (Windows)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)SFML (Windows)\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>sfml-system-d.lib;opengl32.lib;sfml-graphics-d.lib;sfml-window-d.lib;sfml-audio-d.lib;%(AdditionalDependencies)</AdditionalDependencies>

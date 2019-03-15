@@ -1338,9 +1338,9 @@ namespace nlohmann
 		{
 			if (JSON_UNLIKELY(not j.is_boolean()))
 			{
-				std::cerr << R"(ln 1341 json.hpp
-				type_error::create(302, "type must be boolean, but is " + std::string(j.type_name())))";
+				JSON_THROW(type_error::create(302, "type must be boolean, but is " + std::string(j.type_name())));
 			}
+			b = *j.template get_ptr<const typename BasicJsonType::boolean_t*>();
 		}
 
 		template<typename BasicJsonType>
