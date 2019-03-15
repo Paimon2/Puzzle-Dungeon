@@ -102,7 +102,7 @@ public:
 
 	inline void drawTiles(sf::RenderWindow &window) {
 		window.draw(levelBackground);
-		for (Tile tile : tiles) {
+		for (Tile &tile : tiles) {
 			window.draw(tile.tilesprite);
 		}
 	}

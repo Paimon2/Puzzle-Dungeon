@@ -156,14 +156,17 @@ inline void GameInstance::drawLayers()
 inline void GameInstance::initialize() {
 	// Add any init code here
 
-
+	gameData.load();
 	mainMenu.isInMainMenu = true;
 	mainMenu.hasPreviousSave = true;
 	mainCharacter.setPosition(gameWindow.getSize().x - 50, gameWindow.getSize().y / 2);
-	gameData.load();
+	
 
 	try {
-		int level = gameData.data["progress"]["level"];
+		unsigned int level = gameData.data["progress"]["level"];
+		if (level)
+			int p = 42;
+
 		if (!level) /*level == 0*/
 			mainMenu.setPreviousSave(false);
 	}

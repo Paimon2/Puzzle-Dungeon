@@ -40,8 +40,12 @@ inline void GameData::generateInitialGameData()
 	data["settings"]["max_fps"] = 60;
 	data["settings"]["fullscreen"] = false;
 	data["settings"]["show_fps"] = false;
-	data["settings"]["screen_resolution_width"] = sf::VideoMode::getDesktopMode().width;
-	data["settings"]["screen_resolution_height"] = sf::VideoMode::getDesktopMode().height;
+
+	data["settings"]["screen_resolution_width"] = 
+		static_cast<int>(sf::VideoMode::getDesktopMode().width);
+
+	data["settings"]["screen_resolution_height"] = 
+		static_cast<int>(sf::VideoMode::getDesktopMode().height);
 
 	// Audio settings (levels from 0 to 100)
 	data["settings"]["music_volume"] = 100;
