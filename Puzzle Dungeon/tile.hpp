@@ -18,13 +18,15 @@ visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
 
 enum TileType {
 	Normal = 0,
-	PressurePlate = 1
+	PressurePlate = 1,
+	Door = 2,
 };
 
 class Tile {
 public:
 	void setFeatures(std::string texture, float x, float y);
 	void setCollideCallback(std::function<void()> callback);
+	void checkIntersect(sf::Sprite spriteTwo);
 	TileType type;
 	sf::Sprite tilesprite;
 private:
@@ -33,12 +35,29 @@ private:
 };
 
 //Set the texture, x and y position all at once. 
-void Tile::setFeatures(std::string texture, float x, float y) {
+inline void Tile::setFeatures(std::string texture, float x, float y) {
 	t.loadFromFile(texture);
 	tilesprite.setTexture(t);
 	tilesprite.setPosition(x, y);
 }
 
+void Tile::checkIntersect(sf::Sprite spriteTwo) {
+	if (tilesprite.getGlobalBounds().intersects(spriteTwo.getGlobalBounds())) {
+			try {
+				collideCallback();
+			}
+			catch (...) {
+				// Do nothing; callback not set. THIS IS NORMAL.
+			}
+		}
+}
+
+
+/*
+* @brief When the user collides with this tile, 
+* the lambda below will be executed.
+* @param callback lambda to be executed
+*/
 inline void Tile::setCollideCallback(std::function<void()> callback)
 {
 	collideCallback = callback;

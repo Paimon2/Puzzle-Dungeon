@@ -140,7 +140,7 @@ inline void GameInstance::drawLayers()
 	// 3rd layer
 
 
-	currentLevel.drawTiles(gameWindow);
+	currentLevel.drawTiles(gameWindow, mainCharacter.sprite);
 	mainCharacter.draw(gameWindow, view);
 
 	// 4th layer

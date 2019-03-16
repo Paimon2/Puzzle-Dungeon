@@ -13,7 +13,7 @@ visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
 #include <vector>
 #include <SFML/Graphics.hpp>
 #include "tile.hpp"
-#include "pplate.hpp"
+
 
 class Level {
 private:
@@ -80,7 +80,6 @@ public:
 			brickTexture.loadFromFile("Textures//brick.png");
 			
 			levelBackgroundTexture.loadFromFile("Textures//Lvl1Bckrnd.png");
-			//levelBackgroundTexture.setRepeated(true);
 			levelBackgroundTexture.setRepeated(true);
 			levelBackground.setTexture(levelBackgroundTexture);
 			
@@ -99,10 +98,11 @@ public:
 
 	}
 
-	inline void drawTiles(sf::RenderWindow &window) {
+	inline void drawTiles(sf::RenderWindow &window, sf::Sprite &characterSprite) {
 		window.draw(levelBackground);
 		for (Tile &tile : tiles) {
 			window.draw(tile.tilesprite);
+			tile.checkIntersect(characterSprite);
 		}
 	}
 };
