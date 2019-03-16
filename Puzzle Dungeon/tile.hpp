@@ -29,7 +29,13 @@ public:
 	void checkIntersect(sf::Sprite spriteTwo);
 	TileType type;
 	sf::Sprite tilesprite;
+	/*
+	If this is true, the tile will move around if the player
+	pushes it.
+	*/
+	bool usesPhysics;
 private:
+	bool standTimeout;
 	sf::Texture t; 
 	std::function<void()> collideCallback;
 };
@@ -44,12 +50,18 @@ inline void Tile::setFeatures(std::string texture, float x, float y) {
 void Tile::checkIntersect(sf::Sprite spriteTwo) {
 	if (tilesprite.getGlobalBounds().intersects(spriteTwo.getGlobalBounds())) {
 			try {
-				collideCallback();
+				if (!standTimeout) {
+					standTimeout = true;
+					collideCallback();
+				}
 			}
 			catch (...) {
 				// Do nothing; callback not set. THIS IS NORMAL.
 			}
 		}
+	else {
+		standTimeout = false;
+	}
 }
 
 
