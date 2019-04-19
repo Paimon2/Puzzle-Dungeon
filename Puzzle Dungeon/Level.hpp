@@ -12,7 +12,7 @@ visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
 
 #include <vector>
 #include <SFML/Graphics.hpp>
-#include "tile.hpp"
+#include "Tile.hpp"
 
 
 class Level {
