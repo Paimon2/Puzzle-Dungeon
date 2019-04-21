@@ -1,4 +1,4 @@
-/*
+﻿/*
 Puzzle Dungeon ((C) 2019)
 @authors Omar Junaid, Sam Dockery
 This work is licensed under the
@@ -81,7 +81,7 @@ Use in a loop to check repeatedly.
 */
 inline void GameInstance::checkEventsOnce()
 {
-		// First check for game logic events
+        // First check for game logic events
 		if (!pauseMenu.isPaused())
 			mainCharacter.checkMovement(currentLevel);
 
@@ -96,11 +96,12 @@ inline void GameInstance::checkEventsOnce()
 			gameWindow.close();
 		}
 		case sf::Event::KeyPressed: {
-			break;
+
 		}
 			
 		case sf::Event::KeyReleased: {
-			pauseMenu.checkShouldPause(event.key.code, gameWindow);
+            pauseMenu.checkShouldPause(gameWindow);
+            break;
 		}
 		case sf::Event::Resized: {
 			if (gameWindow.getSize() != previousSize) {
@@ -165,7 +166,7 @@ inline void GameInstance::initialize() {
 	try {
 		auto level = gameData.data["progress"]["level"];
 
-		if (!level) /*level == 0*/
+        if (!level) /* level == 0 || nullptr */
 			mainMenu.setPreviousSave(false);
 	}
 	

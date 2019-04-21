@@ -34,6 +34,7 @@ inline void GameData::load() {
 
 inline void GameData::generateInitialGameData()
 {
+
 	data["progress"]["level"] = 0;
 
 	// Video settings

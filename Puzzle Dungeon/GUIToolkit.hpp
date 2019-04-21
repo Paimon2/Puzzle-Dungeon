@@ -68,7 +68,7 @@ inline void Button::onClick() {
 
 inline void Button::draw(sf::RenderWindow &window){
 
-	std::string textStr = text.getString().toAnsiString();
+
 	
 	text.setPosition(buttonSprite.getPosition().x + 156,
 		buttonSprite.getPosition().y + 35);

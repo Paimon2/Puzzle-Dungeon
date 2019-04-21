@@ -13,7 +13,7 @@ visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
 #include <vector>
 #include <SFML/Graphics.hpp>
 #include "Tile.hpp"
-
+#include <iterator>
 
 class Level {
 private:
@@ -23,7 +23,7 @@ private:
 public:
 	std::vector<Tile> tiles;
 	
-	inline void scaleEverything(sf::Vector2u windowSize) {
+    inline void scaleEverything(sf::Vector2u windowSize) {
 		tiles.clear();
 		generateBorders(windowSize);
 
@@ -35,39 +35,56 @@ public:
 
 	inline void generateBorders(sf::Vector2u windowSize = sf::Vector2u(1024, 818)) {
 
-		// Top: left-right
-		for (int i = 0; i < windowSize.x / 45; i++) {
-			Tile brickTile;
-			brickTile.tilesprite.setTexture(brickTexture);
-			brickTile.tilesprite.setPosition(i * (int)brickTexture.getSize().x - i*2, -20);
-			tiles.push_back(brickTile);
-		}
 
-		// Bottom: left-right
-		for (int i = 0; i < windowSize.x / 45; i++) {
-			Tile brickTile;
-			brickTile.tilesprite.setTexture(brickTexture);
-			brickTile.tilesprite.setPosition(i * (int)brickTexture.getSize().x - i * 2, windowSize.y - 20);
-			tiles.push_back(brickTile);
-		}
+		Tile testTile;
+		testTile.tilesprite.setPosition(900, 500);
+		testTile.tilesprite.setTexture(brickTexture);
+		testTile.usesPhysics = true;
+		tiles.push_back(testTile);
 
-		// Left-down
+		Tile secondTestTile;
+		secondTestTile.tilesprite.setPosition(800, 500);
+		secondTestTile.tilesprite.setTexture(brickTexture);
+		secondTestTile.usesPhysics = true;
+		tiles.push_back(secondTestTile);
 
-		for (int i = 0; i < (int)windowSize.y / 45; i++) {
-			Tile brickTile;
-			brickTile.tilesprite.setTexture(brickTexture);
-			brickTile.tilesprite.setPosition(-40, i * (int)brickTexture.getSize().y - 20);
-			tiles.push_back(brickTile);
-		}
+        // Top: left-right
+                for (int i = 0; i < windowSize.x / 45; i++) {
+                    Tile brickTile;
+                    brickTile.tilesprite.setTexture(brickTexture);
+                     brickTile.usesPhysics = false;
+                    brickTile.tilesprite.setPosition(i * (int)brickTexture.getSize().x - i*2, -20);
+                    tiles.push_back(brickTile);
+                }
 
-		// Right-down
+                // Bottom: left-right
+                for (int i = 0; i < windowSize.x / 45; i++) {
+                    Tile brickTile;
+                    brickTile.tilesprite.setTexture(brickTexture);
+                    brickTile.usesPhysics = false;
+                    brickTile.tilesprite.setPosition(i * (int)brickTexture.getSize().x - i * 2, windowSize.y - 20);
+                    tiles.push_back(brickTile);
+                }
 
-		for (int i = 0; i < (int)windowSize.y / 45; i++) {
-			Tile brickTile;
-			brickTile.tilesprite.setTexture(brickTexture);
-			brickTile.tilesprite.setPosition(windowSize.x - 10, i * (int)brickTexture.getSize().y - 20);
-			tiles.push_back(brickTile);
-		}
+                // Left-down
+
+                for (int i = 0; i < (int)windowSize.y / 45; i++) {
+                    Tile brickTile;
+                    brickTile.tilesprite.setTexture(brickTexture);
+                     brickTile.usesPhysics = false;
+                    brickTile.tilesprite.setPosition(-40, i * (int)brickTexture.getSize().y - 20);
+                    tiles.push_back(brickTile);
+                }
+
+                // Right-down
+
+                for (int i = 0; i < (int)windowSize.y / 45; i++) {
+                    Tile brickTile;
+                    brickTile.tilesprite.setTexture(brickTexture);
+                     brickTile.usesPhysics = false;
+                    brickTile.tilesprite.setPosition(windowSize.x - 10, i * (int)brickTexture.getSize().y - 20);
+                    tiles.push_back(brickTile);
+                }
 
 	}
 
@@ -89,7 +106,7 @@ public:
 			levelBackground.setScale(ScaleX, ScaleY);      
 
 			tiles.clear();
-			generateBorders();
+            generateBorders();
 			
 		}
 
@@ -100,10 +117,23 @@ public:
 
 	inline void drawTiles(sf::RenderWindow &window, sf::Sprite &characterSprite) {
 		window.draw(levelBackground);
-		for (Tile &tile : tiles) {
-			window.draw(tile.tilesprite);
-			tile.checkIntersect(characterSprite);
-		}
+
+
+        for(auto tile : tiles){
+            if(!tile.usesPhysics){
+                window.draw(tile.tilesprite);
+                tile.checkIntersect(characterSprite, tiles);
+            }
+        }
+
+        for (auto &tile : tiles) {
+            if(tile.usesPhysics){
+                window.draw(tile.tilesprite);
+                tile.checkIntersect(characterSprite, tiles);
+            }
+        }
+
+
 	}
 };
 #endif

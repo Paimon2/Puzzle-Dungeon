@@ -17,7 +17,7 @@ visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
-
+#include <thread>
 #include "GUIToolkit.hpp"
 
 
@@ -37,7 +37,7 @@ public:
 	\endcode
 	@param key The key code. If ESC is pressed, the status will be toggled.
 	*/
-	void checkShouldPause(sf::Keyboard::Key key, sf::RenderWindow &window);
+    void checkShouldPause(sf::RenderWindow &window);
 
 	/*
 	@brief Draw the paused menu.
@@ -64,7 +64,7 @@ private:
 	sf::RectangleShape rect;
 	bool isGamePaused;
 	float blurRadius;
-	sf::Uint8 alphaLevel;
+    int alphaLevel;
 	sf::Shader blurShader;
 	sf::Texture windowContentsTexture;
 	sf::Sprite windowContentsSprite;
@@ -79,6 +79,8 @@ PauseMenu::PauseMenu() {
 	buttonTexture.loadFromFile("GUI//PauseMenuButton.png");
 	textFont.loadFromFile("Fonts//Robotronica.ttf");
 #endif
+
+    isGamePaused = false;
 
 	backToMenuButton.buttonSprite.setPosition(400, 100);
 	backToMenuButton.buttonSprite.setTexture(buttonTexture);
@@ -137,15 +139,17 @@ inline void PauseMenu::draw(sf::RenderWindow &window) {
 		blurShader.setUniform("blur_radius", std::min(0.35f, blurRadius + 0.001f));
 
 	if (!isGamePaused && alphaLevel > 0)
-		alphaLevel = std::max(0, alphaLevel - 10);
-		rect.setFillColor(sf::Color(32, 32, 32, alphaLevel));
+        alphaLevel = std::max(0, alphaLevel - 10);
+        rect.setFillColor(sf::Color(32, 32, 32, (sf::Uint8)alphaLevel));
 
 	if (isGamePaused && alphaLevel < 90)
-		alphaLevel = std::min(90, alphaLevel + 10);
-		rect.setFillColor(sf::Color(32, 32, 32, alphaLevel));
+        alphaLevel = std::min(90, alphaLevel + 10);
+        rect.setFillColor(sf::Color(32, 32, 32, (sf::Uint8)alphaLevel));
 
-	if (!isGamePaused)
-		return;
+    if (!isGamePaused){
+       return;
+    }
+
 
 	// An extremely ugly hack. We need to address this later.
 	windowContentsSprite.setPosition(window.mapPixelToCoords(sf::Vector2i(window.getSize() / 10000u )));
@@ -185,19 +189,30 @@ inline void PauseMenu::checkShouldDoResizeWork(sf::RenderWindow &window) {
 }
 
 
-inline void PauseMenu::checkShouldPause(sf::Keyboard::Key key, sf::RenderWindow &window) {
+inline void PauseMenu::checkShouldPause(sf::RenderWindow &window) {
 
-	if (key != sf::Keyboard::Escape)
-		return;
+    if (!sf::Keyboard::isKeyPressed((sf::Keyboard::Escape)))
+        return;
 
-	/* Even though we're not resizing, we call this anyway
-	to create a texture of the current screen contents.
-	*/
-	checkShouldDoResizeWork(window);
 
-	isGamePaused = !isGamePaused;
+    /* Even though we're not resizing, we call this anyway
+    to create a texture of the current screen contents.
+    */
+    checkShouldDoResizeWork(window);
 
-	
+
+        // This doesn't work on lin
+        //isGamePaused = !isGamePaused;
+
+        if(!isGamePaused){
+        isGamePaused = true;
+        return;
+        }
+
+        if(isGamePaused){
+        isGamePaused = false;
+
+    }
 
 }
 
