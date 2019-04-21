@@ -44,13 +44,13 @@ private:
 
 
 GameInstance::GameInstance() :
-	gameWindow(sf::VideoMode(1366, 818), "Puzzle Dungeon")
+    gameWindow(sf::VideoMode(1366, 818), "Puzzle Dungeon", sf::Style::Close)
 	{
 	/*Don't hog up all the GPU...*/
 	gameWindow.setFramerateLimit(60);
 	/*Ensure the window is created in the centre of the screen*/
-	sf::VideoMode videoMode = sf::VideoMode::getDesktopMode();
-	
+    sf::VideoMode videoMode = sf::VideoMode::getDesktopMode();
+
 	gameWindow.setPosition(
 						sf::Vector2i(
 						sf::VideoMode::getDesktopMode().width / 2 -
@@ -83,7 +83,7 @@ inline void GameInstance::checkEventsOnce()
 {
         // First check for game logic events
 		if (!pauseMenu.isPaused())
-			mainCharacter.checkMovement(currentLevel);
+            mainCharacter.checkMovement(currentLevel);
 
 		// Then check for SFML events
 		sf::Event event;
@@ -102,18 +102,6 @@ inline void GameInstance::checkEventsOnce()
 		case sf::Event::KeyReleased: {
             pauseMenu.checkShouldPause(gameWindow);
             break;
-		}
-		case sf::Event::Resized: {
-			if (gameWindow.getSize() != previousSize) {
-				pauseMenu.checkShouldDoResizeWork(gameWindow);
-			view = gameWindow.getDefaultView();
-			view.setSize(
-						static_cast<float>(gameWindow.getSize().x),
-						static_cast<float>(gameWindow.getSize().y)
-						);
-			gameWindow.setView(view);
-			}
-			
 		}
 			
 		default: {
@@ -142,7 +130,7 @@ inline void GameInstance::drawLayers()
 
 
 	currentLevel.drawTiles(gameWindow, mainCharacter.sprite);
-	mainCharacter.draw(gameWindow, view);
+	mainCharacter.draw(gameWindow);
 
 	// 4th layer
 	
