@@ -41,6 +41,7 @@ public:
 */
 	Button() {
 		isEnabled = true;
+		state = ClickableState::None;
 		text.setCharacterSize(24);
 		text.setFillColor(sf::Color::White);
 	}
@@ -68,7 +69,7 @@ inline void Button::onClick() {
 
 inline void Button::draw(sf::RenderWindow &window){
 
-
+	std::string textStr = text.getString().toAnsiString();
 	
 	text.setPosition(buttonSprite.getPosition().x + 156,
 		buttonSprite.getPosition().y + 35);

@@ -14,6 +14,7 @@ visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
 #include <fstream>
 #include <iomanip>
 #include <SFML/Graphics.hpp>
+#include "Helpers.hpp"
 
 class GameData {
 public:
@@ -26,7 +27,7 @@ public:
 };
 
 inline void GameData::load() {
-	std::ifstream i("GameData.json");
+	std::ifstream i(Utilities::getResourcePath() + "GameData.json");
 	if (!i.is_open())
 		return;
 	i >> data;

@@ -70,7 +70,9 @@ MainMenu::MainMenu() {
     gameLogoTexture.loadFromFile("GUI//GameLogo.png");
 	textFont.loadFromFile("Fonts//Robotronica.ttf");
 #endif
-
+	hasPreviousSave = false;
+	isInMainMenu = true;
+	
     //blurShader.setUniform("texture", sf::Shader::CurrentTexture);
     gameLogo.setTexture(buttonTexture);
 

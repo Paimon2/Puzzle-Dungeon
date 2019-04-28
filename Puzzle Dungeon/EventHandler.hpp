@@ -23,19 +23,9 @@ private:
 	bool eventsRunning = false;
 
 public:
-	inline void runEvents(int level, Level &levelObj) {
-		std::thread eventsThread(runEventsInternal, std::ref(*this));
-		eventsThread.detach();
-	}
-
-};
-
-
-
-static void runEventsInternal(	int level, 
-								Level &levelObj, 
-								EventHandler &handler) {
-	switch (level) {
+	inline void runEventsInternal(int level,
+		Level& levelObj) {
+		switch (level) {
 
 		case 1:
 		{
@@ -75,9 +65,25 @@ static void runEventsInternal(	int level,
 
 		}
 
+		default:
+		{
+			std::cerr << "Non-existent level no. passed to runEventsInternal!";
+			break;
+		}
 		}
 
 	}
+
+	inline void runEvents(int level, Level &levelObj) {
+		std::thread eventsThread([&] { runEventsInternal(level, levelObj); });
+		eventsThread.detach();
+	}
+
+};
+
+
+
+
 
 
 

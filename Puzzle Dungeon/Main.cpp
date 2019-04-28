@@ -10,10 +10,8 @@ visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
 #include <iostream>
 // Local dependencies
 #include "GameInstance.hpp"
-
-#ifdef MACOS
-#include "MacTools/ResourcePath.hpp"
-#endif
+#include "Helpers.hpp"
+#include "Utilities.hpp"
 
 int main() {
 	/*The singleton pattern is in place in the GameInstance class.
@@ -21,7 +19,15 @@ int main() {
 	throughout the whole program! Do not create more instances!
 	*/
 	GameInstance mainInstance;
-	mainInstance.mainCharacter.setTexture("Textures/Character.png");
+
+	mainInstance.mainCharacter.setTexture(
+		Utilities::getResourcePath()
+		+ "Textures//Character.png");
+
+	Utilities::basicFont.loadFromFile(
+		Utilities::getResourcePath() 
+		+ "Fonts//Robotronica.ttf");
+
 	mainInstance.run();
 	return 0; 
 }	

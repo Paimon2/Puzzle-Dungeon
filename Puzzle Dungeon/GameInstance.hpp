@@ -1,4 +1,4 @@
-﻿/*
+/*
 Puzzle Dungeon ((C) 2019)
 @authors Omar Junaid, Sam Dockery
 This work is licensed under the
@@ -44,13 +44,13 @@ private:
 
 
 GameInstance::GameInstance() :
-    gameWindow(sf::VideoMode(1366, 818), "Puzzle Dungeon", sf::Style::Close)
+	gameWindow(sf::VideoMode(1366, 818), "Puzzle Dungeon")
 	{
 	/*Don't hog up all the GPU...*/
 	gameWindow.setFramerateLimit(60);
 	/*Ensure the window is created in the centre of the screen*/
-    sf::VideoMode videoMode = sf::VideoMode::getDesktopMode();
-
+	sf::VideoMode videoMode = sf::VideoMode::getDesktopMode();
+	
 	gameWindow.setPosition(
 						sf::Vector2i(
 						sf::VideoMode::getDesktopMode().width / 2 -
@@ -81,9 +81,9 @@ Use in a loop to check repeatedly.
 */
 inline void GameInstance::checkEventsOnce()
 {
-        // First check for game logic events
+		// First check for game logic events
 		if (!pauseMenu.isPaused())
-            mainCharacter.checkMovement(currentLevel);
+			mainCharacter.checkMovement(currentLevel);
 
 		// Then check for SFML events
 		sf::Event event;
@@ -96,12 +96,23 @@ inline void GameInstance::checkEventsOnce()
 			gameWindow.close();
 		}
 		case sf::Event::KeyPressed: {
-
+			break;
 		}
 			
 		case sf::Event::KeyReleased: {
-            pauseMenu.checkShouldPause(gameWindow);
-            break;
+			pauseMenu.checkShouldPause(event.key.code, gameWindow);
+		}
+		case sf::Event::Resized: {
+			if (gameWindow.getSize() != previousSize) {
+				pauseMenu.checkShouldDoResizeWork(gameWindow);
+			view = gameWindow.getDefaultView();
+			view.setSize(
+						static_cast<float>(gameWindow.getSize().x),
+						static_cast<float>(gameWindow.getSize().y)
+						);
+			gameWindow.setView(view);
+			}
+			
 		}
 			
 		default: {
@@ -130,7 +141,7 @@ inline void GameInstance::drawLayers()
 
 
 	currentLevel.drawTiles(gameWindow, mainCharacter.sprite);
-	mainCharacter.draw(gameWindow);
+	mainCharacter.draw(gameWindow, view);
 
 	// 4th layer
 	
@@ -154,7 +165,7 @@ inline void GameInstance::initialize() {
 	try {
 		auto level = gameData.data["progress"]["level"];
 
-        if (!level) /* level == 0 || nullptr */
+		if (!level) /*level == 0*/
 			mainMenu.setPreviousSave(false);
 	}
 	
