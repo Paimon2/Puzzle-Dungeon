@@ -100,6 +100,7 @@ void Tile::draw(sf::RenderWindow& window, sf::Sprite& characterSprite) {
 			return;
 		}
 
+
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		{
 			// todo register click
