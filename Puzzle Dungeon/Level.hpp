@@ -37,14 +37,14 @@ public:
 
 
 		Tile testTile;
-		testTile.type = TileType::ObjectOnFloor;
+		testTile.type = TileType::Viewable;
 		testTile.tilesprite.setPosition(900, 500);
 		testTile.tilesprite.setTexture(brickTexture);
 		testTile.usesPhysics = true;
 		tiles.push_back(testTile);
 
 		Tile secondTestTile;
-		secondTestTile.type = TileType::ObjectOnFloor;
+		secondTestTile.type = TileType::Chest;
 		secondTestTile.tilesprite.setPosition(800, 500);
 		secondTestTile.tilesprite.setTexture(brickTexture);
 		secondTestTile.usesPhysics = true;

@@ -22,20 +22,28 @@ enum TileType {
 	Normal = 0,
 	PressurePlate = 1,
 	Door = 2,
-	ObjectOnFloor = 3
+	Viewable = 3,
+	Chest = 4,
+	CustomCodeOnInteraction = 5
 };
 
 class Tile {
 public:
 	void setFeatures(std::string texture, float x, float y);
-	void setCollideCallback(std::function<void()> callback);
 	void checkIntersect(sf::Sprite spriteTwo, std::vector<Tile> &tileList);
 	void draw(sf::RenderWindow& window, sf::Sprite& characterSprite);
 	void checkMouseOver(sf::RenderWindow& window);
 	TileType type;
+
+	/*
+	*** SPECIAL CONDITIONAL MEMBERS ***
+	*/
 	sf::Text clickOnMeMessageText;
+	sf::Sprite viewableImage;
+	std::function<void()> customCodeOnInteraction;
 	sf::Sprite tilesprite;
 	bool isMouseOver = false;
+	void setCollideCallback(std::function<void()> callback);
 	/*
 	*** PHYSICS MEMBERS ***
 	*/
@@ -43,7 +51,7 @@ public:
 	bool usesPhysics = false;
 	/*
 	* How fast the tile is moving in either the X or Y direction.
-	* For those who just don't: velocity = speed
+	* By the way: velocity = speed
 
 	* directionalVelocities[0] = positive velocity in the X direction
 	* directionalVelocities[1] = positive velocity in the Y direction
@@ -83,14 +91,20 @@ void Tile::draw(sf::RenderWindow& window, sf::Sprite& characterSprite) {
 		clickOnMeMessageText.setFillColor(sf::Color::White);
 		clickOnMeMessageText.setPosition(mousePos.x - 250, mousePos.y - 170);
 
-		if (Utilities::euclideanDistance(characterSprite.getPosition(), tilesprite.getPosition()) > 100.f) {
+		if (Utilities::euclideanDistance(characterSprite.getPosition(), 
+										tilesprite.getPosition()) 
+										> 100.f) {
 			clickOnMeMessageText.setString("Move closer to interact");
 			window.draw(tilesprite);
 			window.draw(clickOnMeMessageText);
 			return;
 		}
 
-		
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+		{
+			// todo register click
+		}
+
 		clickOnMeMessageText.setString("Click to interact");
 		tilesprite.setColor(sf::Color(200, 200, 200, 200));
 		window.draw(tilesprite);
@@ -227,7 +241,7 @@ inline void Tile::checkMouseOver(sf::RenderWindow &window)
 	/* If we're not an object on the floor, don't 
 	* bother doing all these calculations.
 	*/
-	if (type != TileType::ObjectOnFloor)
+	if (type != TileType::Viewable)
 		return;
 
 
