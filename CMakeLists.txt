@@ -20,6 +20,8 @@ file(GLOB SRCS
     Puzzle\ Dungeon/Character.hpp
     Puzzle\ Dungeon/GameData.hpp
     Puzzle\ Dungeon/MainMenu.hpp
+    Puzzle\ Dungeon/question.hpp
+    Puzzle\ Dungeon/Utilities.hpp
 
 )
 

@@ -84,7 +84,7 @@ PauseMenu::PauseMenu() {
 	backToMenuButton.buttonSprite.setTexture(buttonTexture);
 	backToMenuButton.text.setFont(textFont);
 	backToMenuButton.text.setString("Back to game");
-	backToMenuButton.setCallback([this](){isGamePaused = !isGamePaused; });
+    backToMenuButton.setCallback([this](){isGamePaused = !isGamePaused; });
    
 	creditsButton.buttonSprite.setPosition(400, 225);
 	creditsButton.buttonSprite.setTexture(buttonTexture);

@@ -60,10 +60,10 @@ void Character::checkMovement(Level &currentLevel) {
 		if(!Helpers::checkCharacterCollision(
 			currentLevel,
 			sf::Vector2f(sprite.getPosition().x,
-			sprite.getPosition().y - 0.5f)
+			sprite.getPosition().y - 0.1f)
 			))
 		{
-			sprite.move(0.f, -5.f);
+			sprite.move(0.f, -3.f);
 		}
 		
 	}
@@ -71,11 +71,11 @@ void Character::checkMovement(Level &currentLevel) {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
 		if(!Helpers::checkCharacterCollision(
 			currentLevel,
-			sf::Vector2f(sprite.getPosition().x - 0.5f,
+			sf::Vector2f(sprite.getPosition().x - 0.1f,
 			sprite.getPosition().y
 			)))
 		{
-			sprite.move(-5.f, 0.f);
+			sprite.move(-3.f, 0.f);
 		}
 	}
 
@@ -83,33 +83,25 @@ void Character::checkMovement(Level &currentLevel) {
 		if(!Helpers::checkCharacterCollision(
 			currentLevel,
 			sf::Vector2f(sprite.getPosition().x,
-			sprite.getPosition().y + texture.getSize().y + 0.5f
+			sprite.getPosition().y + texture.getSize().y + 0.1f
 			)))
 		{
-			sprite.move(0.f, 5.f);
+			sprite.move(0.f, 3.f);
 		}
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
 		if(!Helpers::checkCharacterCollision(
 			currentLevel,
-			sf::Vector2f(sprite.getPosition().x + 0.5f,
+			sf::Vector2f(sprite.getPosition().x + 0.1f,
 			sprite.getPosition().y
 			)))
 		{
-			sprite.move(5.f, 0.f);
+			sprite.move(3.f, 0.f);
 		}
 	}
 
 }
 
-
-/*
-
-	GameInstance class checks for input, switch case (W, A, S, D)
-	Tells Character class which one was pressed in a sf::Keyboard::Key value, 
-	Character moves according to key
-
-	*/
 
 #endif

@@ -17,6 +17,7 @@ visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
 #include <vector>
 #include <string.h>
 #include "Utilities.hpp"
+#include <cmath>
 
 enum TileType {
 	Normal = 0,
@@ -126,6 +127,8 @@ void Tile::checkIntersect(sf::Sprite spriteTwo, std::vector<Tile> &tileList) {
 	* it will gradually decrease. Otherwise, it will be set to 0
 	* anyway.
 	*/
+
+	
 	for (int i = 0; i < sizeof(directionalVelocities); i++) {
 		directionalVelocities[i] = std::fmax(0, directionalVelocities[i] - 0.2f);
 	}
@@ -136,14 +139,16 @@ void Tile::checkIntersect(sf::Sprite spriteTwo, std::vector<Tile> &tileList) {
 	// ALSO, check for collisions.
 	for (Tile &tile : tileList) {
 
+
 		// Ensure we're not doing collision detection
 		// against ourselves
+
 		if (tile.tilesprite.getGlobalBounds()
 			== tilesprite.getGlobalBounds()) {
 			continue;
 		}
 
-
+		
 		/* If we collide with something else, transfer half our energy to the other tile.
 		* This means we also lose half our energy.
 		 */
@@ -226,13 +231,13 @@ void Tile::checkIntersect(sf::Sprite spriteTwo, std::vector<Tile> &tileList) {
 				if (xAxisDistance > 0)
 					directionalVelocities[2] = xAxisDistance / 6;
 				else
-					directionalVelocities[0] = std::fabsf(xAxisDistance / 3);
+                    directionalVelocities[0] = fabsf(xAxisDistance / 3);
 
 				
 				if (yAxisDistance > 0)
 					directionalVelocities[1] = yAxisDistance / 12;
 				else
-					directionalVelocities[3] = std::fabsf(yAxisDistance / 6);
+                    directionalVelocities[3] = fabsf(yAxisDistance / 6);
 
 
 }

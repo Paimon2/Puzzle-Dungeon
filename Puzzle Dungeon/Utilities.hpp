@@ -11,6 +11,7 @@ visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
 #define _UTILITIES_HPP_
 
 #include <SFML/Graphics.hpp>
+#include <cmath>
 
 #ifdef MACOS
 #include "MacTools/ResourcePath.hpp"

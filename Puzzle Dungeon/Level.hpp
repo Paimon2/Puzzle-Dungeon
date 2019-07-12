@@ -20,17 +20,43 @@ private:
 	sf::Texture brickTexture;
 	sf::Texture levelBackgroundTexture;
 	sf::Sprite levelBackground;
+	int levelNum;
 public:
 	std::vector<Tile> tiles;
 	
 	inline void scaleEverything(sf::Vector2u windowSize) {
 		tiles.clear();
+		genLevel(levelNum);
 		generateBorders(windowSize);
 
 		float ScaleX = (float)windowSize.x / levelBackgroundTexture.getSize().x;
 		float ScaleY = (float)windowSize.y / levelBackgroundTexture.getSize().y;
 
 		levelBackground.setScale(ScaleX, ScaleY);
+	}
+
+	inline void genLevel(int levelNumber) {
+
+		// Initial RHS/right-hand-side top side of wall
+		for (int i = 0; i < 17; i++) {
+			// Small gap
+			if (i == 10 || i == 11)
+				continue;
+			Tile toPush;
+			toPush.type = TileType::Normal;
+			toPush.tilesprite.setPosition(1200, i * 47);
+			toPush.tilesprite.setTexture(brickTexture);
+			tiles.push_back(toPush);
+		}
+		
+		// Boundaries for entry
+		for (int i = 0; i < 10; i++) {
+			Tile toPush;
+			toPush.type = TileType::Normal;
+			toPush.tilesprite.setPosition(i * 47 + 730, 700);
+			toPush.tilesprite.setTexture(brickTexture);
+			tiles.push_back(toPush);
+		}
 	}
 
 	inline void generateBorders(sf::Vector2u windowSize = sf::Vector2u(1024, 818)) {
@@ -49,6 +75,8 @@ public:
 		secondTestTile.tilesprite.setTexture(brickTexture);
 		secondTestTile.usesPhysics = true;
 		tiles.push_back(secondTestTile);
+
+		
 
 		// Top: left-right
 		for (int i = 0; i < windowSize.x / 45; i++) {
@@ -88,7 +116,7 @@ public:
 	}
 
 	inline void loadLevel(int levelNumber) {
-		
+		levelNum = levelNumber;
 		switch (levelNumber) {
 
 		case 1: {
@@ -105,6 +133,7 @@ public:
 			levelBackground.setScale(ScaleX, ScaleY);      
 
 			tiles.clear();
+			genLevel(levelNumber);
 			generateBorders();
 			
 		}
