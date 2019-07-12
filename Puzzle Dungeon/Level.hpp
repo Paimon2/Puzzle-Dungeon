@@ -130,7 +130,7 @@ public:
 
 	inline void drawTiles(sf::RenderWindow &window, sf::Sprite &characterSprite) {
 		window.draw(levelBackground);
-		for (Tile &tile : tiles) {
+        for (Tile tile : tiles) {
 			tile.checkMouseOver(window);
 			tile.draw(window, characterSprite);
 			tile.checkIntersect(characterSprite, tiles);

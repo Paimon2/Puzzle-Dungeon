@@ -97,10 +97,13 @@ inline void GameInstance::checkEventsOnce()
             break;
 		}
         break; case sf::Event::KeyPressed: {
-            pauseMenu.checkShouldPause(gameWindow);
+           // pauseMenu.checkShouldPause(gameWindow);
             break;
 		}
-			
+       break; case sf::Event::TextEntered: {
+            pauseMenu.checkShouldPause(gameWindow);
+            break;
+            }
         break; case sf::Event::Resized: {
 			if (gameWindow.getSize() != previousSize) {
 				pauseMenu.checkShouldDoResizeWork(gameWindow);
@@ -115,6 +118,7 @@ inline void GameInstance::checkEventsOnce()
 		}
 			
         break; default: {
+            pauseMenu.checkShouldPause(gameWindow);
             break;
         }
 			

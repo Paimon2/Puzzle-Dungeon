@@ -15,6 +15,7 @@ visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
 #endif
 
 #include <iostream>
+#include <thread>
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 
@@ -193,9 +194,9 @@ inline void PauseMenu::checkShouldPause(sf::RenderWindow &window) {
 	to create a texture of the current screen contents.
 	*/
 	checkShouldDoResizeWork(window);
-
 	isGamePaused = !isGamePaused;
-
+    // Ugly fix to get around repeated switches.
+    std::this_thread::sleep_for(std::chrono::milliseconds(75));
 	
 
 }

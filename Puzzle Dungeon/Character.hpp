@@ -60,10 +60,10 @@ void Character::checkMovement(Level &currentLevel) {
 		if(!Helpers::checkCharacterCollision(
 			currentLevel,
 			sf::Vector2f(sprite.getPosition().x,
-			sprite.getPosition().y - 0.1f)
+            sprite.getPosition().y - 1.5f)
 			))
 		{
-			sprite.move(0.f, -3.f);
+            sprite.move(0.f, -1.5f);
 		}
 		
 	}
@@ -71,11 +71,11 @@ void Character::checkMovement(Level &currentLevel) {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
 		if(!Helpers::checkCharacterCollision(
 			currentLevel,
-			sf::Vector2f(sprite.getPosition().x - 0.1f,
+            sf::Vector2f(sprite.getPosition().x - 1.5f,
 			sprite.getPosition().y
 			)))
 		{
-			sprite.move(-3.f, 0.f);
+            sprite.move(-1.5f, 0.f);
 		}
 	}
 
@@ -83,21 +83,21 @@ void Character::checkMovement(Level &currentLevel) {
 		if(!Helpers::checkCharacterCollision(
 			currentLevel,
 			sf::Vector2f(sprite.getPosition().x,
-			sprite.getPosition().y + texture.getSize().y + 0.1f
+            sprite.getPosition().y + texture.getSize().y + 1.5f
 			)))
 		{
-			sprite.move(0.f, 3.f);
+            sprite.move(0.f, 1.5f);
 		}
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
 		if(!Helpers::checkCharacterCollision(
 			currentLevel,
-			sf::Vector2f(sprite.getPosition().x + 0.1f,
+            sf::Vector2f(sprite.getPosition().x + 2.f,
 			sprite.getPosition().y
 			)))
 		{
-			sprite.move(3.f, 0.f);
+            sprite.move(1.5f, 0.f);
 		}
 	}
 
