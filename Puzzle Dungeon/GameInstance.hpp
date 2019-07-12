@@ -92,17 +92,16 @@ inline void GameInstance::checkEventsOnce()
 
 		switch (event.type) {
 
-		case sf::Event::Closed: {
+        break; case sf::Event::Closed: {
 			gameWindow.close();
+            break;
 		}
-		case sf::Event::KeyPressed: {
-			break;
+        break; case sf::Event::KeyPressed: {
+            pauseMenu.checkShouldPause(gameWindow);
+            break;
 		}
 			
-		case sf::Event::KeyReleased: {
-			pauseMenu.checkShouldPause(event.key.code, gameWindow);
-		}
-		case sf::Event::Resized: {
+        break; case sf::Event::Resized: {
 			if (gameWindow.getSize() != previousSize) {
 				pauseMenu.checkShouldDoResizeWork(gameWindow);
 			view = gameWindow.getDefaultView();
@@ -112,12 +111,12 @@ inline void GameInstance::checkEventsOnce()
 						);
 			gameWindow.setView(view);
 			}
-			
+            break;
 		}
 			
-		default: {
-			break;
-		}
+        break; default: {
+            break;
+        }
 			
 		}
 }
