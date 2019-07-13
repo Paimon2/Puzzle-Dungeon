@@ -101,6 +101,7 @@ void Character::checkMovement(Level &currentLevel) {
 		}
 	}
 
+
 }
 
 
