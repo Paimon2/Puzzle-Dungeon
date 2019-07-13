@@ -74,6 +74,8 @@ inline void Character::draw(sf::RenderWindow &window, sf::View &view) {
         
         case CharacterState::Idle:
         {
+            std::cout << "The game will not function; see ln 77 of Character.hpp!";
+            exit(1);
             // The idle animations should be at 9 FPS.
             int targetFrameIndex = round(framesElapsed / 9);
             // Set the current sprite's texture to that frame.
