@@ -87,7 +87,7 @@ inline void Button::draw(sf::RenderWindow &window){
 	if (!sf::Mouse::isButtonPressed(sf::Mouse::Left) && state == ClickableState::HoldingDown)
 	{
 		onClick();
-
+        
 	}
 
 	sf::Vector2i mousePos = sf::Mouse::getPosition(window);

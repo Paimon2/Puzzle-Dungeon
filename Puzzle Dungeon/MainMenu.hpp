@@ -85,7 +85,6 @@ MainMenu::MainMenu() {
 
 	//newGameButton.setCallback([this](){isGamePaused = !isGamePaused; });
 
-
     newGameButton.buttonSprite.setPosition(80, 350);
     newGameButton.buttonSprite.setTexture(buttonTexture);
 	newGameButton.text.setFont(textFont);
@@ -95,7 +94,7 @@ MainMenu::MainMenu() {
     settingsButton.buttonSprite.setTexture(buttonTexture);
     settingsButton.text.setFont(textFont);
     settingsButton.text.setString("    Credits");
-
+    
     helpAboutButton.buttonSprite.setPosition(80, 550);
     helpAboutButton.buttonSprite.setTexture(buttonTexture);
 	helpAboutButton.text.setFont(textFont);

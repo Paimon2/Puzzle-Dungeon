@@ -12,6 +12,7 @@ GameData.json
 
 # Builds
 Binaries/
+build/
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
