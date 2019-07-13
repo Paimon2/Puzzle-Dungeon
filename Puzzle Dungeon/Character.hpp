@@ -59,11 +59,11 @@ void Character::checkMovement(Level &currentLevel) {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
 		if(!Helpers::checkCharacterCollision(
 			currentLevel,
-			sf::Vector2f(sprite.getPosition().x,
-            sprite.getPosition().y - 1.5f)
+            sf::Vector2f(sprite.getPosition().x - 6.f,
+            sprite.getPosition().y - 3.f)
 			))
 		{
-            sprite.move(0.f, -1.5f);
+            sprite.move(0.f, -3.f);
 		}
 		
 	}
@@ -71,33 +71,33 @@ void Character::checkMovement(Level &currentLevel) {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
 		if(!Helpers::checkCharacterCollision(
 			currentLevel,
-            sf::Vector2f(sprite.getPosition().x - 1.5f,
-			sprite.getPosition().y
+            sf::Vector2f(sprite.getPosition().x - 3.f,
+            sprite.getPosition().y - 6.f
 			)))
 		{
-            sprite.move(-1.5f, 0.f);
+            sprite.move(-3.f, 0.f);
 		}
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
 		if(!Helpers::checkCharacterCollision(
 			currentLevel,
-			sf::Vector2f(sprite.getPosition().x,
-            sprite.getPosition().y + texture.getSize().y + 1.5f
+            sf::Vector2f(sprite.getPosition().x + 12.f,
+            sprite.getPosition().y + texture.getSize().y + 6.f
 			)))
 		{
-            sprite.move(0.f, 1.5f);
+            sprite.move(0.f, 3.f);
 		}
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
 		if(!Helpers::checkCharacterCollision(
 			currentLevel,
-            sf::Vector2f(sprite.getPosition().x + 2.f,
-			sprite.getPosition().y
+            sf::Vector2f(sprite.getPosition().x + 24.f, // Bugged col detection
+            sprite.getPosition().y + 6.f
 			)))
 		{
-            sprite.move(1.5f, 0.f);
+            sprite.move(3.f, 0.f);
 		}
 	}
 
