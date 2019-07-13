@@ -106,9 +106,9 @@ public:
 
 		case 1: {
 			
-			brickTexture.loadFromFile(Utilities::getResourcePath() + "Textures//brick.png");
+            brickTexture.loadFromFile(Utilities::getResourcePath() + "Textures//Brick.png");
 			
-			levelBackgroundTexture.loadFromFile(Utilities::getResourcePath() + "Textures//Lvl1Bckrnd.png");
+            levelBackgroundTexture.loadFromFile(Utilities::getResourcePath() + "Textures//Background1.png");
 			levelBackgroundTexture.setRepeated(true);
 			levelBackground.setTexture(levelBackgroundTexture);
 			

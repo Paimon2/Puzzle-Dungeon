@@ -92,7 +92,7 @@ inline void GameInstance::checkEventsOnce()
 
 		switch (event.type) {
 
-        break; case sf::Event::Closed: {
+        case sf::Event::Closed: {
 			gameWindow.close();
             break;
 		}

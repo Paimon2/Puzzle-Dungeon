@@ -67,39 +67,40 @@ MainMenu::MainMenu() {
 	textFont.loadFromFile(resourcePath() + "Fonts//Robotronica.ttf");
 #else
 	buttonTexture.loadFromFile("GUI//PauseMenuButton.png");
-    gameLogoTexture.loadFromFile("GUI//GameLogo.png");
+    gameLogoTexture.loadFromFile("Textures//PuzzleDungeon.png");
 	textFont.loadFromFile("Fonts//Robotronica.ttf");
 #endif
 	hasPreviousSave = false;
 	isInMainMenu = true;
 	
     //blurShader.setUniform("texture", sf::Shader::CurrentTexture);
-    gameLogo.setTexture(buttonTexture);
+    gameLogo.setTexture(gameLogoTexture);
+    gameLogo.setPosition(220, 30);
 
-    continueGameButton.buttonSprite.setPosition(80, 200);
+    continueGameButton.buttonSprite.setPosition(80, 250);
     continueGameButton.buttonSprite.setTexture(buttonTexture);
 	continueGameButton.text.setFont(textFont);
-	continueGameButton.text.setString("Continue game");
+    continueGameButton.text.setString(" Continue game");
 	
 
 	//newGameButton.setCallback([this](){isGamePaused = !isGamePaused; });
 
 
-    newGameButton.buttonSprite.setPosition(80, 300);
+    newGameButton.buttonSprite.setPosition(80, 350);
     newGameButton.buttonSprite.setTexture(buttonTexture);
 	newGameButton.text.setFont(textFont);
-	newGameButton.text.setString(" New game");
+    newGameButton.text.setString("   New game");
 
-    settingsButton.buttonSprite.setPosition(80, 400);
+    settingsButton.buttonSprite.setPosition(80, 450);
     settingsButton.buttonSprite.setTexture(buttonTexture);
     settingsButton.text.setFont(textFont);
-	settingsButton.text.setString("  Settings");
+    settingsButton.text.setString("    Credits");
 
-    helpAboutButton.buttonSprite.setPosition(80, 500);
+    helpAboutButton.buttonSprite.setPosition(80, 550);
     helpAboutButton.buttonSprite.setTexture(buttonTexture);
 	helpAboutButton.text.setFont(textFont);
-	helpAboutButton.text.setString("  Help/About");
-
+    helpAboutButton.text.setString("Quit to desktop");
+    helpAboutButton.setCallback([](){ exit(0); });
 
 	rect.setFillColor(sf::Color(32, 32, 32, 200));
 }
@@ -119,7 +120,7 @@ inline void MainMenu::draw(sf::RenderWindow &window){
 	rect.setSize(sf::Vector2f(window.getSize()));
 	window.draw(rect);
 
-
+    window.draw(gameLogo);
     continueGameButton.draw(window);
     newGameButton.draw(window);
     settingsButton.draw(window);
