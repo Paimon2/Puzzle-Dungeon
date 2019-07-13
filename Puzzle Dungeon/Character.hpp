@@ -16,6 +16,13 @@ visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
 #include "Helpers.hpp"
 #include "Level.hpp"
 
+enum CharacterState {
+    Idle = 0,
+    WalkingLeft = 1,
+    WalkingRight = 2,
+    WalkingUp = 3,
+    WalkingDown = 4
+};
 
 class Character { 
 public:
@@ -23,13 +30,60 @@ public:
 	void setTexture(const std::string &texturePath);
 	void checkMovement(Level &currentLevel);
 	void draw(sf::RenderWindow &window, sf::View &view);
-	sf::Sprite sprite;
+    
+    sf::Sprite sprite;
+    // Textures for the character standing still
+	std::vector<sf::Texture> idleTextures;
+    // What is the character doing?
+    CharacterState state;
+    // Let's say we're drawing the 4th out of 12 animation frames currently.
+    // This is where we will store the 4 - the current frame index.
+    int currentFrameIndex;
+    // How many frames have elapsed since we started counting?
+    // TODO: Reset this when it gets to 61.
+    int framesElapsed = 0;
 private:
 	sf::Texture texture;
 };
 
 inline void Character::draw(sf::RenderWindow &window, sf::View &view) {
-	window.draw(sprite);
+    // Reset at 61, otherwise increment.
+	framesElapsed = std::min(61, framesElapsed + 1);
+    // What is the character doing currently?
+    switch(state) {
+        
+        case CharacterState::WalkingUp:
+        {
+            break; // TODO implement
+        }
+        
+        case CharacterState::WalkingDown:
+        {
+            break; // TODO implement
+        }
+        
+        case CharacterState::WalkingLeft:
+        {
+            break; // TODO implement
+        }
+        
+        case CharacterState::WalkingRight:
+        {
+            break; // TODO implement
+        }
+        
+        case CharacterState::Idle:
+        {
+            // The idle animations should be at 9 FPS.
+            int targetFrameIndex = round(framesElapsed / 9);
+            // Set the current sprite's texture to that frame.
+            sprite.setTexture(idleTextures.at(targetFrameIndex));
+            window.draw(sprite);
+        }
+        
+        
+    }
+    
 }
 
 void Character::setPosition(float x, float y) {

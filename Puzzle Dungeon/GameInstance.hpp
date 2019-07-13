@@ -32,6 +32,7 @@ public:
 	void initialize();
 	GameInstance();
 private:
+    sf::Image iconImage;
 	sf::Vector2u previousSize;
 	void checkEventsOnce();
 	void drawLayers();
@@ -58,7 +59,8 @@ GameInstance::GameInstance() :
 						sf::VideoMode::getDesktopMode().height / 2 
 						- gameWindow.getSize().y / 2
 						));
-
+    iconImage.loadFromFile("Textures//PuzzleDungeon.png");
+    gameWindow.setIcon(192, 192, iconImage.getPixelsPtr());
 
 	mainMenu.continueGameButton.setCallback([this]() {
 		currentLevel.loadLevel(gameData.data["progress"]["level"]);
