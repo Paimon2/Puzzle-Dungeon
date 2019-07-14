@@ -18,6 +18,20 @@ visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
 #include "Helpers.hpp"
 #include "Level.hpp"
 
+
+/* Whenever we do collision detection, we look around us for objects
+ * we might potientally collide with. This defines the distance
+ * in units (pixels?) we look for in *almost* each direction ("probe")
+ * before allowing the character to move.
+ *
+ * It seems like each direction should have a different value.
+ * TODO Play around with these values.
+ */
+#define MOVEMENT_PROBE_FACTOR_UP 0.2
+#define MOVEMENT_PROBE_FACTOR_DOWN 30
+#define MOVEMENT_PROBE_FACTOR_LEFT 1
+#define MOVEMENT_PROBE_FACTOR_RIGHT 30
+
 enum CharacterState {
     Idle = 0,
     Walking = 1
@@ -136,54 +150,72 @@ void Character::checkMovement(Level &currentLevel) {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
         if(!Helpers::checkCharacterCollision(
             currentLevel,
-            sf::Vector2f(sprite.getPosition().x - 6.f,
-            sprite.getPosition().y - 3.f)
-            ))
-        {
+            sf::Vector2f(sprite.getPosition().x - 15.f,
+            sprite.getPosition().y - MOVEMENT_PROBE_FACTOR_UP))
+            && !Helpers::checkCharacterCollision(currentLevel,
+                                                 sf::Vector2f(
+                                                 sprite.getPosition().x + 15.f,
+                                                 sprite.getPosition().y - MOVEMENT_PROBE_FACTOR_UP)
+                                                 )) {
             state = CharacterState::Walking;
             sprite.move(0.f, -3.f);
         }
 
     }
 
+
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
         if(!Helpers::checkCharacterCollision(
             currentLevel,
-            sf::Vector2f(sprite.getPosition().x - 3.f,
-            sprite.getPosition().y - 6.f
-            )))
+            sf::Vector2f(sprite.getPosition().x - MOVEMENT_PROBE_FACTOR_LEFT,
+            sprite.getPosition().y - 15.f))
+            && !Helpers::checkCharacterCollision(currentLevel,
+                                                 sf::Vector2f(
+                                                 sprite.getPosition().x - MOVEMENT_PROBE_FACTOR_LEFT,
+                                                 sprite.getPosition().y + 15.f)
+                                                 )) {
+            state = CharacterState::Walking;
         {
             state = CharacterState::Walking;
             sprite.move(-3.f, 0.f);
 
         }
     }
-
+}
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
         if(!Helpers::checkCharacterCollision(
             currentLevel,
-            sf::Vector2f(sprite.getPosition().x + 12.f,
-            sprite.getPosition().y + 6.f
-            )))
+            sf::Vector2f(sprite.getPosition().x - 15.f,
+            sprite.getPosition().y + MOVEMENT_PROBE_FACTOR_DOWN))
+            && !Helpers::checkCharacterCollision(currentLevel,
+                                                 sf::Vector2f(
+                                                 sprite.getPosition().x + 15.f,
+                                                 sprite.getPosition().y + MOVEMENT_PROBE_FACTOR_DOWN)
+                                                 )) {
         {
             state = CharacterState::Walking;
             sprite.move(0.f, 3.f);
 
         }
     }
-
+}
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
         if(!Helpers::checkCharacterCollision(
             currentLevel,
-            sf::Vector2f(sprite.getPosition().x + 24.f, // Bugged col detection
-            sprite.getPosition().y + 6.f
-            )))
+            sf::Vector2f(sprite.getPosition().x + MOVEMENT_PROBE_FACTOR_RIGHT, // Bugged col detection
+            sprite.getPosition().y - 15.f))
+            && !Helpers::checkCharacterCollision(currentLevel,
+                                                 sf::Vector2f(
+                                                 sprite.getPosition().x + MOVEMENT_PROBE_FACTOR_RIGHT,
+                                                 sprite.getPosition().y + 15.f )
+                                                 )) {
         {
             state = CharacterState::Walking;
             sprite.move(3.f, 0.f);
 
         }
     }
+ }
 
 
 }
