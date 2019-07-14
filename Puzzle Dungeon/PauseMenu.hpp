@@ -190,6 +190,8 @@ inline void PauseMenu::checkShouldPause(sf::RenderWindow &window) {
 
     if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
         return;
+
+
 	/* Even though we're not resizing, we call this anyway
 	to create a texture of the current screen contents.
 	*/

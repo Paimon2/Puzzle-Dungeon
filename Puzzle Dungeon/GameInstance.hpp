@@ -98,15 +98,15 @@ inline void GameInstance::checkEventsOnce()
 			gameWindow.close();
             break;
 		}
-        break; case sf::Event::KeyPressed: {
-           // pauseMenu.checkShouldPause(gameWindow);
+         case sf::Event::KeyPressed: {
+           pauseMenu.checkShouldPause(gameWindow);
             break;
 		}
-       break; case sf::Event::TextEntered: {
+        case sf::Event::TextEntered: {
             pauseMenu.checkShouldPause(gameWindow);
             break;
             }
-        break; case sf::Event::Resized: {
+         case sf::Event::Resized: {
 			if (gameWindow.getSize() != previousSize) {
 				pauseMenu.checkShouldDoResizeWork(gameWindow);
 			view = gameWindow.getDefaultView();
@@ -119,8 +119,8 @@ inline void GameInstance::checkEventsOnce()
             break;
 		}
 			
-        break; default: {
-            pauseMenu.checkShouldPause(gameWindow);
+         default: {
+            //pauseMenu.checkShouldPause(gameWindow);
             break;
         }
 			
@@ -146,7 +146,7 @@ inline void GameInstance::drawLayers()
 
 
 	currentLevel.drawTiles(gameWindow, mainCharacter.sprite);
-	mainCharacter.draw(gameWindow, view);
+    mainCharacter.draw(gameWindow, view);
 
 	// 4th layer
 	
@@ -189,6 +189,7 @@ inline void GameInstance::initialize() {
 inline void GameInstance::run() {
 
 	initialize();
+    mainCharacter.load();
 
 	while (gameWindow.isOpen()) {
 		checkEventsOnce();

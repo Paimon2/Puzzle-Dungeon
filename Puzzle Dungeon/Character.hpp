@@ -12,6 +12,8 @@ visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
 
 #include <iostream>
 #include <string.h>
+#include <random>
+
 #include <SFML/Graphics.hpp>
 #include "Helpers.hpp"
 #include "Level.hpp"
@@ -24,16 +26,18 @@ enum CharacterState {
     WalkingDown = 4
 };
 
-class Character { 
+class Character {
 public:
-	void setPosition(float x, float y);
-	void setTexture(const std::string &texturePath);
-	void checkMovement(Level &currentLevel);
-	void draw(sf::RenderWindow &window, sf::View &view);
-    
+    void setPosition(float x, float y);
+    void setTexture(const std::string &texturePath);
+    void checkMovement(Level &currentLevel);
+    void draw(sf::RenderWindow &window, sf::View &view);
+
+    void load();
+
     sf::Sprite sprite;
     // Textures for the character standing still
-	std::vector<sf::Texture> idleTextures;
+    std::vector<sf::Texture> idleTextures;
     // What is the character doing?
     CharacterState state;
     // Let's say we're drawing the 4th out of 12 animation frames currently.
@@ -41,55 +45,74 @@ public:
     int currentFrameIndex;
     // How many frames have elapsed since we started counting?
     // TODO: Reset this when it gets to 61.
-    int framesElapsed = 0;
+    int framesElapsed;
 private:
-	sf::Texture texture;
+    sf::Texture texture;
 };
+
+inline void Character::load() {
+    state =  CharacterState::Idle;
+    framesElapsed = 0;
+    currentFrameIndex = 0;
+    for(int i = 1; i < 28; i++) {
+        sf::Texture textureToPush;
+        textureToPush.loadFromFile("Animations//CharacterIdle//" + std::to_string(i) + ".png");
+        idleTextures.push_back(textureToPush);
+    }
+
+
+
+
+}
 
 inline void Character::draw(sf::RenderWindow &window, sf::View &view) {
     // Reset at 61, otherwise increment.
-	framesElapsed = std::min(61, framesElapsed + 1);
+    std::random_device rd; // obtain a random number from hardware
+    std::mt19937 eng(rd()); // seed the generator
+    std::uniform_int_distribution<> distr(framesElapsed, framesElapsed + 1); // define the range
+
+    framesElapsed = std::min(27, distr(eng));
+    if(framesElapsed == 27){
+    framesElapsed = 0;
+    }
     // What is the character doing currently?
     switch(state) {
-        
+
         case CharacterState::WalkingUp:
         {
             break; // TODO implement
         }
-        
+
         case CharacterState::WalkingDown:
         {
             break; // TODO implement
         }
-        
+
         case CharacterState::WalkingLeft:
         {
             break; // TODO implement
         }
-        
+
         case CharacterState::WalkingRight:
         {
             break; // TODO implement
         }
-        
+
         case CharacterState::Idle:
         {
-            std::cout << "The game will not function; see ln 77 of Character.hpp!";
-            exit(1);
             // The idle animations should be at 9 FPS.
-            int targetFrameIndex = round(framesElapsed / 9);
+          //  int targetFrameIndex = (int)(framesElapsed / 4);
+            //std::cout << framesElapsed << std::endl;
             // Set the current sprite's texture to that frame.
-            sprite.setTexture(idleTextures.at(targetFrameIndex));
+            sprite.setTexture(idleTextures.at(framesElapsed));
             window.draw(sprite);
         }
-        
-        
     }
-    
+
 }
 
 void Character::setPosition(float x, float y) {
-	sprite.setPosition(x, y);
+    sprite.setPosition(x, y);
 }
 
 /*
@@ -97,8 +120,8 @@ void Character::setPosition(float x, float y) {
 * @param texturePath The path to the texture
 */
 void Character::setTexture(const std::string &texturePath) {
-	texture.loadFromFile(texturePath);
-	sprite.setTexture(texture);
+    texture.loadFromFile(texturePath);
+    sprite.setTexture(texture);
 }
 
 /*
@@ -106,56 +129,56 @@ void Character::setTexture(const std::string &texturePath) {
 * @param currentLevel A reference pointer to the current level
 */
 void Character::checkMovement(Level &currentLevel) {
-	/*
-	I opted for this instead of a switch-case statement as it allows
-	multiple keys to be registered at the same time as well as reducing
-	movement lag.
-	- Omar
-	*/
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-		if(!Helpers::checkCharacterCollision(
-			currentLevel,
+    /*
+    I opted for this instead of a switch-case statement as it allows
+    multiple keys to be registered at the same time as well as reducing
+    movement lag.
+    - Omar
+    */
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+        if(!Helpers::checkCharacterCollision(
+            currentLevel,
             sf::Vector2f(sprite.getPosition().x - 6.f,
             sprite.getPosition().y - 3.f)
-			))
-		{
+            ))
+        {
             sprite.move(0.f, -3.f);
-		}
-		
-	}
+        }
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-		if(!Helpers::checkCharacterCollision(
-			currentLevel,
+    }
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+        if(!Helpers::checkCharacterCollision(
+            currentLevel,
             sf::Vector2f(sprite.getPosition().x - 3.f,
             sprite.getPosition().y - 6.f
-			)))
-		{
+            )))
+        {
             sprite.move(-3.f, 0.f);
-		}
-	}
+        }
+    }
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-		if(!Helpers::checkCharacterCollision(
-			currentLevel,
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+        if(!Helpers::checkCharacterCollision(
+            currentLevel,
             sf::Vector2f(sprite.getPosition().x + 12.f,
             sprite.getPosition().y + texture.getSize().y + 6.f
-			)))
-		{
+            )))
+        {
             sprite.move(0.f, 3.f);
-		}
-	}
+        }
+    }
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-		if(!Helpers::checkCharacterCollision(
-			currentLevel,
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+        if(!Helpers::checkCharacterCollision(
+            currentLevel,
             sf::Vector2f(sprite.getPosition().x + 24.f, // Bugged col detection
             sprite.getPosition().y + 6.f
-			)))
-		{
+            )))
+        {
             sprite.move(3.f, 0.f);
-		}
-	}
+        }
+    }
 
 
 }
