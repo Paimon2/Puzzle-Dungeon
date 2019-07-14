@@ -20,10 +20,7 @@ visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
 
 enum CharacterState {
     Idle = 0,
-    WalkingLeft = 1,
-    WalkingRight = 2,
-    WalkingUp = 3,
-    WalkingDown = 4
+    Walking = 1
 };
 
 class Character {
@@ -38,6 +35,8 @@ public:
     sf::Sprite sprite;
     // Textures for the character standing still
     std::vector<sf::Texture> idleTextures;
+    // Textures for the character walking (obviously)
+    std::vector<sf::Texture> walkingTextures;
     // What is the character doing?
     CharacterState state;
     // Let's say we're drawing the 4th out of 28 animation frames currently.
@@ -54,52 +53,51 @@ inline void Character::load() {
     state =  CharacterState::Idle;
     framesElapsed = 0;
     currentFrameIndex = 0;
+    // Load idle textures
     for(int i = 1; i < 29; i++) {
         sf::Texture textureToPush;
-        textureToPush.loadFromFile("Animations//CharacterIdle//" + std::to_string(i) + ".png");
+        textureToPush.loadFromFile("Animations//CharacterIdle//"
+                                   + std::to_string(i) + ".png");
         idleTextures.push_back(textureToPush);
     }
-
-
+    // Load walking textures
+    for(int i = 1; i < 8; i++) {
+        sf::Texture textureToPush;
+        textureToPush.loadFromFile("Animations//CharacterWalk//"
+                                   + std::to_string(i) + ".png");
+        walkingTextures.push_back(textureToPush);
+    }
 
 
 }
 
 inline void Character::draw(sf::RenderWindow &window, sf::View &view) {
-    // Reset at 61, otherwise increment.
-    std::random_device rd; // obtain a random number from hardware
-    std::mt19937 eng(rd()); // seed the generator
-    std::uniform_int_distribution<> distr(framesElapsed, framesElapsed + 1); // define the range
 
-    framesElapsed = std::min(84, framesElapsed + 1);
-    if(framesElapsed == 84){
-    framesElapsed = 0;
-    }
     // What is the character doing currently?
     switch(state) {
 
-        case CharacterState::WalkingUp:
+        case CharacterState::Walking:
         {
-            break; // TODO implement
-        }
-
-        case CharacterState::WalkingDown:
-        {
-            break; // TODO implement
-        }
-
-        case CharacterState::WalkingLeft:
-        {
-            break; // TODO implement
-        }
-
-        case CharacterState::WalkingRight:
-        {
-            break; // TODO implement
+        framesElapsed = std::min(14, framesElapsed + 1);
+        if(framesElapsed == 14)
+            framesElapsed = 0;
+        std::cout << framesElapsed << std::endl;
+        sprite.setTexture(walkingTextures.at(framesElapsed / 2));
+        window.draw(sprite);
+        break;
         }
 
         case CharacterState::Idle:
         {
+            // Reset at 84, otherwise increment.
+            std::random_device rd; // obtain a random number from hardware
+            std::mt19937 eng(rd()); // seed the generator
+            std::uniform_int_distribution<> distr(framesElapsed, framesElapsed + 1); // define the range
+
+            framesElapsed = std::min(84, framesElapsed + 1);
+            if(framesElapsed == 84) {
+                framesElapsed = 0;
+            }
             // The idle animations should be at 9 FPS.
           //  int targetFrameIndex = (int)(framesElapsed / 4);
             //std::cout << framesElapsed << std::endl;
@@ -134,6 +132,10 @@ void Character::checkMovement(Level &currentLevel) {
     movement lag.
     - Omar
     */
+    // Reset back if no movement detected
+    state = CharacterState::Idle;
+
+
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
         if(!Helpers::checkCharacterCollision(
             currentLevel,
@@ -141,6 +143,7 @@ void Character::checkMovement(Level &currentLevel) {
             sprite.getPosition().y - 3.f)
             ))
         {
+            state = CharacterState::Walking;
             sprite.move(0.f, -3.f);
         }
 
@@ -153,7 +156,9 @@ void Character::checkMovement(Level &currentLevel) {
             sprite.getPosition().y - 6.f
             )))
         {
+            state = CharacterState::Walking;
             sprite.move(-3.f, 0.f);
+
         }
     }
 
@@ -164,7 +169,9 @@ void Character::checkMovement(Level &currentLevel) {
             sprite.getPosition().y + 6.f
             )))
         {
+            state = CharacterState::Walking;
             sprite.move(0.f, 3.f);
+
         }
     }
 
@@ -175,7 +182,9 @@ void Character::checkMovement(Level &currentLevel) {
             sprite.getPosition().y + 6.f
             )))
         {
+            state = CharacterState::Walking;
             sprite.move(3.f, 0.f);
+
         }
     }
 

@@ -96,15 +96,15 @@ inline void GameInstance::checkEventsOnce()
 
         case sf::Event::Closed: {
             gameWindow.close();
-            break;
+            //break;
         }
          case sf::Event::KeyPressed: {
            pauseMenu.checkShouldPause(gameWindow);
-            break;
+            //break;
         }
         case sf::Event::TextEntered: {
             //pauseMenu.checkShouldPause(gameWindow);
-            break;
+            //break;
             }
          case sf::Event::Resized: {
             if (gameWindow.getSize() != previousSize) {
@@ -116,7 +116,7 @@ inline void GameInstance::checkEventsOnce()
                         );
             gameWindow.setView(view);
             }
-            break;
+            //break;
         }
 
          default: {
