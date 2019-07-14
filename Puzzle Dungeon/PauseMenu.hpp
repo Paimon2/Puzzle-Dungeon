@@ -38,7 +38,7 @@ public:
 	\endcode
 	@param key The key code. If ESC is pressed, the status will be toggled.
 	*/
-    void checkShouldPause(sf::RenderWindow &window, sf::Keyboard::Key key);
+    void checkShouldPause(sf::RenderWindow &window);
 
 	/*
 	@brief Draw the paused menu.
@@ -186,11 +186,10 @@ inline void PauseMenu::checkShouldDoResizeWork(sf::RenderWindow &window) {
 }
 
 
-inline void PauseMenu::checkShouldPause(sf::RenderWindow &window, sf::Keyboard::Key key) {
+inline void PauseMenu::checkShouldPause(sf::RenderWindow &window) {
 
-    if (key != sf::Keyboard::Escape)
+    if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
             return;
-
 
 	/* Even though we're not resizing, we call this anyway
 	to create a texture of the current screen contents.

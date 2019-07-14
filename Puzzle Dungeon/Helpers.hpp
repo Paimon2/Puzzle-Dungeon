@@ -13,7 +13,7 @@ visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
 #include <vector>
 #include "SFML/Graphics.hpp"
 #include "Level.hpp"
-#include "tile.hpp"
+#include "Tile.hpp"
 
 #ifdef MACOS
 #include "MacTools/ResourcePath.hpp"

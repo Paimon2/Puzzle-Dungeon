@@ -27,10 +27,10 @@ visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
  * It seems like each direction should have a different value.
  * TODO Play around with these values.
  */
-#define MOVEMENT_PROBE_FACTOR_UP 0.2
+#define MOVEMENT_PROBE_FACTOR_UP 0.01
 #define MOVEMENT_PROBE_FACTOR_DOWN 30
-#define MOVEMENT_PROBE_FACTOR_LEFT 1
-#define MOVEMENT_PROBE_FACTOR_RIGHT 30
+#define MOVEMENT_PROBE_FACTOR_LEFT 0.01
+#define MOVEMENT_PROBE_FACTOR_RIGHT 0.01
 
 enum CharacterState {
     Idle = 0,

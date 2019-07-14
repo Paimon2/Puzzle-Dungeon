@@ -12,7 +12,7 @@ visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
 
 #include <vector>
 #include <SFML/Graphics.hpp>
-#include "tile.hpp"
+#include "Tile.hpp"
 
 
 class Level {
@@ -36,6 +36,14 @@ public:
 	}
 
 	inline void genLevel(int levelNumber) {
+
+
+        Tile toPush;
+        toPush.type = TileType::Normal;
+        toPush.tilesprite.setPosition(630, 500);
+        toPush.usesPhysics = true;
+        toPush.tilesprite.setTexture(brickTexture);
+        tiles.push_back(toPush);
 
 		// Initial RHS/right-hand-side top side of wall
 		for (int i = 0; i < 17; i++) {
@@ -130,11 +138,15 @@ public:
 
 	inline void drawTiles(sf::RenderWindow &window, sf::Sprite &characterSprite) {
 		window.draw(levelBackground);
-        for (Tile &tile : tiles) {
-			tile.checkMouseOver(window);
-			tile.draw(window, characterSprite);
-			tile.checkIntersect(characterSprite, tiles);
-		}
+        for(Tile tile : tiles) {
+            /* WARNING!
+             * Having checkIntersect() here could have
+             * unintended consequences that may potientally
+             * break very important physics functionality.
+             */
+            tile.checkIntersect(characterSprite, tiles);
+            tile.draw(window, characterSprite);
+        }
 	}
 	
 };
