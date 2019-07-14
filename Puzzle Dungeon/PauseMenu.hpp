@@ -38,7 +38,7 @@ public:
 	\endcode
 	@param key The key code. If ESC is pressed, the status will be toggled.
 	*/
-    void checkShouldPause(sf::RenderWindow &window);
+    void checkShouldPause(sf::RenderWindow &window, sf::Keyboard::Key key);
 
 	/*
 	@brief Draw the paused menu.
@@ -49,7 +49,7 @@ public:
 	*/
 	void draw(sf::RenderWindow &window);
 
-	void checkShouldDoResizeWork(sf::RenderWindow &window);
+    void checkShouldDoResizeWork(sf::RenderWindow &window);
 
 	PauseMenu();
 	
@@ -186,10 +186,10 @@ inline void PauseMenu::checkShouldDoResizeWork(sf::RenderWindow &window) {
 }
 
 
-inline void PauseMenu::checkShouldPause(sf::RenderWindow &window) {
+inline void PauseMenu::checkShouldPause(sf::RenderWindow &window, sf::Keyboard::Key key) {
 
-    if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-        return;
+    if (key != sf::Keyboard::Escape)
+            return;
 
 
 	/* Even though we're not resizing, we call this anyway

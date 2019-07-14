@@ -98,8 +98,8 @@ inline void GameInstance::checkEventsOnce()
                 gameWindow.close();
                 break;
             }
-             case sf::Event::KeyPressed: {
-               pauseMenu.checkShouldPause(gameWindow);
+             case sf::Event::KeyReleased: {
+               pauseMenu.checkShouldPause(gameWindow, event.key.code);
                 break;
             }
             case sf::Event::TextEntered: {
@@ -119,7 +119,7 @@ inline void GameInstance::checkEventsOnce()
             }
 
              default: {
-                pauseMenu.checkShouldPause(gameWindow);
+                //pauseMenu.checkShouldPause(gameWindow);
                 break;
             }
         }
