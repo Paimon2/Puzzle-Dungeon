@@ -54,7 +54,7 @@ inline void Character::load() {
     state =  CharacterState::Idle;
     framesElapsed = 0;
     currentFrameIndex = 0;
-    for(int i = 1; i < 84; i++) {
+    for(int i = 1; i < 29; i++) {
         sf::Texture textureToPush;
         textureToPush.loadFromFile("Animations//CharacterIdle//" + std::to_string(i) + ".png");
         idleTextures.push_back(textureToPush);

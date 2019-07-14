@@ -103,7 +103,7 @@ inline void GameInstance::checkEventsOnce()
             break;
         }
         case sf::Event::TextEntered: {
-            pauseMenu.checkShouldPause(gameWindow);
+            //pauseMenu.checkShouldPause(gameWindow);
             break;
             }
          case sf::Event::Resized: {
@@ -120,7 +120,7 @@ inline void GameInstance::checkEventsOnce()
         }
 
          default: {
-            //pauseMenu.checkShouldPause(gameWindow);
+            pauseMenu.checkShouldPause(gameWindow);
             break;
         }
 
