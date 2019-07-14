@@ -46,7 +46,6 @@ public:
     // Why? Because number_of_frames * 3 = 84
     // This gives us an animation 3x as long.
     int framesElapsed;
-    int p = 0;
 };
 
 inline void Character::load() {
@@ -80,7 +79,6 @@ inline void Character::draw(sf::RenderWindow &window, sf::View &view) {
         framesElapsed = std::min(14, framesElapsed + 1);
         if(framesElapsed == 14)
             framesElapsed = 0;
-        std::cout << framesElapsed << std::endl;
         sprite.setTexture(walkingTextures.at(framesElapsed / 2));
         window.draw(sprite);
         break;
