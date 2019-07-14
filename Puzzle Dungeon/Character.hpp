@@ -40,21 +40,21 @@ public:
     std::vector<sf::Texture> idleTextures;
     // What is the character doing?
     CharacterState state;
-    // Let's say we're drawing the 4th out of 12 animation frames currently.
+    // Let's say we're drawing the 4th out of 28 animation frames currently.
     // This is where we will store the 4 - the current frame index.
     int currentFrameIndex;
     // How many frames have elapsed since we started counting?
-    // TODO: Reset this when it gets to 61.
+    // TODO: Reset this when it gets to 84.
+    // Why? Because number_of_frames * 3 = 84
+    // This gives us an animation 3x as long.
     int framesElapsed;
-private:
-    sf::Texture texture;
 };
 
 inline void Character::load() {
     state =  CharacterState::Idle;
     framesElapsed = 0;
     currentFrameIndex = 0;
-    for(int i = 1; i < 28; i++) {
+    for(int i = 1; i < 84; i++) {
         sf::Texture textureToPush;
         textureToPush.loadFromFile("Animations//CharacterIdle//" + std::to_string(i) + ".png");
         idleTextures.push_back(textureToPush);
@@ -71,8 +71,8 @@ inline void Character::draw(sf::RenderWindow &window, sf::View &view) {
     std::mt19937 eng(rd()); // seed the generator
     std::uniform_int_distribution<> distr(framesElapsed, framesElapsed + 1); // define the range
 
-    framesElapsed = std::min(27, distr(eng));
-    if(framesElapsed == 27){
+    framesElapsed = std::min(84, framesElapsed + 1);
+    if(framesElapsed == 84){
     framesElapsed = 0;
     }
     // What is the character doing currently?
@@ -104,7 +104,7 @@ inline void Character::draw(sf::RenderWindow &window, sf::View &view) {
           //  int targetFrameIndex = (int)(framesElapsed / 4);
             //std::cout << framesElapsed << std::endl;
             // Set the current sprite's texture to that frame.
-            sprite.setTexture(idleTextures.at(framesElapsed));
+            sprite.setTexture(idleTextures.at(framesElapsed / 3));
             window.draw(sprite);
         }
     }
@@ -120,8 +120,7 @@ void Character::setPosition(float x, float y) {
 * @param texturePath The path to the texture
 */
 void Character::setTexture(const std::string &texturePath) {
-    texture.loadFromFile(texturePath);
-    sprite.setTexture(texture);
+    std::cerr << "Function deprecated and inoperative!" << std::endl;
 }
 
 /*
@@ -162,7 +161,7 @@ void Character::checkMovement(Level &currentLevel) {
         if(!Helpers::checkCharacterCollision(
             currentLevel,
             sf::Vector2f(sprite.getPosition().x + 12.f,
-            sprite.getPosition().y + texture.getSize().y + 6.f
+            sprite.getPosition().y + 6.f
             )))
         {
             sprite.move(0.f, 3.f);
