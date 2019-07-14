@@ -41,18 +41,17 @@ public:
     CharacterState state;
     // Let's say we're drawing the 4th out of 28 animation frames currently.
     // This is where we will store the 4 - the current frame index.
-    int currentFrameIndex;
     // How many frames have elapsed since we started counting?
     // TODO: Reset this when it gets to 84.
     // Why? Because number_of_frames * 3 = 84
     // This gives us an animation 3x as long.
     int framesElapsed;
+    int p = 0;
 };
 
 inline void Character::load() {
     state =  CharacterState::Idle;
     framesElapsed = 0;
-    currentFrameIndex = 0;
     // Load idle textures
     for(int i = 1; i < 29; i++) {
         sf::Texture textureToPush;

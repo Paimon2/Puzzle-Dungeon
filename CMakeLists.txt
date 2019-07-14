@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.0)
 
 
 project(Puzzle-Dungeon)
-add_compile_options(-m64 -std=c++11)
+add_compile_options(-m64 -std=c++17)
 
 set(EXECUTABLE_OUTPUT_PATH
     ${Puzzle-Dungeon_SOURCE_DIR}/Binaries)

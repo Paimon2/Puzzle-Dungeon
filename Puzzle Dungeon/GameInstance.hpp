@@ -83,47 +83,45 @@ Use in a loop to check repeatedly.
 */
 inline void GameInstance::checkEventsOnce()
 {
-        // First check for game logic events
-        if (!pauseMenu.isPaused())
-            mainCharacter.checkMovement(currentLevel);
+    // First check for game logic events
+            if (!pauseMenu.isPaused())
+                mainCharacter.checkMovement(currentLevel);
 
-        // Then check for SFML events
-        sf::Event event;
-        gameWindow.pollEvent(event);
+            // Then check for SFML events
+            sf::Event event;
+            gameWindow.pollEvent(event);
 
 
-        switch (event.type) {
+            switch (event.type) {
 
-        case sf::Event::Closed: {
-            gameWindow.close();
-            //break;
-        }
-         case sf::Event::KeyPressed: {
-           pauseMenu.checkShouldPause(gameWindow);
-            //break;
-        }
-        case sf::Event::TextEntered: {
-            //pauseMenu.checkShouldPause(gameWindow);
-            //break;
+            case sf::Event::Closed: {
+                gameWindow.close();
+                break;
             }
-         case sf::Event::Resized: {
-            if (gameWindow.getSize() != previousSize) {
-                pauseMenu.checkShouldDoResizeWork(gameWindow);
-            view = gameWindow.getDefaultView();
-            view.setSize(
-                        static_cast<float>(gameWindow.getSize().x),
-                        static_cast<float>(gameWindow.getSize().y)
-                        );
-            gameWindow.setView(view);
+             case sf::Event::KeyPressed: {
+               pauseMenu.checkShouldPause(gameWindow);
+                break;
             }
-            //break;
-        }
+            case sf::Event::TextEntered: {
+                break;
+                }
+             case sf::Event::Resized: {
+                if (gameWindow.getSize() != previousSize) {
+                    pauseMenu.checkShouldDoResizeWork(gameWindow);
+                view = gameWindow.getDefaultView();
+                view.setSize(
+                            static_cast<float>(gameWindow.getSize().x),
+                            static_cast<float>(gameWindow.getSize().y)
+                            );
+                gameWindow.setView(view);
+                }
+                break;
+            }
 
-         default: {
-            pauseMenu.checkShouldPause(gameWindow);
-            break;
-        }
-
+             default: {
+                pauseMenu.checkShouldPause(gameWindow);
+                break;
+            }
         }
 }
 

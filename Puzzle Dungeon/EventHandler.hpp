@@ -31,7 +31,7 @@ public:
 		{
 			/*
 			* TODO: Allow the player to ask a number of questions, as per
-			* the SRS on Google Docs.
+            * the GDD.
 			*/
 			std::this_thread::sleep_for(std::chrono::seconds(rand() % 10 + 7));
 			// Frog jumps out of crack and speaks
