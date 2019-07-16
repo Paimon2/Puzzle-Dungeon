@@ -17,7 +17,11 @@ visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
 
 class Level {
 private:
+    // Base blocks
 	sf::Texture brickTexture;
+    sf::Texture crateTexture;
+
+
 	sf::Texture levelBackgroundTexture;
 	sf::Sprite levelBackground;
 	int levelNum;
@@ -45,24 +49,12 @@ public:
         toPush.tilesprite.setTexture(brickTexture);
         tiles.push_back(toPush);
 
-		// Initial RHS/right-hand-side top side of wall
-		for (int i = 0; i < 17; i++) {
-			// Small gap
-			if (i == 10 || i == 11)
-				continue;
-			Tile toPush;
-			toPush.type = TileType::Normal;
-			toPush.tilesprite.setPosition(1200, i * 47);
-			toPush.tilesprite.setTexture(brickTexture);
-			tiles.push_back(toPush);
-		}
-		
 		// Boundaries for entry
-		for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 8; i++) {
 			Tile toPush;
 			toPush.type = TileType::Normal;
-			toPush.tilesprite.setPosition(i * 47 + 730, 700);
-			toPush.tilesprite.setTexture(brickTexture);
+            toPush.tilesprite.setPosition(700, i * 47 + 430);
+            toPush.tilesprite.setTexture(crateTexture);
 			tiles.push_back(toPush);
 		}
 	}
@@ -115,7 +107,8 @@ public:
 		case 1: {
 			
             brickTexture.loadFromFile(Utilities::getResourcePath() + "Textures//Brick.png");
-			
+            crateTexture.loadFromFile(Utilities::getResourcePath() + "Textures//Crate.png");
+
             levelBackgroundTexture.loadFromFile(Utilities::getResourcePath() + "Textures//Background1.png");
 			levelBackgroundTexture.setRepeated(true);
 			levelBackground.setTexture(levelBackgroundTexture);
@@ -123,28 +116,32 @@ public:
 			float ScaleX = (float)1366 / levelBackgroundTexture.getSize().x;
 			float ScaleY = (float)818 / levelBackgroundTexture.getSize().y;    
 
-			levelBackground.setScale(ScaleX, ScaleY);      
+            levelBackground.setScale(ScaleX, ScaleY);
 
-			tiles.clear();
-			genLevel(levelNumber);
-			generateBorders();
-			
-		}
+            tiles.clear();
+            genLevel(levelNumber);
+            generateBorders();
 
-		}
+        }
+
+        }
 
 
-	}
+    }
 
-	inline void drawTiles(sf::RenderWindow &window, sf::Sprite &characterSprite) {
-		window.draw(levelBackground);
-        for(Tile tile : tiles) {
+    inline void drawTiles(sf::RenderWindow &window, sf::Sprite &characterSprite) {
+        window.draw(levelBackground);
+        for(Tile &tile : tiles) {
             /* WARNING!
              * Having checkIntersect() here could have
              * unintended consequences that may potientally
              * break very important physics functionality.
              */
             tile.checkIntersect(characterSprite, tiles);
+
+        }
+        for(Tile tile : tiles){
+
             tile.draw(window, characterSprite);
         }
 	}

@@ -27,16 +27,18 @@ public:
 };
 
 inline void GameData::load() {
-	std::ifstream i(Utilities::getResourcePath() + "GameData.json");
-	if (!i.is_open())
-		return;
+    std::ifstream i("GameData.json");
+    if (!i.is_open()) {
+        generateInitialGameData();
+        save();
+    }
 	i >> data;
 }
 
 inline void GameData::generateInitialGameData()
 {
 
-	data["progress"]["level"] = 0;
+    data["level"] = 1;
 
 	// Video settings
 	data["settings"]["max_fps"] = 60;

@@ -43,7 +43,7 @@ public:
     void setTexture(const std::string &texturePath);
     void checkMovement(Level &currentLevel);
     void draw(sf::RenderWindow &window, sf::View &view);
-
+    void checkShouldReset(sf::RenderWindow &gameWindow);
     void load();
 
     sf::Sprite sprite;
@@ -129,7 +129,7 @@ void Character::setPosition(float x, float y) {
 * @param texturePath The path to the texture
 */
 void Character::setTexture(const std::string &texturePath) {
-    std::cerr << "Function deprecated and inoperative!" << std::endl;
+    std::cerr << "[character::setTexture()] [WARN] Function deprecated and inoperative!" << std::endl;
 }
 
 /*
@@ -220,5 +220,12 @@ void Character::checkMovement(Level &currentLevel) {
 
 }
 
-
+inline void Character::checkShouldReset(sf::RenderWindow &gameWindow) {
+    // If Shift + R is pressed, reset the character.
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::R)
+       && (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)
+           || sf::Keyboard::isKeyPressed(sf::Keyboard::RShift))) {
+        sprite.setPosition(gameWindow.getSize().x - 50, gameWindow.getSize().y / 2);
+    }
+}
 #endif

@@ -63,15 +63,14 @@ GameInstance::GameInstance() :
     gameWindow.setIcon(192, 192, iconImage.getPixelsPtr());
 
     mainMenu.continueGameButton.setCallback([this]() {
-        currentLevel.loadLevel(gameData.data["progress"]["level"]);
+        currentLevel.loadLevel(gameData.data["level"]);
         mainMenu.isInMainMenu = false;
         currentLevel.scaleEverything(gameWindow.getSize());
         });
 
     mainMenu.newGameButton.setCallback([this]() {
-        gameData.data["progress"]["level"] = 1;
         gameData.save();
-        currentLevel.loadLevel(gameData.data["progress"]["level"]);
+        currentLevel.loadLevel(gameData.data["level"]);
         mainMenu.isInMainMenu = false;
         currentLevel.scaleEverything(gameWindow.getSize());
     });
@@ -102,7 +101,6 @@ inline void GameInstance::checkEventsOnce()
                 break;
             }
             case sf::Event::TextEntered: {
-               // pauseMenu.checkShouldPause(gameWindow, event.key.code);
                 break;
                 }
              case sf::Event::Resized: {
@@ -120,6 +118,7 @@ inline void GameInstance::checkEventsOnce()
 
              default: {
                 pauseMenu.checkShouldPause(gameWindow);
+                mainCharacter.checkShouldReset(gameWindow);
                 break;
             }
         }
@@ -166,9 +165,8 @@ inline void GameInstance::initialize() {
 
 
     try {
-        auto level = gameData.data["progress"]["level"];
-
-        if (!level) /*level == 0*/
+        auto level = gameData.data["level"];
+        if (level == nullptr || level < 2)
             mainMenu.setPreviousSave(false);
     }
 
