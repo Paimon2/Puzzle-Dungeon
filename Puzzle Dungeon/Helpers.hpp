@@ -33,6 +33,9 @@ namespace Helpers {
 	bool checkCharacterCollision(Level &currentLevel, sf::Vector2f coords){
 		// Iterate over all tiles, and tell us if we have a collision with any
 		for(Tile &tile : currentLevel.tiles) {
+			if(tile.usesPhysics)
+				continue;
+
 			if (tile.tilesprite.getGlobalBounds().contains(coords)) {
 				return true;
 			}	

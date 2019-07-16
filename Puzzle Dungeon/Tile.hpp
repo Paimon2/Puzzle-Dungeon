@@ -35,7 +35,7 @@ public:
     void draw(sf::RenderWindow& window, sf::Sprite& characterSprite);
     void checkMouseOver(sf::RenderWindow& window);
     TileType type;
-
+    std::function<void()> clickCallback;
     /*
     *** SPECIAL CONDITIONAL MEMBERS ***
     */
@@ -104,7 +104,12 @@ void Tile::draw(sf::RenderWindow& window, sf::Sprite& characterSprite) {
 
         if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
         {
-            // todo register click
+            try {
+                 clickCallback();
+            }
+           catch(std::bad_function_call){
+               std::cerr << "[CRITICAL] Bad function call to Tile (clickCallback())" << std::endl;
+           }
         }
 
         clickOnMeMessageText.setString("Click to interact");
@@ -229,15 +234,15 @@ void Tile::checkIntersect(sf::Sprite spriteTwo, std::vector<Tile> &tileList) {
                 float yAxisDistance = tilesprite.getPosition().y - spriteTwo.getPosition().y;
 
                 if (xAxisDistance > 0)
-                    directionalVelocities[2] = xAxisDistance / 12;
+                    directionalVelocities[2] = xAxisDistance / 8;
                 else
-                    directionalVelocities[0] = fabsf(xAxisDistance / 6);
+                    directionalVelocities[0] = fabsf(xAxisDistance / 5);
 
 
                 if (yAxisDistance > 0)
-                    directionalVelocities[1] = yAxisDistance / 24;
+                    directionalVelocities[1] = yAxisDistance / 8;
                 else
-                    directionalVelocities[3] = fabsf(yAxisDistance / 12);
+                    directionalVelocities[3] = fabsf(yAxisDistance / 5);
 
 
 }
@@ -247,10 +252,8 @@ inline void Tile::checkMouseOver(sf::RenderWindow &window)
     /* If we're not an object on the floor, don't
     * bother doing all these calculations.
     */
-    if (type != TileType::Viewable)
+   if(type != TileType::Viewable && type != TileType::CustomCodeOnInteraction)
         return;
-
-
 
     /* Detect if the cursor is intersecting the tile.
     * Note: The cursor has a size of exactly 1x1 pixels.

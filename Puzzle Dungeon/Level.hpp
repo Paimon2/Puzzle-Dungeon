@@ -18,9 +18,20 @@ visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
 class Level {
 private:
     // Base blocks
-	sf::Texture brickTexture;
+    sf::Texture brickTexture;
     sf::Texture crateTexture;
+    sf::Texture frogTexture;
+    sf::Texture pressurePlateTexture;
+    sf::Texture rockTexture;
+    sf::Texture leftDoorTexture;
+    sf::Texture rightDoorTexture;
 
+
+    // Used throughout different levels
+    Tile frogSprite;
+    // Doors
+    Tile leftDoor;
+    Tile rightDoor;
 
 	sf::Texture levelBackgroundTexture;
 	sf::Sprite levelBackground;
@@ -41,27 +52,59 @@ public:
 
 	inline void genLevel(int levelNumber) {
 
+        Tile leftDoor;
+        leftDoor.type = TileType::CustomCodeOnInteraction;
+       // leftDoor.clickCallback = [](){ showNextLevel(); };
+        leftDoor.tilesprite.setPosition(10, 380);
+        leftDoor.tilesprite.setTexture(leftDoorTexture);
+        tiles.push_back(leftDoor);
+        
+        Tile rightDoor;
+        rightDoor.type = TileType::Normal;
+        // rightDoor.clickCallback = [](){ showPreviousLevel(); (will we?) };
+        rightDoor.tilesprite.setPosition(1320, 380);
+        rightDoor.tilesprite.setTexture(rightDoorTexture);
+        tiles.push_back(rightDoor);
 
-        Tile toPush;
-        toPush.type = TileType::Normal;
-        toPush.tilesprite.setPosition(630, 500);
-        toPush.usesPhysics = true;
-        toPush.tilesprite.setTexture(brickTexture);
-        tiles.push_back(toPush);
+        switch(levelNumber) {
 
-		// Boundaries for entry
-        for (int i = 0; i < 8; i++) {
-			Tile toPush;
-			toPush.type = TileType::Normal;
-            toPush.tilesprite.setPosition(700, i * 47 + 430);
-            toPush.tilesprite.setTexture(crateTexture);
-			tiles.push_back(toPush);
-		}
-	}
+        case 1: {
+
+            Tile toPush;
+            toPush.type = TileType::Normal;
+            toPush.tilesprite.setPosition(530, 500);
+            toPush.tilesprite.setTexture(pressurePlateTexture);
+            tiles.push_back(toPush);
+
+            Tile rockSprite;
+            rockSprite.type = TileType::Normal;
+            rockSprite.tilesprite.setPosition(930, 500);
+            rockSprite.usesPhysics = true;
+            rockSprite.tilesprite.setTexture(rockTexture);
+            tiles.push_back(rockSprite);
+
+            
+            frogSprite.type = TileType::Normal;
+            frogSprite.tilesprite.setPosition(930, 700);
+            frogSprite.tilesprite.setTexture(frogTexture);
+            tiles.push_back(frogSprite);
+
+            // Boundaries for entry
+            for (int i = 0; i < 8; i++) {
+                Tile toPush;
+                toPush.type = TileType::Normal;
+                toPush.tilesprite.setPosition(700, i * 47 + 430);
+                toPush.tilesprite.setTexture(crateTexture);
+                tiles.push_back(toPush);
+            }
+            break;
+                }
+
+            }
+
+    }
 
 	inline void generateBorders(sf::Vector2u windowSize = sf::Vector2u(1024, 818)) {
-
-		
 
         // Top: left-right
         for (int i = 0; i < windowSize.x / 45; i++) {
@@ -106,8 +149,18 @@ public:
 
 		case 1: {
 			
+            
+            leftDoorTexture.loadFromFile(Utilities::getResourcePath() + "Textures//DoorLeft.png");
+            rightDoorTexture.loadFromFile(Utilities::getResourcePath() + "Textures//DoorRight.png");
+
+
             brickTexture.loadFromFile(Utilities::getResourcePath() + "Textures//Brick.png");
             crateTexture.loadFromFile(Utilities::getResourcePath() + "Textures//Crate.png");
+            frogTexture.loadFromFile(Utilities::getResourcePath() + "Textures//Frog.png");
+            rockTexture.loadFromFile(Utilities::getResourcePath() + "Textures//Rock2.png");
+
+
+            pressurePlateTexture.loadFromFile(Utilities::getResourcePath() + "Textures//PressurePlate.png");
 
             levelBackgroundTexture.loadFromFile(Utilities::getResourcePath() + "Textures//Background1.png");
 			levelBackgroundTexture.setRepeated(true);
@@ -138,7 +191,7 @@ public:
              * break very important physics functionality.
              */
             tile.checkIntersect(characterSprite, tiles);
-
+            tile.checkMouseOver(window);
         }
         for(Tile tile : tiles){
 
