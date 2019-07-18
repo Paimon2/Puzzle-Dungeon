@@ -233,16 +233,11 @@ void Tile::checkIntersect(sf::Sprite spriteTwo, std::vector<Tile> &tileList) {
                 float xAxisDistance = spriteTwo.getPosition().x - tilesprite.getPosition().x;
                 float yAxisDistance = tilesprite.getPosition().y - spriteTwo.getPosition().y;
 
-                if (xAxisDistance > 0)
-                    directionalVelocities[2] = xAxisDistance / 8;
-                else
-                    directionalVelocities[0] = fabsf(xAxisDistance / 5);
 
-
-                if (yAxisDistance > 0)
-                    directionalVelocities[1] = yAxisDistance / 8;
-                else
-                    directionalVelocities[3] = fabsf(yAxisDistance / 5);
+                  directionalVelocities[4] = xAxisDistance / 8;
+                  directionalVelocities[0] = -xAxisDistance / 8;
+                  directionalVelocities[1] = xAxisDistance / 8;
+                  directionalVelocities[2] = fabsf(xAxisDistance / 5);
 
 
 }
