@@ -105,7 +105,7 @@ public:
 
       		Tile pPlate; 
       		pPlate.type = TileType::PressurePlate;
-      		pPlate.tilesprite.setPosition(683, 400);
+      		pPlate.tilesprite.setPosition(683, 400); // FIRST PRESSURE PLATE - MOVES firstMoveCrate;
       		pPlate.tilesprite.setTexture(pressurePlateTexture);
       		tiles.push_back(pPlate);
 
@@ -129,7 +129,7 @@ public:
       						Tile crate;
       						crate.type = TileType::Normal;
       						crate.tilesprite.setTexture(crateTexture);
-      						crate.tilesprite.setPosition(660 + bord * 65, 100);
+      						crate.tilesprite.setPosition(660 + bord * 65, 100); // FIRST LINE OF BOX OF CRATES 
       						tiles.push_back(crate);
       					}
       					break;
@@ -138,37 +138,52 @@ public:
       						Tile crate;
       						crate.type = TileType::Normal;
       						crate.tilesprite.setTexture(crateTexture);
-      						crate.tilesprite.setPosition(660 + midrow * 130, 165); // SECOND ROW POSITIONS
+      						crate.tilesprite.setPosition(660 + midrow * 130, 165); // SECOND ROW POSITIONS 
       						tiles.push_back(crate);
       					}
-      					Tile pPlate; 
-      					pPlate.type = TileType::PressurePlate;
-      					pPlate.tilesprite.setPosition(725, 165); // MIDDLE ROW PRESSURe PLATE
-      					pPlate.tilesprite.setTexture(pressurePlateTexture);
-      					tiles.push_back(pPlate);     					
+      					Tile centerPlate; 							// MOVES secondMoveCrate
+      					centerPlate.type = TileType::PressurePlate;
+      					centerPlate.tilesprite.setPosition(725, 165); // CENTER PRESSURE PLATE
+      					centerPlate.tilesprite.setTexture(pressurePlateTexture);
+      					tiles.push_back(centerPlate);     					
       					break; 
       				}
 
       				case 2: 
-      					for (int bord2 = 0; bord2 < 3; bord2++) {
+      					for (int bord2 = 0; bord2 < 2; bord2++) {
       						Tile crate;
       						crate.type = TileType::Normal;
       						crate.tilesprite.setTexture(crateTexture);
-      						crate.tilesprite.setPosition(660 + bord2 * 65, 230); // THIRD ROW POSITIONS
+      						crate.tilesprite.setPosition(660 + bord2 * 130, 230); // THIRD ROW POSITIONS
       						tiles.push_back(crate);
       					}
+
+      					Tile firstMoveCrate; // MOVED BY pPlate
+      					firstMoveCrate.type = TileType::Normal;
+      					firstMoveCrate.tilesprite.setTexture(crateTexture);
+      					firstMoveCrate.tilesprite.setPosition(725, 230);
+      					tiles.push_back(firstMoveCrate);
+
+
 
       					break;
       				
 
       			}
-      		for (int i = 0; i < 10; i++) {
+      		for (int i = 0; i < 9; i++) {
       			Tile crateTwo;
       			crateTwo.type = TileType::Normal;
       			crateTwo.tilesprite.setTexture(crateTexture);
       			crateTwo.tilesprite.setPosition(225, 100 + (65 * i));
       			tiles.push_back(crateTwo);
       		}
+
+      			Tile secondMoveCrate;			//MOVED BY CenterPlate - at the bottom of the line concealing door
+      			secondMoveCrate.type = TileType::Normal;
+      			secondMoveCrate.tilesprite.setTexture(crateTexture);
+      			secondMoveCrate.tilesprite.setPosition(225, 100 + (65 * 9));
+      			tiles.push_back(secondMoveCrate);
+
 
       		}
       		break;
