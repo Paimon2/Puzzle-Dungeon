@@ -17,110 +17,83 @@ visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
 #include <SFML/Graphics.hpp> 
 #include <SFML/Window.hpp>
 #include <iostream>
-#include <list> 
+#include <functional>
 
-class QuestionBox { 
+/* A single screen containing dialogue.
+ * Includes a question and two options.
+ */
+class DialogueScreen {
 public:
-	sf::Font font;
-	sf::Text option1, option2;
-	sf::Text dialogue;
-	sf::RectangleShape dialbox;
-	sf::Sprite icon;
-
-	void setSize(sf::RenderWindow &window); //sets the size of the dialog box, relative to the size of the game window
-	void addOption(std::string Dialog); // Adds an option for dialogue that a player can select
-	void addDialogue(std::string Dialogue, sf::RenderWindow &window);
-	void craftString(sf::Text &textobj, std::string stringobj); 
-	void selectOption(sf::RenderWindow &window, std::string Reply);
-	void displayOptions(sf::RenderWindow &window);
-	void displayDialogue(sf::RenderWindow &window);
+    // @brief The question that's to be asked
+    sf::Text dialogueText;
+    // @brief Two options in text
+    sf::Text option1;
+    sf::Text option2;
+    // Depending on which option the user chooses,
+    // another dialogue screen is sometimes shown.
+    //
+    // @brief This is shown if the user selects option 1.
+    static DialogueScreen option1Screen;
+    // @brief This is shown if the user selects option 2.
+    static DialogueScreen option2Screen;
+    // @brief The actual container for all the dialogue components
+    sf::RectangleShape dialbox;
+    //
+    // @intro Below are functions that are publicly accessible.
+    //
+    // @brief This sets up the dialogue screen so that it can be used.
+    // It involves setting fonts, sizes etc. and adjusting everything else.
+    // Call this AFTER you have set all other options.
+    // @params None
+    // @throws Nothing
+    void setup(sf::RenderWindow &window);
+    // TODO IMPL: @brief Sets a current dialogue screen as active
+    void setActive();
 private:
-	int x;
-	int y; // A variable to store the 'x' value of the size of the Game Window
-	float z; // A variable to store the new height of the dialogue box. 
-	int spacer = dialbox.getPosition().x;
-	int count = 0; 
+    sf::Font renderFont;
+    void displayEverything(sf::RenderWindow &window);
 };
 
-
-void QuestionBox::craftString(sf::Text &textobj, std::string stringobj) {
-	font.loadFromFile("arial.ttf");
-
-	textobj.setFont(font);
-	textobj.setString(stringobj);
-	textobj.setCharacterSize(32);
-	textobj.setFillColor(sf::Color::White);
-	textobj.setPosition(1, 818 - (818 * 40/100)); // CHANGE 818 TO 'Y' FOR FLEXIBILITY -- CHANGE THE Y VARIABLE IN PRIVATE CLASS
-}
- 
-void QuestionBox::setSize(sf::RenderWindow &window) {
-	int x = window.getSize().x;
-	int y = window.getSize().y;
-	float z = y * 40/100;
-	dialbox.setSize(sf::Vector2f(x-2, z));
-	dialbox.setOutlineThickness(1.f);
-	dialbox.setOutlineColor(sf::Color::White);
-	dialbox.setFillColor(sf::Color::Black);
-	dialbox.setPosition(1.f, y-z-1);
-}
-
-
-
-
-void QuestionBox::addDialogue(std::string Dialogue, sf::RenderWindow &window) {
-	dialogue.setString(Dialogue);
-	craftString(dialogue, Dialogue);
-}
-
-
-void QuestionBox::addOption(std::string Option) {
-	switch(count) {
-		case 0:
-			craftString(option1, Option);
-		case 1:
-			craftString(option2, Option);
-			option2.setPosition(1, 818 - (818 * 40/100) + 32);
-		default:
-			std::cout << "";
-	}
-	count++;
-}
-
-
-// DISPLAY FUNCTIONS MUST ALWAYS GO BETWEEN window.clear(); and window.display();
-void QuestionBox::displayOptions(sf::RenderWindow &window) { 
-	window.draw(dialbox);
-	window.draw(option1);
-	window.draw(option2);
-}
-
-void QuestionBox::displayDialogue(sf::RenderWindow &window) {
-	window.draw(dialbox);
-	window.draw(dialogue);
+void DialogueScreen::setup(sf::RenderWindow &window) {
+    renderFont.loadFromFile("Fonts//Robotronica.ttf");
+    // Set option 1's text info
+    option1.setFont(renderFont);
+    option1.setCharacterSize(32);
+    option1.setFillColor(sf::Color::White);
+    // Set option 2's text info
+    option2.setFont(renderFont);
+    option2.setCharacterSize(32);
+    option2.setFillColor(sf::Color::White);
+    // Set the dialogue's text info
+    dialogueText.setFont(renderFont);
+    dialogueText.setCharacterSize(32);
+    dialogueText.setFillColor(sf::Color::White);
+    // Set option 1's position
+    option1.setPosition(60, 600);
+    // Set option 2's position
+    option2.setPosition(60, 40);
+    // Set the dialogue text's position
+    dialogueText.setPosition(100, 70);
+    // Set size for the box
+    unsigned int x = window.getSize().x;
+    unsigned int y = window.getSize().y;
+    float z = y * 20/100;
+    dialbox.setSize(sf::Vector2f(x-2, z));
+    dialbox.setOutlineThickness(0.5f);
+    dialbox.setFillColor(sf::Color(0, 0, 0, 150));
+    dialbox.setPosition(1.f, y-z-1);
 
 }
 
+void DialogueScreen::setActive(){
 
+}
 
+void DialogueScreen::displayEverything(sf::RenderWindow &window){
+    window.draw(dialbox);
+    window.draw(dialogueText);
+    window.draw(option1);
+    window.draw(option2);
+}
 
-/* In main or other thread, check for input. 
-	
-	In this example, keyPressed == the key code.
-
-	if (keyPressed == 0) { // the number here represents the Player's question to select. 
-		qboxobj.selectOption(window, "The Reply to the option ") 
-
-	}
-
-
-*/
-
-
-void QuestionBox::selectOption(sf::RenderWindow &window, std::string Reply) { 
-	craftString(dialogue, Reply);
-	displayDialogue(window);
-} 
-
-
-
-#endif 
+#endif
