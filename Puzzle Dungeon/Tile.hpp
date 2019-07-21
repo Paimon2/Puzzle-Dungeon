@@ -17,9 +17,7 @@ visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
 #include <vector>
 #include <string.h>
 #include "Utilities.hpp"
-#include "Question.hpp"
 #include <cmath>
-#include <thread>
 
 enum TileType {
     Normal = 0,
@@ -27,17 +25,17 @@ enum TileType {
     Door = 2,
     Viewable = 3,
     Chest = 4,
-    CustomCodeOnInteraction = 5
+    CustomCodeOnInteraction = 5,
+    Crushable = 6
 };
 
 class Tile {
 public:
     void setFeatures(std::string texture, float x, float y);
     void checkIntersect(sf::Sprite spriteTwo, std::vector<Tile> &tileList);
-    void draw(sf::RenderWindow& window, std::vector<Tile> &tileList, sf::Sprite& characterSprite);
+    void draw(sf::RenderWindow& window, sf::Sprite& characterSprite);
     void checkMouseOver(sf::RenderWindow& window);
     TileType type;
-    Tile();
     std::function<void()> clickCallback;
     /*
     *** SPECIAL CONDITIONAL MEMBERS ***
@@ -46,12 +44,8 @@ public:
     sf::Sprite viewableImage;
     std::function<void()> customCodeOnInteraction;
     sf::Sprite tilesprite;
-    std::vector<DialogueScreen> dialogueScreens;
     bool isMouseOver = false;
     void setCollideCallback(std::function<void()> callback);
-
-    bool isPickedUp;
-    bool pickable;
     /*
     *** PHYSICS MEMBERS ***
     */
@@ -76,11 +70,6 @@ private:
     std::function<void()> collideCallback;
 };
 
-
-Tile::Tile() {
-    isPickedUp = false;
-}
-
 //Set the texture, x and y position all at once.
 void Tile::setFeatures(std::string texture, float x, float y) {
     t.loadFromFile(texture);
@@ -89,86 +78,15 @@ void Tile::setFeatures(std::string texture, float x, float y) {
 }
 
 
-void Tile::draw(sf::RenderWindow& window, std::vector<Tile> &tileList, sf::Sprite& characterSprite) {
+void Tile::draw(sf::RenderWindow& window, sf::Sprite& characterSprite) {
 
 
     sf::Vector2i mousePos = sf::Mouse::getPosition();
-    sf::Vector2f pixelPos = window.mapPixelToCoords(mousePos);
 
     /* We are an object that can be picked up,
     * and the cursor is currently over us.
     */
-
-
-
-
-    if(isPickedUp && pickable) {
-
-        for(Tile &currentTile : tileList){
-            sf::Vector2f coords = tilesprite.getPosition();
-            if (currentTile.tilesprite.getGlobalBounds().contains(coords)) {
-                if(tilesprite.getGlobalBounds() == currentTile.tilesprite.getGlobalBounds())
-                    continue;
-                if(currentTile.type == TileType::PressurePlate)
-                    continue;
-                tilesprite.setPosition(mousePos.x - 290, mousePos.y - 167);
-                clickOnMeMessageText.setColor(sf::Color(255, 0, 0, 255));
-                tilesprite.setColor(sf::Color(255, 255, 255, 200));
-
-                clickOnMeMessageText.setString("Cannot place here");
-                clickOnMeMessageText.setPosition(mousePos.x - 250, mousePos.y - 170);
-                window.draw(tilesprite);
-                window.draw(clickOnMeMessageText);
-                return;
-            }
-        }
-
-
-        if(Utilities::euclideanDistance(tilesprite.getPosition(),
-                                        sf::Vector2f(characterSprite.getPosition().x,
-                                                     characterSprite.getPosition().y)) > 100.f
-                                        && pickable) {
-    tilesprite.setPosition(mousePos.x - 290, mousePos.y - 167);
-    clickOnMeMessageText.setColor(sf::Color(255, 200, 0, 255));
-    tilesprite.setColor(sf::Color(255, 255, 255, 200));
-
-    clickOnMeMessageText.setString("Move closer to place");
-    clickOnMeMessageText.setPosition(mousePos.x - 250, mousePos.y - 170);
-    window.draw(tilesprite);
-    window.draw(clickOnMeMessageText);
-    return;
-    }
-        if(pickable){
-            tilesprite.setPosition(mousePos.x, mousePos.y);
-            tilesprite.setPosition(mousePos.x - 290, mousePos.y - 167);
-            clickOnMeMessageText.setString("Left click to place");
-            if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-            {
-                isPickedUp = false;
-                tilesprite.setPosition(mousePos.x - 290, mousePos.y - 167);
-                std::this_thread::sleep_for(std::chrono::milliseconds(200));
-            }
-            clickOnMeMessageText.setPosition(mousePos.x - 250, mousePos.y - 170);
-            clickOnMeMessageText.setColor(sf::Color(0, 255, 0, 255));
-            tilesprite.setColor(sf::Color(255, 255, 255, 200));
-            window.draw(tilesprite);
-            window.draw(clickOnMeMessageText);
-            return;
-        }
-
-    }
-
     if (isMouseOver) {
-
-        if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-        {
-            if (Utilities::euclideanDistance(characterSprite.getPosition(),
-                                            tilesprite.getPosition())
-                                            < 100.f) {
-                isPickedUp = true;
-                std::this_thread::sleep_for(std::chrono::milliseconds(200));
-            }
-        }
 
         clickOnMeMessageText.setFont(Utilities::basicFont);
         clickOnMeMessageText.setCharacterSize(14);
@@ -177,8 +95,7 @@ void Tile::draw(sf::RenderWindow& window, std::vector<Tile> &tileList, sf::Sprit
 
         if (Utilities::euclideanDistance(characterSprite.getPosition(),
                                         tilesprite.getPosition())
-                                        > 50.f) {
-
+                                        > 100.f) {
             clickOnMeMessageText.setString("Move closer to interact");
             window.draw(tilesprite);
             window.draw(clickOnMeMessageText);
@@ -317,11 +234,16 @@ void Tile::checkIntersect(sf::Sprite spriteTwo, std::vector<Tile> &tileList) {
                 float xAxisDistance = spriteTwo.getPosition().x - tilesprite.getPosition().x;
                 float yAxisDistance = tilesprite.getPosition().y - spriteTwo.getPosition().y;
 
+                if (xAxisDistance > 0)
+                    directionalVelocities[2] = xAxisDistance / 8;
+                else
+                    directionalVelocities[0] = fabsf(xAxisDistance / 5);
 
-                  directionalVelocities[4] = xAxisDistance / 8;
-                  directionalVelocities[0] = -xAxisDistance / 8;
-                  directionalVelocities[1] = xAxisDistance / 8;
-                  directionalVelocities[2] = fabsf(xAxisDistance / 5);
+
+                if (yAxisDistance > 0)
+                    directionalVelocities[1] = yAxisDistance / 8;
+                else
+                    directionalVelocities[3] = fabsf(yAxisDistance / 5);
 
 
 }
@@ -331,7 +253,7 @@ inline void Tile::checkMouseOver(sf::RenderWindow &window)
     /* If we're not an object on the floor, don't
     * bother doing all these calculations.
     */
-   if(type != TileType::Viewable && !pickable && type != TileType::CustomCodeOnInteraction)
+   if(type != TileType::Viewable && type != TileType::CustomCodeOnInteraction)
         return;
 
     /* Detect if the cursor is intersecting the tile.
