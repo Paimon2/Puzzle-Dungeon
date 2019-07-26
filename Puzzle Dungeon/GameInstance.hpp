@@ -70,7 +70,7 @@ GameInstance::GameInstance() :
 
     mainMenu.newGameButton.setCallback([this]() {
         gameData.save();
-        currentLevel.loadLevel(gameData.data["level"]);
+        currentLevel.loadLevel(1);
         mainMenu.isInMainMenu = false;
         currentLevel.scaleEverything(gameWindow.getSize());
     });
@@ -166,7 +166,7 @@ inline void GameInstance::initialize() {
 
     try {
         auto level = gameData.data["level"];
-        if (level == nullptr || level < 2)
+        if (level < 2)
             mainMenu.setPreviousSave(false);
     }
 
