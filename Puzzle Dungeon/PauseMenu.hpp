@@ -55,7 +55,6 @@ public:
 	
 private:
 	Button backToMenuButton;
-	Button creditsButton;
 	Button saveGameButton;
 	Button controlsButton;
 	Button quitButton;
@@ -81,16 +80,11 @@ PauseMenu::PauseMenu() {
 	textFont.loadFromFile("Fonts//Robotronica.ttf");
 #endif
 
-	backToMenuButton.buttonSprite.setPosition(400, 100);
+	backToMenuButton.buttonSprite.setPosition(400, 225);
 	backToMenuButton.buttonSprite.setTexture(buttonTexture);
 	backToMenuButton.text.setFont(textFont);
 	backToMenuButton.text.setString("Back to game");
     backToMenuButton.setCallback([this](){isGamePaused = !isGamePaused; });
-   
-	creditsButton.buttonSprite.setPosition(400, 225);
-	creditsButton.buttonSprite.setTexture(buttonTexture);
-	creditsButton.text.setFont(textFont);
-	creditsButton.text.setString("      Credits");
 
 	saveGameButton.buttonSprite.setPosition(400, 350);
 	saveGameButton.buttonSprite.setTexture(buttonTexture);
@@ -156,7 +150,6 @@ inline void PauseMenu::draw(sf::RenderWindow &window) {
 	window.draw(rect);
 
 	backToMenuButton.draw(window);
-	creditsButton.draw(window);
 	saveGameButton.draw(window);
 	controlsButton.draw(window);
 	quitButton.draw(window);
