@@ -52,11 +52,17 @@ public:
 	Button newGameButton;
 	Button mechButton;
 	Button quitButton;
+
+	bool isClicked = false;
 private:
 
 sf::RectangleShape rect;
 sf::Sprite windowContentsSprite;
 sf::Texture windowContentsTexture;
+sf::RectangleShape hopImage;
+sf::Texture guideTexture;
+sf::RectangleShape background;
+sf::Texture backTexture;
 
 };
 
@@ -69,6 +75,9 @@ MainMenu::MainMenu() {
 	buttonTexture.loadFromFile("GUI//PauseMenuButton.png");
     gameLogoTexture.loadFromFile("Textures//PuzzleDungeon.png");
 	textFont.loadFromFile("Fonts//Robotronica.ttf");
+	guideTexture.loadFromFile("GUI//guide.png");
+	backTexture.loadFromFile("GUI//background.png");
+
 #endif
 	hasPreviousSave = false;
 	isInMainMenu = true;
@@ -77,31 +86,42 @@ MainMenu::MainMenu() {
     gameLogo.setTexture(gameLogoTexture);
     gameLogo.setPosition(220, 30);
 
-    continueGameButton.buttonSprite.setPosition(80, 250);
+    continueGameButton.buttonSprite.setPosition(80, 350);
     continueGameButton.buttonSprite.setTexture(buttonTexture);
 	continueGameButton.text.setFont(textFont);
     continueGameButton.text.setString(" Continue game");
 	
-
 	//newGameButton.setCallback([this](){isGamePaused = !isGamePaused; });
 
-    newGameButton.buttonSprite.setPosition(80, 350);
+    newGameButton.buttonSprite.setPosition(80, 450);
     newGameButton.buttonSprite.setTexture(buttonTexture);
 	newGameButton.text.setFont(textFont);
     newGameButton.text.setString("   New game");
 
-    mechButton.buttonSprite.setPosition(80, 450);
-    mechButton.buttonSprite.setTexture(buttonTexture);
-    mechButton.text.setFont(textFont);
-    mechButton.text.setString("    How To Play");
-    
     quitButton.buttonSprite.setPosition(80, 550);
     quitButton.buttonSprite.setTexture(buttonTexture);
 	quitButton.text.setFont(textFont);
-    quitButton.text.setString("Quit to desktop");
+    quitButton.text.setString("	Quit to desktop");
     quitButton.setCallback([](){ exit(0); });
 
+    mechButton.buttonSprite.setPosition(80, 650);
+    mechButton.buttonSprite.setTexture(buttonTexture);
+    mechButton.text.setFont(textFont);
+    mechButton.text.setString("    How To Play");
+    mechButton.setCallback([&](){ isClicked = !isClicked; });
+
 	rect.setFillColor(sf::Color(32, 32, 32, 200));
+
+	hopImage.setTexture(&guideTexture);
+	hopImage.setPosition(55, 30);
+	hopImage.setSize(sf::Vector2f(1250, 620));
+
+	background.setTexture(&backTexture);
+	background.setPosition(0, 0);
+	background.setSize(sf::Vector2f(1366, 818));
+
+
+
 }
 
 inline void MainMenu::setPreviousSave(bool hasPrevSave) {
@@ -115,6 +135,8 @@ inline void MainMenu::draw(sf::RenderWindow &window){
 	if (!isInMainMenu)
 		return;
 
+	window.draw(background);
+
 	rect.setPosition(window.mapPixelToCoords(sf::Vector2i(window.getSize() / 568u)));
 	rect.setSize(sf::Vector2f(window.getSize()));
 	window.draw(rect);
@@ -124,7 +146,12 @@ inline void MainMenu::draw(sf::RenderWindow &window){
     newGameButton.draw(window);
     mechButton.draw(window);
     quitButton.draw(window);
-	
+
+    if (isClicked) {
+		window.draw(hopImage);
+	} else {
+		//None;
+	}
 
     
 }
