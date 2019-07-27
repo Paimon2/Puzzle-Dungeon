@@ -50,8 +50,8 @@ public:
 
 	Button continueGameButton;
 	Button newGameButton;
-	Button settingsButton;
-	Button helpAboutButton;
+	Button mechButton;
+	Button quitButton;
 private:
 
 sf::RectangleShape rect;
@@ -90,16 +90,16 @@ MainMenu::MainMenu() {
 	newGameButton.text.setFont(textFont);
     newGameButton.text.setString("   New game");
 
-    settingsButton.buttonSprite.setPosition(80, 450);
-    settingsButton.buttonSprite.setTexture(buttonTexture);
-    settingsButton.text.setFont(textFont);
-    settingsButton.text.setString("    Credits");
+    mechButton.buttonSprite.setPosition(80, 450);
+    mechButton.buttonSprite.setTexture(buttonTexture);
+    mechButton.text.setFont(textFont);
+    mechButton.text.setString("    How To Play");
     
-    helpAboutButton.buttonSprite.setPosition(80, 550);
-    helpAboutButton.buttonSprite.setTexture(buttonTexture);
-	helpAboutButton.text.setFont(textFont);
-    helpAboutButton.text.setString("Quit to desktop");
-    helpAboutButton.setCallback([](){ exit(0); });
+    quitButton.buttonSprite.setPosition(80, 550);
+    quitButton.buttonSprite.setTexture(buttonTexture);
+	quitButton.text.setFont(textFont);
+    quitButton.text.setString("Quit to desktop");
+    quitButton.setCallback([](){ exit(0); });
 
 	rect.setFillColor(sf::Color(32, 32, 32, 200));
 }
@@ -122,8 +122,8 @@ inline void MainMenu::draw(sf::RenderWindow &window){
     window.draw(gameLogo);
     continueGameButton.draw(window);
     newGameButton.draw(window);
-    settingsButton.draw(window);
-    helpAboutButton.draw(window);
+    mechButton.draw(window);
+    quitButton.draw(window);
 	
 
     
