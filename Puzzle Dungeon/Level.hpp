@@ -11,6 +11,8 @@ visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
 #define _LEVEL_HPP_
 
 #include <vector>
+#include <thread>
+#include <chrono>
 #include <SFML/Graphics.hpp>
 #include "Tile.hpp"
 
@@ -57,15 +59,46 @@ public:
 
 		levelBackground.setScale(ScaleX, ScaleY);
 	}
+  inline void generateBorders(sf::Vector2u windowSize = sf::Vector2u(1024, 818)) {
+
+        // Top: left-right
+        for (int i = 0; i < windowSize.x / 45; i++) {
+            Tile brickTile;
+            brickTile.tilesprite.setTexture(brickTexture);
+            brickTile.tilesprite.setPosition(i * (int)brickTexture.getSize().x - i*2, -20);
+            tiles.push_back(brickTile);
+        }
+
+        // Bottom: left-right
+        for (int i = 0; i < windowSize.x / 45; i++) {
+            Tile brickTile;
+
+            brickTile.tilesprite.setTexture(brickTexture);
+            brickTile.tilesprite.setPosition(i * (int)brickTexture.getSize().x - i * 2, windowSize.y - 20);
+            tiles.push_back(brickTile);
+        }
+
+        // Left-down
+
+        for (int i = 0; i < (int)windowSize.y / 45; i++) {
+            Tile brickTile;
+            brickTile.tilesprite.setTexture(brickTexture);
+            brickTile.tilesprite.setPosition(-40, i * (int)brickTexture.getSize().y - 20);
+            tiles.push_back(brickTile);
+        }
+
+        // Right-down
+
+        for (int i = 0; i < (int)windowSize.y / 45; i++) {
+            Tile brickTile;
+            brickTile.tilesprite.setTexture(brickTexture);
+            brickTile.tilesprite.setPosition(windowSize.x - 10, i * (int)brickTexture.getSize().y - 20);
+            tiles.push_back(brickTile);
+        }
+
+  }
 
 	inline void genLevel(int levelNumber) {
-
-        Tile leftDoor;
-        leftDoor.type = TileType::CustomCodeOnInteraction;
-       // leftDoor.clickCallback = [](){ showNextLevel(); };
-        leftDoor.tilesprite.setPosition(10, 380);
-        leftDoor.tilesprite.setTexture(leftDoorTexture);
-        tiles.push_back(leftDoor);
         
         Tile rightDoor;
         rightDoor.type = TileType::Normal;
@@ -781,45 +814,38 @@ public:
           break;
           }
         }
-        }
-	inline void generateBorders(sf::Vector2u windowSize = sf::Vector2u(1024, 818)) {
+       
+        Tile leftDoor;
+        leftDoor.type = TileType::CustomCodeOnInteraction;
+        leftDoor.tilesprite.setPosition(20, 380);
+        leftDoor.clickCallback = [&](){
+            leftDoorTexture.loadFromFile(Utilities::getResourcePath() + "Textures//DoorLeft.png");
+            rightDoorTexture.loadFromFile(Utilities::getResourcePath() + "Textures//DoorRight.png");
 
-        // Top: left-right
-        for (int i = 0; i < windowSize.x / 45; i++) {
-            Tile brickTile;
-            brickTile.tilesprite.setTexture(brickTexture);
-            brickTile.tilesprite.setPosition(i * (int)brickTexture.getSize().x - i*2, -20);
-            tiles.push_back(brickTile);
-        }
+            brickTexture.loadFromFile(Utilities::getResourcePath() + "Textures//Brick.png");
+            crateTexture.loadFromFile(Utilities::getResourcePath() + "Textures//Crate.png");
+            rockTexture.loadFromFile(Utilities::getResourcePath() + "Textures//Rock2.png");
 
-        // Bottom: left-right
-        for (int i = 0; i < windowSize.x / 45; i++) {
-            Tile brickTile;
+            pressurePlateTexture.loadFromFile(Utilities::getResourcePath() + "Textures//PressurePlate.png");
 
-            brickTile.tilesprite.setTexture(brickTexture);
-            brickTile.tilesprite.setPosition(i * (int)brickTexture.getSize().x - i * 2, windowSize.y - 20);
-            tiles.push_back(brickTile);
-        }
+            levelBackgroundTexture.loadFromFile(Utilities::getResourcePath() + "Textures//Background1.png");
+           levelBackgroundTexture.setRepeated(true);
+           levelBackground.setTexture(levelBackgroundTexture);
+      
+           float ScaleX = (float)1366 / levelBackgroundTexture.getSize().x;
+           float ScaleY = (float)818 / levelBackgroundTexture.getSize().y;    
 
-        // Left-down
+            levelBackground.setScale(ScaleX, ScaleY);
 
-        for (int i = 0; i < (int)windowSize.y / 45; i++) {
-            Tile brickTile;
-            brickTile.tilesprite.setTexture(brickTexture);
-            brickTile.tilesprite.setPosition(-40, i * (int)brickTexture.getSize().y - 20);
-            tiles.push_back(brickTile);
-        }
-
-        // Right-down
-
-        for (int i = 0; i < (int)windowSize.y / 45; i++) {
-            Tile brickTile;
-            brickTile.tilesprite.setTexture(brickTexture);
-            brickTile.tilesprite.setPosition(windowSize.x - 10, i * (int)brickTexture.getSize().y - 20);
-            tiles.push_back(brickTile);
-        }
-
-	}
+            tiles.clear();
+            genLevel(levelNum++);
+            //characterSprite.setPosition(990, 450);
+            generateBorders();
+            std::this_thread::sleep_for(std::chrono::milliseconds(20));
+        };
+        leftDoor.tilesprite.setTexture(leftDoorTexture);
+        tiles.push_back(leftDoor);
+}
 
 	inline void loadLevel(int levelNumber) {
 		levelNum = levelNumber;
