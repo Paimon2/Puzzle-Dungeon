@@ -36,6 +36,7 @@ private:
     sf::Texture blueCrateTexture;
     sf::Texture bluePressurePlateTexture;
 
+    bool isPlayerEnd = false;
 
     // Used throughout different levels
     Tile frogSprite;
@@ -89,12 +90,12 @@ public:
 
         // Right-down
 
-        for (int i = 0; i < (int)windowSize.y / 45; i++) {
+        /*for (int i = 0; i < (int)windowSize.y / 45; i++) {
             Tile brickTile;
             brickTile.tilesprite.setTexture(brickTexture);
             brickTile.tilesprite.setPosition(windowSize.x - 10, i * (int)brickTexture.getSize().y - 20);
             tiles.push_back(brickTile);
-        }
+        }*/
 
   }
 
@@ -839,9 +840,10 @@ public:
 
             tiles.clear();
             genLevel(levelNum++);
-            //characterSprite.setPosition(990, 450);
-            generateBorders();
-            std::this_thread::sleep_for(std::chrono::milliseconds(20));
+            isPlayerEnd = true;
+            generateBorders(sf::Vector2u(1024, 818));
+
+            std::this_thread::sleep_for(std::chrono::milliseconds(200));
         };
         leftDoor.tilesprite.setTexture(leftDoorTexture);
         tiles.push_back(leftDoor);
@@ -1014,6 +1016,12 @@ public:
         for(Tile tile : tiles){
 
             tile.draw(window, characterSprite);
+            if (isPlayerEnd) {
+              characterSprite.setPosition(1250, 350);
+              isPlayerEnd = false;
+            } else {
+              // Do nothing
+            }
         }
 	}
 	
