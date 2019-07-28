@@ -79,6 +79,7 @@ private:
 
 Tile::Tile() {
     isPickedUp = false;
+    pickable = false;
 }
 
 //Set the texture, x and y position all at once.
@@ -100,8 +101,52 @@ void Tile::draw(sf::RenderWindow& window, std::vector<Tile> &tileList, sf::Sprit
     */
 
 
+    if(!pickable && isMouseOver && type == TileType::CustomCodeOnInteraction){
+        if (Utilities::euclideanDistance(characterSprite.getPosition(),
+                                        tilesprite.getPosition())
+                                        > 100.f) {
+
+            clickOnMeMessageText.setString("Move closer to interact");
+            window.draw(tilesprite);
+            tilesprite.setColor(sf::Color(255, 255, 255, 255));
+            clickOnMeMessageText.setPosition(mousePos.x - 250, mousePos.y - 170);
+            clickOnMeMessageText.setFont(Utilities::basicFont);
+            window.draw(clickOnMeMessageText);
+            return;
+        }
+
+        else{
+            if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+            {
+                try {
+                     clickCallback();
+                     return;
+                }
+               catch(std::bad_function_call){
+                   std::cerr << "[CRITICAL] Bad function call to Tile (clickCallback())" << std::endl;
+               }
+            }
+            clickOnMeMessageText.setString("Click to interact");
+            tilesprite.setColor(sf::Color(200, 200, 200, 200));
+            clickOnMeMessageText.setPosition(mousePos.x - 250, mousePos.y - 170);
+            clickOnMeMessageText.setFont(Utilities::basicFont);
+            window.draw(tilesprite);
+            window.draw(clickOnMeMessageText);
+            return;
+        }
 
 
+
+
+
+    }
+
+
+    if(!pickable && type == TileType::Normal){
+        tilesprite.setColor(sf::Color(255, 255, 255, 255));
+        window.draw(tilesprite);
+        return;
+    }
     if(isPickedUp && pickable) {
 
         for(Tile &currentTile : tileList){
