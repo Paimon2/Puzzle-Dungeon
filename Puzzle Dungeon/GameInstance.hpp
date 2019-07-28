@@ -45,7 +45,7 @@ private:
 
 
 GameInstance::GameInstance() :
-    gameWindow(sf::VideoMode(1366, 818), "Puzzle Dungeon")
+    gameWindow(sf::VideoMode(1366, 818), "Puzzle Dungeon", sf::Style::Titlebar | sf::Style::Close)
     {
     /*Don't hog up all the GPU...*/
     gameWindow.setFramerateLimit(60);
@@ -60,7 +60,7 @@ GameInstance::GameInstance() :
                         - gameWindow.getSize().y / 2
                         ));
     iconImage.loadFromFile("Textures//PuzzleDungeon.png");
-    gameWindow.setIcon(192, 192, iconImage.getPixelsPtr());
+    gameWindow.setIcon(313, 313, iconImage.getPixelsPtr());
 
     mainMenu.continueGameButton.setCallback([this]() {
         currentLevel.loadLevel(gameData.data["level"]);
