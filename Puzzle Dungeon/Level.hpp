@@ -105,7 +105,7 @@ public:
   inline void genLevel(int levelNumber) {
 
         try {
-            musicPlayer.openFromFile("GUI//music.wav");
+            musicPlayer.openFromFile("GUI//music-1.wav");
             musicPlayer.setLoop(true);
             musicPlayer.play();
         } catch (int n) {
