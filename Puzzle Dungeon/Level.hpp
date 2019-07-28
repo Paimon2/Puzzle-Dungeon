@@ -41,10 +41,8 @@ private:
     int weirdClick = 0; // Patchy solution to solve the issue where the level is not reset on first callback click, but chracter pos is reset
     int levelNum;
 
-    sf::Music musicPlayer;  // Used to play in genLevel();
-
-    // Used throughout different levels
-    Tile frogSprite;
+    sf::Music musicPlayer;  // Used to play in genLevel()
+    
     // Doors
     Tile leftDoor;
     Tile rightDoor;
@@ -107,7 +105,8 @@ public:
   inline void genLevel(int levelNumber) {
 
         try {
-            musicPlayer.openFromFile("Sounds//music.wav");
+            musicPlayer.openFromFile("GUI//music.wav");
+            musicPlayer.setLoop(true);
             musicPlayer.play();
         } catch (int n) {
             // Do nothing, we want the game to continue without music.
@@ -136,13 +135,7 @@ public:
             rockSprite.pickable = true;
             rockSprite.tilesprite.setTexture(rockTexture);
             tiles.push_back(rockSprite);
-
-
-            frogSprite.type = TileType::Normal;
-            frogSprite.tilesprite.setPosition(930, 700);
-            frogSprite.tilesprite.setTexture(frogTexture);
-            tiles.push_back(frogSprite);
-
+            
             // Boundaries for entry
             for (int i = 0; i < 8; i++) {
                 Tile toPush;
