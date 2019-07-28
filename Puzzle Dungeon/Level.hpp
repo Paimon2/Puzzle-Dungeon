@@ -14,6 +14,7 @@ visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
 #include <thread>
 #include <chrono>
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include "Tile.hpp"
 
 
@@ -27,7 +28,7 @@ private:
     sf::Texture rockTexture;
     sf::Texture leftDoorTexture;
     sf::Texture rightDoorTexture;
-   
+
     // Coloured Textures
     sf::Texture redCrateTexture;
     sf::Texture redPressurePlateTexture;
@@ -38,19 +39,22 @@ private:
 
     bool isPlayerEnd = false;
     int weirdClick = 0; // Patchy solution to solve the issue where the level is not reset on first callback click, but chracter pos is reset
-
+    int levelNum;
+    
+    sf::Music musicPlayer;  // Used to play in genLevel();
+    
     // Used throughout different levels
     Tile frogSprite;
     // Doors
     Tile leftDoor;
     Tile rightDoor;
 
-  sf::Texture levelBackgroundTexture;
-  sf::Sprite levelBackground;
-  int levelNum;
+    sf::Texture levelBackgroundTexture;
+    sf::Sprite levelBackground;
+
 public:
   std::vector<Tile> tiles;
-  
+
   inline void scaleEverything(sf::Vector2u windowSize) {
     tiles.clear();
     genLevel(levelNum);
@@ -102,6 +106,13 @@ public:
 
   inline void genLevel(int levelNumber) {
         
+        try {
+            musicPlayer.openFromFile("Sounds//music.wav");
+            musicPlayer.play();
+        } catch (int n) {
+            // Do nothing, we want the game to continue without music. 
+        }
+      
         Tile rightDoor;
         rightDoor.type = TileType::Normal;
         // rightDoor.clickCallback = [](){ showPreviousLevel(); (will we?) };
@@ -122,11 +133,11 @@ public:
             Tile rockSprite;
             rockSprite.type = TileType::Normal;
             rockSprite.tilesprite.setPosition(930, 500);
-            //rockSprite.pickable = true;
+            rockSprite.pickable = true;
             rockSprite.tilesprite.setTexture(rockTexture);
             tiles.push_back(rockSprite);
 
-            
+
             frogSprite.type = TileType::Normal;
             frogSprite.tilesprite.setPosition(930, 700);
             frogSprite.tilesprite.setTexture(frogTexture);
@@ -144,7 +155,13 @@ public:
                 }
         case 2: {
 
-          Tile pPlate; 
+           Tile firstMoveCrate; // MOVED BY pPlate
+          firstMoveCrate.type = TileType::Normal;
+          firstMoveCrate.tilesprite.setTexture(crateTexture);
+          firstMoveCrate.tilesprite.setPosition(725, 230);
+          tiles.push_back(firstMoveCrate);
+
+          Tile pPlate;
           pPlate.type = TileType::PressurePlate;
           pPlate.tilesprite.setPosition(683, 400); // FIRST PRESSURE PLATE - MOVES firstMoveCrate;
           pPlate.tilesprite.setTexture(pressurePlateTexture);
@@ -152,7 +169,7 @@ public:
 
           Tile rock;
           rock.type = TileType::Normal;
-          //rock.pickable = true;
+          rock.pickable = true;
           rock.tilesprite.setPosition(800, 400);
           rock.tilesprite.setTexture(rockTexture);
           tiles.push_back(rock);
@@ -160,7 +177,7 @@ public:
           Tile rockSpriteTwo;
           rockSpriteTwo.type = TileType::Normal;
           rockSpriteTwo.tilesprite.setPosition(950, 165);
-          //rockSpriteTwo.pickable = true;
+          rockSpriteTwo.pickable = true;
           rockSpriteTwo.tilesprite.setTexture(rockTexture);
           tiles.push_back(rockSpriteTwo);
 
@@ -171,7 +188,7 @@ public:
                   Tile crate;
                   crate.type = TileType::Normal;
                   crate.tilesprite.setTexture(crateTexture);
-                  crate.tilesprite.setPosition(660 + bord * 65, 100); // FIRST LINE OF BOX OF CRATES 
+                  crate.tilesprite.setPosition(660 + bord * 65, 100); // FIRST LINE OF BOX OF CRATES
                   tiles.push_back(crate);
                 }
                 break;
@@ -180,18 +197,19 @@ public:
                   Tile crate;
                   crate.type = TileType::Normal;
                   crate.tilesprite.setTexture(crateTexture);
-                  crate.tilesprite.setPosition(660 + midrow * 130, 165); // SECOND ROW POSITIONS 
+                  crate.tilesprite.setPosition(660 + midrow * 130, 165); // SECOND ROW POSITIONS
                   tiles.push_back(crate);
                 }
+
                 Tile centerPlate;               // MOVES secondMoveCrate
                 centerPlate.type = TileType::PressurePlate;
                 centerPlate.tilesprite.setPosition(725, 165); // CENTER PRESSURE PLATE
                 centerPlate.tilesprite.setTexture(pressurePlateTexture);
-                tiles.push_back(centerPlate);               
-                break; 
+                tiles.push_back(centerPlate);
+                break;
               }
 
-              case 2: 
+              case 2:
                 for (int bord2 = 0; bord2 < 2; bord2++) {
                   Tile crate;
                   crate.type = TileType::Normal;
@@ -200,16 +218,7 @@ public:
                   tiles.push_back(crate);
                 }
 
-                Tile firstMoveCrate; // MOVED BY pPlate
-                firstMoveCrate.type = TileType::Normal;
-                firstMoveCrate.tilesprite.setTexture(crateTexture);
-                firstMoveCrate.tilesprite.setPosition(725, 230);
-                tiles.push_back(firstMoveCrate);
-
-
-
                 break;
-              
 
             }
           for (int i = 0; i < 9; i++) {
@@ -224,27 +233,27 @@ public:
             secondMoveCrate.type = TileType::Normal;
             secondMoveCrate.tilesprite.setTexture(crateTexture);
             secondMoveCrate.tilesprite.setPosition(225, 100 + (65 * 9));
-            tiles.push_back(secondMoveCrate); 
+            tiles.push_back(secondMoveCrate);
 
           }
           break;
         }
         case 3: {
 
-            Tile pPlateOne; 
+            Tile pPlateOne;
             pPlateOne.type = TileType::PressurePlate;
             pPlateOne.tilesprite.setTexture(pressurePlateTexture);
             pPlateOne.tilesprite.setPosition(675, 100);
             tiles.push_back(pPlateOne);
 
-            // SECOND PRESSURE PLATE, AT TOP OF ENTRY -- 
+            // SECOND PRESSURE PLATE, AT TOP OF ENTRY --
             Tile pPlateTwo;
             pPlateTwo.type = TileType::PressurePlate;
             pPlateTwo.tilesprite.setTexture(pressurePlateTexture);
             pPlateTwo.tilesprite.setPosition(675, 690);
             tiles.push_back(pPlateTwo);
 
-            // RED PPLATE, LEFT, 
+            // RED PPLATE, LEFT,
             Tile redPlateThree;
             redPlateThree.type = TileType::PressurePlate;
             redPlateThree.tilesprite.setTexture(redPressurePlateTexture);
@@ -264,7 +273,8 @@ public:
             pPlateFive.tilesprite.setTexture(pressurePlateTexture);
             pPlateFive.tilesprite.setPosition(295, 100);
             tiles.push_back(pPlateFive);
-            // MOVABLE CRATES 
+
+            // MOVABLE CRATES
             // First movable crate, at entry
             Tile firstMoveCrate;
             firstMoveCrate.type = TileType::Normal;
@@ -292,7 +302,7 @@ public:
             fourthMoveCrate.type = TileType::Normal;
             fourthMoveCrate.tilesprite.setTexture(crateTexture);
             fourthMoveCrate.tilesprite.setPosition(490, 340);
-            tiles.push_back(fourthMoveCrate); 
+            tiles.push_back(fourthMoveCrate);
 
            // Fifth crate, below higher red crate
             Tile fifthMoveCrate;
@@ -301,7 +311,7 @@ public:
             fifthMoveCrate.tilesprite.setPosition(490, 170);
             tiles.push_back(fifthMoveCrate);
 
-            // Sixth crate, above left red crate 
+            // Sixth crate, above left red crate
             Tile sixthMoveCrate;
             sixthMoveCrate.type = TileType::Normal;
             sixthMoveCrate.tilesprite.setTexture(crateTexture);
@@ -337,7 +347,7 @@ public:
               Tile crate;
               crate.type = TileType::Normal;
               crate.tilesprite.setTexture(crateTexture);
-              crate.tilesprite.setPosition(580, 465 + (75 * i)); 
+              crate.tilesprite.setPosition(580, 465 + (75 * i));
               tiles.push_back(crate);
             }
 
@@ -352,7 +362,7 @@ public:
               crate.tilesprite.setPosition(200, 90 + 75 * line); //Line of crates covering door
               tiles.push_back(crate);
             }
-      
+
             for (int bLine = 0; bLine < 3; bLine++) {
               Tile crate;
               crate.type = TileType::Normal;
@@ -369,26 +379,26 @@ public:
               Tile crate;
               crate.type = TileType::Normal;
               crate.tilesprite.setTexture(crateTexture);
-              crate.tilesprite.setPosition(390, 90 + 75 * line); 
+              crate.tilesprite.setPosition(390, 90 + 75 * line);
               tiles.push_back(crate);
             }
 
-            // END WALL 
+            // END WALL
 
             // OPPOSING COLUMNS OF THREE CRATES AT ENTRY
-            for (int line = 0; line < 3; line++) { 
+            for (int line = 0; line < 3; line++) {
               Tile crate;
               crate.type = TileType::Normal;
               crate.tilesprite.setTexture(crateTexture);
-              crate.tilesprite.setPosition(780, 90 + 75 * line); 
+              crate.tilesprite.setPosition(780, 90 + 75 * line);
               tiles.push_back(crate);
             }
-                                        
+
             for (int lowline = 0; lowline < 2; lowline++) {
               Tile crate;
               crate.type = TileType::Normal;
               crate.tilesprite.setTexture(crateTexture);
-              crate.tilesprite.setPosition(780, 696 - lowline * 75); 
+              crate.tilesprite.setPosition(780, 696 - lowline * 75);
               tiles.push_back(crate);
             }
 
@@ -404,9 +414,9 @@ public:
               tiles.push_back(sideCrate);
             }
             // END SECTION SURROUNDING RED PRESSURE PLATES
-      
+
             // Place the Red Crates
-            for (int i = 0; i < 2; i++) { 
+            for (int i = 0; i < 2; i++) {
                Tile redCrate;
                redCrate.type = TileType::Normal;
                redCrate.tilesprite.setTexture(redCrateTexture);
@@ -425,7 +435,7 @@ public:
               Tile rockSprite;
               rockSprite.type = TileType::Normal;
               rockSprite.tilesprite.setTexture(rockTexture);
-              //rockSprite.pickable = true;
+              rockSprite.pickable = true;
               switch(i) {
                 case 0:
                   rockSprite.tilesprite.setPosition(950, 409);
@@ -447,7 +457,7 @@ public:
           Tile greenCrate;
           greenCrate.type = TileType::Normal;
           greenCrate.tilesprite.setTexture(greenCrateTexture);
-          greenCrate.tilesprite.setPosition(1180, 390); 
+          greenCrate.tilesprite.setPosition(1180, 390);
           tiles.push_back(greenCrate);
 
           // For Green Crate - Plate
@@ -465,7 +475,7 @@ public:
           tiles.push_back(blackPlate);
 
           // Right Red Crate
-          Tile redCrateOne; 
+          Tile redCrateOne;
           redCrateOne.type = TileType::Normal;
           redCrateOne.tilesprite.setTexture(redCrateTexture);
           redCrateOne.tilesprite.setPosition(685, 705);
@@ -492,7 +502,7 @@ public:
           //Rock in centre
           Tile rockSprite;
           rockSprite.type = TileType::Normal;
-          //rockSprite.pickable = true;
+          rockSprite.pickable = true;
           rockSprite.tilesprite.setTexture(rockTexture);
           rockSprite.tilesprite.setPosition(490, 405);
           tiles.push_back(rockSprite);
@@ -502,45 +512,45 @@ public:
           Tile crateOne;
           crateOne.type = TileType::Normal;
           crateOne.tilesprite.setTexture(crateTexture);
-          crateOne.tilesprite.setPosition(760, 390); 
+          crateOne.tilesprite.setPosition(760, 390);
           tiles.push_back(crateOne);
           // Second crate - conceals gray pressure plate
           Tile crateTwo;
           crateTwo.type = TileType::Normal;
           crateTwo.tilesprite.setTexture(crateTexture);
-          crateTwo.tilesprite.setPosition(845, 215); 
+          crateTwo.tilesprite.setPosition(845, 215);
           tiles.push_back(crateTwo);
           // Third crate - above left red crate
           Tile crateThree;
           crateThree.type = TileType::Normal;
           crateThree.tilesprite.setTexture(crateTexture);
-          crateThree.tilesprite.setPosition(385, 620); 
+          crateThree.tilesprite.setPosition(385, 620);
           tiles.push_back(crateThree);
           // Aboce right red crate
           Tile crateFour;
           crateFour.type = TileType::Normal;
           crateFour.tilesprite.setTexture(crateTexture);
-          crateFour.tilesprite.setPosition(685, 620); 
+          crateFour.tilesprite.setPosition(685, 620);
           tiles.push_back(crateFour);
           // Below left red plate
           Tile crateFive;
           crateFive.type = TileType::Normal;
           crateFive.tilesprite.setTexture(crateTexture);
-          crateFive.tilesprite.setPosition(325, 275); 
+          crateFive.tilesprite.setPosition(325, 275);
           tiles.push_back(crateFive);
           // Below right red plate
           Tile crateSix;
           crateSix.type = TileType::Normal;
           crateSix.tilesprite.setTexture(crateTexture);
-          crateSix.tilesprite.setPosition(490, 275); 
+          crateSix.tilesprite.setPosition(490, 275);
           tiles.push_back(crateSix);
           // ib the middle of last row of crates; before left door
           Tile crateSeven;
           crateSeven.type = TileType::Normal;
           crateSeven.tilesprite.setTexture(crateTexture);
-          crateSeven.tilesprite.setPosition(150, 405); 
-          tiles.push_back(crateSeven); 
-          
+          crateSeven.tilesprite.setPosition(150, 405);
+          tiles.push_back(crateSeven);
+
 
           // BEGIN: TRIVIAL CRATES (WALLS)
 
@@ -562,7 +572,7 @@ public:
             Tile crate;
             crate.type = TileType::Normal;
             crate.tilesprite.setTexture(crateTexture);
-            crate.tilesprite.setPosition(1255 - (85 * i), 105); 
+            crate.tilesprite.setPosition(1255 - (85 * i), 105);
             tiles.push_back(crate);
           }
 
@@ -571,10 +581,10 @@ public:
               Tile crate;
               crate.type = TileType::Normal;
               crate.tilesprite.setTexture(crateTexture);
-              crate.tilesprite.setPosition(150, 105 + 75 * line); 
+              crate.tilesprite.setPosition(150, 105 + 75 * line);
               tiles.push_back(crate);
             }
-      
+
             for (int bLine = 0; bLine < 4; bLine++) {
               Tile crate;
               crate.type = TileType::Normal;
@@ -586,7 +596,7 @@ public:
 
           // Crates beside red crates (bottom)
             for (int i = 0; i < 2; i++) {
-              int x = 300 + (310 * i); 
+              int x = 300 + (310 * i);
               for (int j = 0; j < 2; j++) {
                 x = x + (j * 165);
                 Tile crate;
@@ -599,7 +609,7 @@ public:
 
           // Crates beside red plates (top)
             for (int i = 0; i < 2; i++) {
-              int x = 240 + (170 * i); 
+              int x = 240 + (170 * i);
               for (int j = 0; j < 2; j++) {
                 x = x + (j *170);
                 Tile crate;
@@ -613,7 +623,7 @@ public:
           break;
           }
         case 5: {
-          
+
           // Gray Pressure Plate in top-right corner - opens crateOne
           Tile grayPlateOne;
           grayPlateOne.type = TileType::PressurePlate;
@@ -625,22 +635,22 @@ public:
           redCrate.type = TileType::Normal;
           redCrate.tilesprite.setTexture(redCrateTexture);
           redCrate.tilesprite.setPosition(976, 185);
-          tiles.push_back(redCrate); 
+          tiles.push_back(redCrate);
           // Opens crateFive
-          Tile greenPlate; 
+          Tile greenPlate;
           greenPlate.type = TileType::PressurePlate;
           greenPlate.tilesprite.setTexture(greenPressurePlateTexture);
           greenPlate.tilesprite.setPosition(976, 335);
           tiles.push_back(greenPlate);
 
-          Tile redPlate; 
+          Tile redPlate;
           redPlate.type = TileType::PressurePlate;
           redPlate.tilesprite.setTexture(redPressurePlateTexture);
           redPlate.tilesprite.setPosition(976, 410);
           tiles.push_back(redPlate);
 
-          // blueCrate goes on this - 
-          Tile bluePlate; 
+          // blueCrate goes on this -
+          Tile bluePlate;
           bluePlate.type = TileType::PressurePlate;
           bluePlate.tilesprite.setTexture(bluePressurePlateTexture);
           bluePlate.tilesprite.setPosition(976, 485);
@@ -657,7 +667,7 @@ public:
           grayPlateThree.tilesprite.setTexture(pressurePlateTexture);
           grayPlateThree.tilesprite.setPosition(976, 635);
           tiles.push_back(grayPlateThree);
-          // 
+          //
           Tile greenCrate;
           greenCrate.type = TileType::Normal;
           greenCrate.tilesprite.setTexture(greenCrateTexture);
@@ -677,50 +687,50 @@ public:
           tiles.push_back(grayPlateFour);
 
           Tile rockSprite;
-          //rockSprite.pickable = true;
+          rockSprite.pickable = true;
           rockSprite.type = TileType::Normal;
           rockSprite.tilesprite.setTexture(rockTexture);
           rockSprite.tilesprite.setPosition(1165, 409);
           tiles.push_back(rockSprite);
 
           Tile rockSpriteTwo;
-          //rockSpriteTwo.pickable = true;
+          rockSpriteTwo.pickable = true;
           rockSpriteTwo.type = TileType::Normal;
           rockSpriteTwo.tilesprite.setTexture(rockTexture);
           rockSpriteTwo.tilesprite.setPosition(1165, 509);
           tiles.push_back(rockSpriteTwo);
 
           Tile rockSpriteThree;
-          //rockSpriteThree.pickable = true;
+          rockSpriteThree.pickable = true;
           rockSpriteThree.type = TileType::Normal;
           rockSpriteThree.tilesprite.setTexture(rockTexture);
           rockSpriteThree.tilesprite.setPosition(255, 120);
           tiles.push_back(rockSpriteThree);
 
            Tile rockSpriteFour;
-          //rockSpriteFour.pickable = true;
+          rockSpriteFour.pickable = true;
           rockSpriteFour.type = TileType::Normal;
           rockSpriteFour.tilesprite.setTexture(rockTexture);
           rockSpriteFour.tilesprite.setPosition(255, 580);
           tiles.push_back(rockSpriteFour);
- 
-          // MOVABLE CRATES: 
+
+          // MOVABLE CRATES:
 
           // Front crate, at top - opened by grayPlateOne
-          Tile crateOne; 
+          Tile crateOne;
           crateOne.type = TileType::Normal;
           crateOne.tilesprite.setTexture(crateTexture);
           crateOne.tilesprite.setPosition(1051, 110);
           tiles.push_back(crateOne);
-         
+
           // destroyed by grayPlateTwo - in front of blue crate
           Tile crateTwo;
           crateTwo.type = TileType::Normal;
           crateTwo.tilesprite.setTexture(crateTexture);
           crateTwo.tilesprite.setPosition(400, 713);
           tiles.push_back(crateTwo);
-         
-          // destroyed by redPlate - in front of blue crate 
+
+          // destroyed by redPlate - in front of blue crate
           Tile crateThree;
           crateThree.type = TileType::Normal;
           crateThree.tilesprite.setTexture(crateTexture);
@@ -733,28 +743,28 @@ public:
           crateFour.tilesprite.setTexture(crateTexture);
           crateFour.tilesprite.setPosition(325, 110);
           tiles.push_back(crateFour);
-         
+
           // Destroyed by greenPlate - release bottom rock
           Tile crateFive;
           crateFive.type = TileType::Normal;
           crateFive.tilesprite.setTexture(crateTexture);
           crateFive.tilesprite.setPosition(325, 563);
-          tiles.push_back(crateFive);  
+          tiles.push_back(crateFive);
 
           // Destroyed by grayPlateThree
           Tile crateSix;
           crateSix.type = TileType::Normal;
           crateSix.tilesprite.setTexture(crateTexture);
           crateSix.tilesprite.setPosition(250, 335);
-          tiles.push_back(crateSix);  
+          tiles.push_back(crateSix);
           // Destroyed by Blue Plate
-          Tile crateSeven; 
+          Tile crateSeven;
           crateSeven.type = TileType::Normal;
           crateSeven.tilesprite.setTexture(crateTexture);
           crateSeven.tilesprite.setPosition(175, 335);
-          tiles.push_back(crateSeven); 
+          tiles.push_back(crateSeven);
 
-          // BEGIN : WALLS OF CRATES: 1051, 
+          // BEGIN : WALLS OF CRATES: 1051,
 
           // First wall of crates, blocking pressure plates
           for (int i = 0; i < 8; i++) {
@@ -799,7 +809,7 @@ public:
           crate.tilesprite.setPosition(976, 260);
           tiles.push_back(crate);
 
-          // Series of crates forming the blockade... 
+          // Series of crates forming the blockade...
           for (int a = 0; a < 2; a++) {
             int x = 250 + (75 * a);
             for (int i = 0; i < 2; i++) {
@@ -818,7 +828,7 @@ public:
           break;
           }
         }
-       
+
         Tile leftDoor;
         leftDoor.type = TileType::CustomCodeOnInteraction;
         leftDoor.tilesprite.setPosition(20, 380);
@@ -835,9 +845,9 @@ public:
             levelBackgroundTexture.loadFromFile(Utilities::getResourcePath() + "Textures//Background1.png");
            levelBackgroundTexture.setRepeated(true);
            levelBackground.setTexture(levelBackgroundTexture);
-      
+
            float ScaleX = (float)1366 / levelBackgroundTexture.getSize().x;
-           float ScaleY = (float)818 / levelBackgroundTexture.getSize().y;    
+           float ScaleY = (float)818 / levelBackgroundTexture.getSize().y;
 
             levelBackground.setScale(ScaleX, ScaleY);
 
@@ -858,8 +868,8 @@ public:
     switch (levelNumber) {
 
     case 1: {
-      
-            
+
+
             leftDoorTexture.loadFromFile(Utilities::getResourcePath() + "Textures//DoorLeft.png");
             rightDoorTexture.loadFromFile(Utilities::getResourcePath() + "Textures//DoorRight.png");
 
@@ -875,9 +885,9 @@ public:
             levelBackgroundTexture.loadFromFile(Utilities::getResourcePath() + "Textures//Background1.png");
             levelBackgroundTexture.setRepeated(true);
            levelBackground.setTexture(levelBackgroundTexture);
-      
+
             float ScaleX = (float)1366 / levelBackgroundTexture.getSize().x;
-           float ScaleY = (float)818 / levelBackgroundTexture.getSize().y;    
+           float ScaleY = (float)818 / levelBackgroundTexture.getSize().y;
 
             levelBackground.setScale(ScaleX, ScaleY);
 
@@ -901,9 +911,9 @@ public:
             levelBackgroundTexture.loadFromFile(Utilities::getResourcePath() + "Textures//Background1.png");
            levelBackgroundTexture.setRepeated(true);
            levelBackground.setTexture(levelBackgroundTexture);
-      
+
            float ScaleX = (float)1366 / levelBackgroundTexture.getSize().x;
-           float ScaleY = (float)818 / levelBackgroundTexture.getSize().y;    
+           float ScaleY = (float)818 / levelBackgroundTexture.getSize().y;
 
             levelBackground.setScale(ScaleX, ScaleY);
 
@@ -911,7 +921,7 @@ public:
             genLevel(levelNumber);
             generateBorders();
         }
-        
+
         case 3: {
           leftDoorTexture.loadFromFile(Utilities::getResourcePath() + "Textures//DoorLeft.png");
             rightDoorTexture.loadFromFile(Utilities::getResourcePath() + "Textures//DoorRight.png");
@@ -929,9 +939,9 @@ public:
             levelBackgroundTexture.loadFromFile(Utilities::getResourcePath() + "Textures//Background1.png");
              levelBackgroundTexture.setRepeated(true);
             levelBackground.setTexture(levelBackgroundTexture);
-      
+
             float ScaleX = (float)1366 / levelBackgroundTexture.getSize().x;
-           float ScaleY = (float)818 / levelBackgroundTexture.getSize().y;    
+           float ScaleY = (float)818 / levelBackgroundTexture.getSize().y;
 
             levelBackground.setScale(ScaleX, ScaleY);
 
@@ -959,9 +969,9 @@ public:
             levelBackgroundTexture.loadFromFile(Utilities::getResourcePath() + "Textures//Background1.png");
             levelBackgroundTexture.setRepeated(true);
             levelBackground.setTexture(levelBackgroundTexture);
-      
+
             float ScaleX = (float)1366 / levelBackgroundTexture.getSize().x;
-            float ScaleY = (float)818 / levelBackgroundTexture.getSize().y;    
+            float ScaleY = (float)818 / levelBackgroundTexture.getSize().y;
 
             levelBackground.setScale(ScaleX, ScaleY);
 
@@ -971,7 +981,7 @@ public:
 
 
     }
-      case 5: 
+      case 5:
             leftDoorTexture.loadFromFile(Utilities::getResourcePath() + "Textures//DoorLeft.png");
             rightDoorTexture.loadFromFile(Utilities::getResourcePath() + "Textures//DoorRight.png");
 
@@ -994,9 +1004,9 @@ public:
             levelBackgroundTexture.loadFromFile(Utilities::getResourcePath() + "Textures//Background1.png");
             levelBackgroundTexture.setRepeated(true);
             levelBackground.setTexture(levelBackgroundTexture);
-      
+
             float ScaleX = (float)1366 / levelBackgroundTexture.getSize().x;
-            float ScaleY = (float)818 / levelBackgroundTexture.getSize().y;    
+            float ScaleY = (float)818 / levelBackgroundTexture.getSize().y;
 
             levelBackground.setScale(ScaleX, ScaleY);
 
@@ -1008,18 +1018,19 @@ public:
 }
     inline void drawTiles(sf::RenderWindow &window, sf::Sprite &characterSprite) {
         window.draw(levelBackground);
+
         for(Tile &tile : tiles) {
             /* WARNING!
              * Having checkIntersect() here could have
              * unintended consequences that may potientally
              * break very important physics functionality.
              */
-            tile.checkIntersect(characterSprite, tiles);
+
             tile.checkMouseOver(window);
+            tile.draw(window, tiles, characterSprite); // window, tiles, characterSprite
         }
         for(Tile tile : tiles){
-
-            tile.draw(window, characterSprite);
+            tile.checkIntersect(characterSprite, tiles);
             if (isPlayerEnd && weirdClick != 1) {
               characterSprite.setPosition(1250, 350);
               isPlayerEnd = false;
@@ -1030,7 +1041,7 @@ public:
             }
         }
   }
-  
+
 };
 
 

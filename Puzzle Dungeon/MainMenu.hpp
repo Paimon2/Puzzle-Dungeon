@@ -14,15 +14,13 @@ visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
 #include "MacTools/ResourcePath.hpp"
 #endif
 
-
-#include "GameData.hpp"
-
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 
 #include "GUIToolkit.hpp"
-
+#include "GameInstance.hpp"
+#include "GameData.hpp"
 
 
 class MainMenu {
@@ -44,7 +42,7 @@ public:
 	on which to draw on
 	*/
 	void draw(sf::RenderWindow &window);
-
+	void doExtraWork(int level);
 	void setPreviousSave(bool hasPrevSave);
 	MainMenu();
 
@@ -64,6 +62,14 @@ sf::Texture guideTexture;
 sf::RectangleShape background;
 sf::Texture backTexture;
 
+sf::RectangleShape miniMap;
+sf::RectangleShape miniMapBackground;
+sf::Texture mapTexture1;
+sf::Texture mapTexture2;
+sf::Texture mapTexture3;
+sf::Texture mapTexture4;
+sf::Texture mapTexture5;
+
 };
 
 MainMenu::MainMenu() {
@@ -77,8 +83,13 @@ MainMenu::MainMenu() {
 	textFont.loadFromFile("Fonts//Robotronica.ttf");
 	guideTexture.loadFromFile("GUI//guide.png");
 	backTexture.loadFromFile("GUI//background.png");
-
+	mapTexture1.loadFromFile("GUI//minimap1.png");
+	mapTexture2.loadFromFile("GUI//minimap2.png");
+	mapTexture3.loadFromFile("GUI//minimap3.png");
+	mapTexture4.loadFromFile("GUI//minimap4.png");
+	mapTexture5.loadFromFile("GUI//minimap5.png");
 #endif
+
 	hasPreviousSave = false;
 	isInMainMenu = true;
 	
@@ -89,14 +100,14 @@ MainMenu::MainMenu() {
     continueGameButton.buttonSprite.setPosition(80, 350);
     continueGameButton.buttonSprite.setTexture(buttonTexture);
 	continueGameButton.text.setFont(textFont);
-    continueGameButton.text.setString(" Continue game");
+    continueGameButton.text.setString(" Continue Exploring");
 	
 	//newGameButton.setCallback([this](){isGamePaused = !isGamePaused; });
 
     newGameButton.buttonSprite.setPosition(80, 450);
     newGameButton.buttonSprite.setTexture(buttonTexture);
 	newGameButton.text.setFont(textFont);
-    newGameButton.text.setString("   New game");
+    newGameButton.text.setString("   New Journey");
 
     quitButton.buttonSprite.setPosition(80, 550);
     quitButton.buttonSprite.setTexture(buttonTexture);
@@ -120,7 +131,35 @@ MainMenu::MainMenu() {
 	background.setPosition(0, 0);
 	background.setSize(sf::Vector2f(1366, 818));
 
+	miniMap.setPosition(750, 300); 
+	miniMap.setSize(sf::Vector2f(450, 350));
 
+	miniMapBackground.setPosition(750, 300);
+	miniMapBackground.setFillColor(sf::Color(198, 140, 83));
+	miniMapBackground.setSize(sf::Vector2f(450,350));
+
+
+}
+
+void MainMenu::doExtraWork(int level) {
+
+	switch (level) {
+		case 1:
+			miniMap.setTexture(&mapTexture1);
+			break;
+		case 2:
+			miniMap.setTexture(&mapTexture2);
+			break;
+		case 3:
+			miniMap.setTexture(&mapTexture3);
+			break;
+		case 4:
+			miniMap.setTexture(&mapTexture4);
+			break;
+		case 5:
+			miniMap.setTexture(&mapTexture5);
+			break;
+	}
 
 }
 
@@ -128,6 +167,7 @@ inline void MainMenu::setPreviousSave(bool hasPrevSave) {
 	hasPreviousSave = hasPrevSave;
 	continueGameButton.isEnabled = hasPreviousSave;
 }
+
 
 
 inline void MainMenu::draw(sf::RenderWindow &window){
@@ -147,13 +187,14 @@ inline void MainMenu::draw(sf::RenderWindow &window){
     mechButton.draw(window);
     quitButton.draw(window);
 
-    if (isClicked) {
+    window.draw(miniMapBackground);
+	window.draw(miniMap); 
+
+	 if (isClicked) {
 		window.draw(hopImage);
 	} else {
 		//None;
 	}
-
-    
 }
 
 

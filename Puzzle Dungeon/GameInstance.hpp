@@ -20,8 +20,8 @@ visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
 #include "MainMenu.hpp"
 
 #include "GUIToolkit.hpp"
-
 #include "GameData.hpp"
+
 
 class GameInstance {
 public:
@@ -177,9 +177,7 @@ inline void GameInstance::initialize() {
         gameData.generateInitialGameData();
         mainMenu.setPreviousSave(false);
     }
-
-
-
+    mainMenu.doExtraWork(gameData.data["level"]);
 }
 
 inline void GameInstance::run() {
