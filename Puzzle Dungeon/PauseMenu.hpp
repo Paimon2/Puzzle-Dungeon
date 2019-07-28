@@ -80,23 +80,14 @@ PauseMenu::PauseMenu() {
 	textFont.loadFromFile("Fonts//Robotronica.ttf");
 #endif
 
-	backToMenuButton.buttonSprite.setPosition(400, 225);
+    backToMenuButton.buttonSprite.setPosition(400, 350);
 	backToMenuButton.buttonSprite.setTexture(buttonTexture);
 	backToMenuButton.text.setFont(textFont);
 	backToMenuButton.text.setString("Back to game");
     backToMenuButton.setCallback([this](){isGamePaused = !isGamePaused; });
 
-	saveGameButton.buttonSprite.setPosition(400, 350);
-	saveGameButton.buttonSprite.setTexture(buttonTexture);
-	saveGameButton.text.setFont(textFont);
-	saveGameButton.text.setString("    Save game");
 
-	controlsButton.buttonSprite.setPosition(400, 475);
-	controlsButton.buttonSprite.setTexture(buttonTexture);
-	controlsButton.text.setFont(textFont);
-	controlsButton.text.setString("     Controls");
-
-	quitButton.buttonSprite.setPosition(400, 600);
+    quitButton.buttonSprite.setPosition(400, 475);
 	quitButton.buttonSprite.setTexture(buttonTexture);
 	quitButton.text.setFont(textFont);
 	quitButton.text.setString("Quit to Desktop");
@@ -150,8 +141,6 @@ inline void PauseMenu::draw(sf::RenderWindow &window) {
 	window.draw(rect);
 
 	backToMenuButton.draw(window);
-	saveGameButton.draw(window);
-	controlsButton.draw(window);
 	quitButton.draw(window);
 	
 	
